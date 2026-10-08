@@ -44,7 +44,7 @@
     <!-- METODE PEMBUATAN SURAT: SISTEM vs UPLOAD LUAR -->
     <div class="glass-panel p-5 rounded-2xl border border-slate-200/80 bg-white">
         <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
-            <i class="fa-solid fa-layer-group text-bps-blue mr-1"></i> 1. Pilih Metode Pembuatan Naskah SUrat
+            <i class="fa-solid fa-layer-group text-bps-blue mr-1"></i> 1. Pilih Metode Pembuatan Naskah 
         </label>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Mode 1: Buat di Sistem -->
