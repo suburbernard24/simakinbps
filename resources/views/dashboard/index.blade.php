@@ -16,7 +16,7 @@
             <div class="space-y-2 max-w-2xl">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-emerald-200">
                     <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    <span>Sistem Informasi Manajemen Kinerja Terintegrasi kantor BPS</span>
+                    <span>Sistem Informasi Manajemen Kinerja Terintegrasi</span>
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                     Selamat Datang, {{ Auth::user()->name }}!
