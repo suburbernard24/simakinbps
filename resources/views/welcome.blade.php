@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SIMAKINBPS - Sistem Informasi Manajemen Kinerja BPS Kabupaten Manggarai.">
+<<<<<<< HEAD
     <title>SIMAKINBPS - Sistem Informasi Manajemenen Kinerja Pegawai BPS Kabupaten Manggarai</title>
+=======
+    <title>SIMAKINBPS - Sistem Informasi Manajemenen Kinerja Pegawai BPS Manggaraii</title>
+>>>>>>> 974d8d8 (Update welcome blade view)
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
