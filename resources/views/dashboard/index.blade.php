@@ -7,7 +7,7 @@
 <div class="space-y-8">
     
     <!-- HERO WELCOME BANNER (IKN Forest Aesthetic with Glass Card) -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-950 text-white p-6 sm:p-8 shadow-xl border border-emerald-700/40">
+    <div class="relative overflow-hidden rounded-3xl bg-linear-to-r from-emerald-900 via-emerald-800 to-emerald-950 text-white p-6 sm:p-8 shadow-xl border border-emerald-700/40">
         <!-- Decorative Glow & Background Details -->
         <div class="absolute -right-10 -bottom-10 w-72 h-72 rounded-full bg-amber-500/15 blur-3xl pointer-events-none"></div>
         <div class="absolute top-0 right-1/4 w-80 h-80 rounded-full bg-emerald-400/10 blur-3xl pointer-events-none"></div>
@@ -16,7 +16,7 @@
             <div class="space-y-2 max-w-2xl">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-emerald-200">
                     <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    <span>Sistem Informasi Manajemen Kinerja Terintegrasi</span>
+                    <span>Sistem Informasi Manajemen Kinerja TerintegrasiII</span>
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                     Selamat Datang, {{ Auth::user()->name }}!
@@ -79,7 +79,7 @@
                     </span>
                     <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-3">Rata-rata CKP Bulan Ini</h3>
                 </div>
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-amber-500/25 group-hover:scale-110 transition-transform">
+                <div class="w-12 h-12 rounded-2xl bg-linear-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-amber-500/25 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-gauge-high text-xl"></i>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                     </span>
                     <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-3">Total IBK Kantor</h3>
                 </div>
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-emerald-600/25 group-hover:scale-110 transition-transform">
+                <div class="w-12 h-12 rounded-2xl bg-linear-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-lg shadow-emerald-600/25 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-file-invoice text-xl"></i>
                 </div>
             </div>
@@ -151,7 +151,7 @@
                     </span>
                     <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mt-3">Total IBK Lapangan</h3>
                 </div>
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center text-white shadow-lg shadow-teal-600/25 group-hover:scale-110 transition-transform">
+                <div class="w-12 h-12 rounded-2xl bg-linear-to-br from-teal-500 to-teal-700 flex items-center justify-center text-white shadow-lg shadow-teal-600/25 group-hover:scale-110 transition-transform">
                     <i class="fa-solid fa-map-location-dot text-xl"></i>
                 </div>
             </div>
@@ -239,7 +239,7 @@
             </div>
 
             <!-- Quick Action Shortcut -->
-            <div class="p-6 rounded-3xl bg-gradient-to-br from-amber-500/10 to-amber-700/10 border border-amber-300/40 space-y-3">
+            <div class="p-6 rounded-3xl bg-linear-to-br from-amber-500/10 to-amber-700/10 border border-amber-300/40 space-y-3">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center shadow-xs">
                         <i class="fa-solid fa-bullhorn text-xs"></i>
