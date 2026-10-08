@@ -51,7 +51,7 @@
             <label @click="sumberSurat = 'sistem'"
                    class="relative flex items-start gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all"
                    :class="sumberSurat === 'sistem' ? 'border-bps-blue bg-blue-50/40 shadow-sm ring-2 ring-bps-blue/20' : 'border-slate-200 hover:border-slate-300 bg-white'">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors"
                      :class="sumberSurat === 'sistem' ? 'bg-bps-blue text-white shadow-md shadow-bps-blue/20' : 'bg-slate-100 text-slate-500'">
                     <i class="fa-solid fa-file-pen text-lg"></i>
                 </div>
@@ -70,7 +70,7 @@
             <label @click="sumberSurat = 'luar'"
                    class="relative flex items-start gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all"
                    :class="sumberSurat === 'luar' ? 'border-indigo-600 bg-indigo-50/40 shadow-sm ring-2 ring-indigo-500/20' : 'border-slate-200 hover:border-slate-300 bg-white'">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors"
                      :class="sumberSurat === 'luar' ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'bg-slate-100 text-slate-500'">
                     <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
                 </div>
