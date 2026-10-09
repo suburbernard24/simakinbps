@@ -531,11 +531,6 @@
                             </button>
 
                             <div x-show="suratAdminOpen" x-transition.origin.top class="pl-11 pr-2 space-y-1 py-1">
-                                <a href="{{ route('surat.master.unit_kerja.index') }}"
-                                   class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('surat.master.unit_kerja.*') ? 'bg-bps-blue text-white shadow-sm' : 'text-slate-500 hover:text-bps-blue hover:bg-bps-faint' }}">
-                                    <i class="fa-solid fa-sitemap text-[11px]"></i>
-                                    <span>Unit Kerja / Fungsi</span>
-                                </a>
                                 <a href="{{ route('surat.master.jenis_surat.index') }}"
                                    class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('surat.master.jenis_surat.*') ? 'bg-bps-blue text-white shadow-sm' : 'text-slate-500 hover:text-bps-blue hover:bg-bps-faint' }}">
                                     <i class="fa-solid fa-folder-tree text-[11px]"></i>

@@ -8,6 +8,7 @@ use App\Models\SuratDetail;
 use App\Models\SuratLampiran;
 use App\Models\SuratPegawai;
 use App\Models\SuratPenerima;
+use App\Models\Team;
 use App\Models\TemplateSurat;
 use App\Models\UnitKerja;
 use App\Models\User;
@@ -137,9 +138,10 @@ class SuratController extends Controller
         $jenisSurats = JenisSurat::where('aktif', true)->get();
         $templates = TemplateSurat::where('aktif', true)->get();
         $unitKerjas = UnitKerja::where('status', true)->get();
+        $teams = Team::where('is_active', true)->orderBy('nama_tim')->get();
         $pegawais = User::where('is_active', true)->where('role', '!=', 'admin')->orderBy('name')->get();
 
-        return view('surat.create', compact('jenisSurats', 'templates', 'unitKerjas', 'pegawais', 'selectedJenisId'));
+        return view('surat.create', compact('jenisSurats', 'templates', 'unitKerjas', 'teams', 'pegawais', 'selectedJenisId'));
     }
 
     /**
@@ -198,7 +200,7 @@ class SuratController extends Controller
                 'tanggal_pengajuan'=> Carbon::now(),
                 'tanggal_surat'    => $request->tanggal_surat,
                 'perihal'          => $request->perihal,
-                'fungsi'           => $request->fungsi ?? UnitKerja::find($request->unit_kerja_id)?->nama,
+                'fungsi'           => $request->fungsi ?: (Auth::user()->tim?->nama_tim ?? (UnitKerja::find($request->unit_kerja_id)?->nama ?? 'BPS Kabupaten Manggarai')),
                 'status'           => $status,
                 'sumber_surat'     => $sumberSurat,
                 'file_surat'       => $fileSuratPath,
@@ -359,9 +361,10 @@ class SuratController extends Controller
         $jenisSurats = JenisSurat::where('aktif', true)->get();
         $templates = TemplateSurat::where('aktif', true)->get();
         $unitKerjas = UnitKerja::where('status', true)->get();
+        $teams = Team::where('is_active', true)->orderBy('nama_tim')->get();
         $pegawais = User::where('is_active', true)->where('role', '!=', 'admin')->orderBy('name')->get();
 
-        return view('surat.edit', compact('surat', 'jenisSurats', 'templates', 'unitKerjas', 'pegawais'));
+        return view('surat.edit', compact('surat', 'jenisSurats', 'templates', 'unitKerjas', 'teams', 'pegawais'));
     }
 
     /**
@@ -400,6 +403,10 @@ class SuratController extends Controller
                 'kode_klasifikasi' => $request->kode_klasifikasi ?? $surat->kode_klasifikasi,
                 'status'           => $status,
             ];
+
+            if ($request->filled('fungsi')) {
+                $updateData['fungsi'] = $request->fungsi;
+            }
 
             if ($request->has('sumber_surat')) {
                 $updateData['sumber_surat'] = $request->sumber_surat;

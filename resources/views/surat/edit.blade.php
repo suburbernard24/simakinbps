@@ -71,16 +71,29 @@
                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-bps-blue focus:border-bps-blue">
                 </div>
 
+                <!-- Unit Kerja / Tim Pengusul (Diambil dari Tim BPS) -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Unit Kerja / Fungsi Pengusul</label>
-                    <select name="unit_kerja_id" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-bps-blue">
-                        <option value="">-- Pilih Unit Kerja / Fungsi --</option>
-                        @foreach($unitKerjas as $uk)
-                        <option value="{{ $uk->id }}" {{ old('unit_kerja_id', $surat->unit_kerja_id) == $uk->id ? 'selected' : '' }}>
-                            {{ $uk->nama }}
-                        </option>
-                        @endforeach
-                    </select>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Unit Kerja / Tim Pengusul</label>
+                    @if($surat->pemohon && $surat->pemohon->tim)
+                        <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-700">
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-users-gear text-bps-blue"></i>
+                                {{ $surat->pemohon->tim->nama_tim }}
+                            </span>
+                            <span class="text-[10px] bg-blue-100 text-bps-blue px-2 py-0.5 rounded-md font-bold">Tim Pemohon</span>
+                        </div>
+                        <input type="hidden" name="fungsi" value="{{ $surat->pemohon->tim->nama_tim }}">
+                    @else
+                        <select name="fungsi" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-bps-blue">
+                            <option value="{{ $surat->fungsi ?: 'BPS Kabupaten Manggarai' }}">{{ $surat->fungsi ?: '-- Pilih Tim Pengusul --' }}</option>
+                            @foreach($teams as $tim)
+                            <option value="{{ $tim->nama_tim }}" {{ old('fungsi', $surat->fungsi) == $tim->nama_tim ? 'selected' : '' }}>
+                                {{ $tim->nama_tim }}
+                            </option>
+                            @endforeach
+                        </select>
+                    @endif
+                    <p class="text-[10px] text-slate-400 mt-1">Otomatis diambil dari Tim Kerja BPS pemohon</p>
                 </div>
 
                 <div>
