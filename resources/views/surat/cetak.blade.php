@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $surat->jenisSurat->nama }} - {{ !empty($surat->nomor_surat) ? $surat->nomor_surat : ($surat->nomorSuratRecord->nomor_lengkap ?? 'Resmi') }}</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/simakin-favicon.png') }}?v=3">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=3">
+    
     <!-- System fonts only — no external CDN for fast print loading -->
 
     <style>

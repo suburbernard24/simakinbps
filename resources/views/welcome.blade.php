@@ -28,9 +28,14 @@
 
         // Gambar
         $logoSimakin = isset($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin.png');
+        $logoFavicon = isset($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin-favicon.png');
         $logoBps     = isset($fs['img_logo_bps'])     ? asset('storage/' . $fs['img_logo_bps'])     : asset('images/logo_bps.png');
         $logoKantor  = isset($fs['img_kantor'])       ? asset('storage/' . $fs['img_kantor'])       : asset('images/logo_kantor.png');
     @endphp
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ $logoFavicon }}?v=3">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=3">
 
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
