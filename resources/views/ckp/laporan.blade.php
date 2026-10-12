@@ -190,8 +190,8 @@
                             <th class="py-3 px-4 text-center">Jenis Pekerjaan</th>
                             <th class="py-3 px-4 text-center">Target</th>
                             <th class="py-3 px-4 text-center">Realisasi</th>
-                            <th class="py-3 px-4 text-center">% Kuantitas</th>
-                            <th class="py-3 px-4 text-center">% Kualitas</th>
+                            <th class="py-3 px-4 text-center">Kuantitas</th>
+                            <th class="py-3 px-4 text-center">Kualitas</th>
                             <th class="py-3 px-4 text-center">Estimasi Jam</th>
                         </tr>
                     </thead>
