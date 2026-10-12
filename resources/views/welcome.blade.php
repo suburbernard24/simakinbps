@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SIMAKINBPS - Sistem Informasi Manajemen Kinerja">
 
-    <title>SIMAKINBPS - Sistem Informasi Manajemenen Kinerja</title>
-
     <title>SIMAKINBPS - Sistem Informasi Manajemen Kinerja</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
