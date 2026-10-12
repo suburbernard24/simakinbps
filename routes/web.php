@@ -2,10 +2,14 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlokasiController;
+use App\Http\Controllers\AlokasiMitraController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CkpController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HonorMitraController;
 use App\Http\Controllers\KinerjaController;
+use App\Http\Controllers\MitraController;
+use App\Http\Controllers\PenilaianMitraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SuratMasterController;
@@ -85,6 +89,19 @@ Route::middleware('auth')->group(function () {
         Route::get('/user-publik', [AdminController::class, 'userPublikIndex'])->name('user_publik.index');
         Route::post('/user-publik', [AdminController::class, 'userPublikStore'])->name('user_publik.store');
         Route::delete('/user-publik/{id}', [AdminController::class, 'userPublikDestroy'])->name('user_publik.destroy');
+
+        // Manage Master Mitra Statistik
+        Route::get('/mitra', [MitraController::class, 'adminIndex'])->name('mitra.index');
+        Route::post('/mitra', [MitraController::class, 'adminStore'])->name('mitra.store');
+        Route::get('/mitra/template-excel', [MitraController::class, 'downloadTemplate'])->name('mitra.template');
+        Route::post('/mitra/import-excel', [MitraController::class, 'importExcel'])->name('mitra.import');
+        Route::post('/mitra/{id}/update', [MitraController::class, 'adminUpdate'])->name('mitra.update');
+        Route::post('/mitra/{id}/toggle-status', [MitraController::class, 'adminToggleStatus'])->name('mitra.toggle');
+        Route::delete('/mitra/{id}', [MitraController::class, 'adminDestroy'])->name('mitra.destroy');
+
+        // Pengaturan Maksimal Honor Mitra
+        Route::get('/honor-mitra', [HonorMitraController::class, 'index'])->name('honor_mitra.index');
+        Route::post('/honor-mitra', [HonorMitraController::class, 'store'])->name('honor_mitra.store');
     });
 
     // =========================================================================
@@ -192,6 +209,34 @@ Route::middleware('auth')->group(function () {
             Route::put('/template/{id}', [SuratMasterController::class, 'templateUpdate'])->name('template.update');
 
             Route::get('/penomoran', [SuratMasterController::class, 'penomoranIndex'])->name('penomoran.index');
+        });
+    });
+
+    // =========================================================================
+    // KINERJA MITRA (Sobat BPS: Detail Informasi Mitra, Alokasi & Penilaian)
+    // =========================================================================
+    Route::prefix('kinerja-mitra')->name('kinerja-mitra.')->middleware('role:non-admin')->group(function () {
+        // Katalog & Detail Informasi Mitra (Ketua Tim, Anggota Tim, Kepala BPS)
+        Route::get('/mitra', [MitraController::class, 'index'])->name('mitra.index');
+        Route::get('/mitra/{id}', [MitraController::class, 'show'])->name('mitra.show');
+
+        // Alokasi Pekerjaan Mitra: HANYA KETUA TIM
+        Route::prefix('alokasi')->name('alokasi.')->middleware('role:ketua_tim')->group(function () {
+            Route::get('/', [AlokasiMitraController::class, 'index'])->name('index');
+            Route::post('/', [AlokasiMitraController::class, 'store'])->name('store');
+            Route::get('/template-excel', [AlokasiMitraController::class, 'downloadTemplate'])->name('template');
+            Route::post('/import-excel', [AlokasiMitraController::class, 'importExcel'])->name('import');
+            Route::get('/{id}/edit', [AlokasiMitraController::class, 'edit'])->name('edit');
+            Route::post('/{id}/update', [AlokasiMitraController::class, 'update'])->name('update');
+            Route::delete('/{id}', [AlokasiMitraController::class, 'destroy'])->name('destroy');
+        });
+
+        // Penilaian Kinerja Mitra
+        Route::prefix('penilaian')->name('penilaian.')->group(function () {
+            // Read & Monitoring (Seluruh Non-Admin, termasuk Kepala BPS sebagai viewer)
+            Route::get('/', [PenilaianMitraController::class, 'index'])->name('index');
+            // Simpan Penilaian: HANYA PENILAI MITRA (Ketua Tim & Anggota Tim)
+            Route::post('/', [PenilaianMitraController::class, 'store'])->middleware('role:penilai_mitra')->name('store');
         });
     });
 

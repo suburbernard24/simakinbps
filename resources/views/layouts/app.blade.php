@@ -461,6 +461,22 @@
                             <span>Hari Kerja Aktif</span>
                         </a>
 
+                        <a href="{{ route('admin.honor_mitra.index') }}" 
+                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.honor_mitra.*') ? 'nav-item-active' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                            <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.honor_mitra.*') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                <i class="fa-solid fa-coins text-xs"></i>
+                            </div>
+                            <span>Pengaturan Maksimal Honor</span>
+                        </a>
+
+                        <a href="{{ route('admin.mitra.index') }}" 
+                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.mitra.*') ? 'nav-item-active' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                            <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.mitra.*') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                <i class="fa-solid fa-users-gear text-xs"></i>
+                            </div>
+                            <span>Master Data Mitra</span>
+                        </a>
+
                         <a href="{{ route('admin.frontend.index') }}" 
                            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.frontend.*') ? 'nav-item-active' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
                             <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.frontend.*') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
@@ -604,6 +620,104 @@
                                 </a>
                             </div>
                         </div>
+                    </nav>
+                </div>
+
+                {{-- ====================================================
+                     C. KINERJA MITRA (Ketua Tim, Anggota Tim, Kepala BPS)
+                ====================================================== --}}
+                <div>
+                    <p class="px-3 text-[10px] font-extrabold tracking-wider text-slate-400 dark:text-slate-500 uppercase mb-2">Kinerja Mitra</p>
+                    <nav class="space-y-1">
+                        @if(Auth::user()->isKetuaTim())
+                            {{-- KETUA TIM: Dropdown "Kelola Mitra" (Alokasi & Penilaian) --}}
+                            <div x-data="{ mitraKetuaOpen: {{ request()->routeIs('kinerja-mitra.*') ? 'true' : 'false' }} }" class="space-y-1">
+                                <button @click="mitraKetuaOpen = !mitraKetuaOpen"
+                                        class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('kinerja-mitra.*') ? 'bg-blue-50 dark:bg-slate-800 text-bps-blue dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('kinerja-mitra.*') ? 'text-bps-blue dark:text-blue-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                            <i class="fa-solid fa-handshake-angle text-xs"></i>
+                                        </div>
+                                        <span>Kelola Mitra</span>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 text-slate-400" :class="mitraKetuaOpen ? 'rotate-180 text-bps-blue' : ''"></i>
+                                </button>
+
+                                <div x-show="mitraKetuaOpen" x-transition.origin.top class="pl-10 pr-2 space-y-1 py-1">
+                                    <a href="{{ route('kinerja-mitra.alokasi.index') }}"
+                                       class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.alokasi.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                        <i class="fa-solid fa-clipboard-user text-[10px]"></i>
+                                        <span>Alokasi Pekerjaan Mitra</span>
+                                    </a>
+                                    <a href="{{ route('kinerja-mitra.penilaian.index') }}"
+                                       class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.penilaian.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                        <i class="fa-solid fa-star-half-stroke text-[10px]"></i>
+                                        <span>Penilaian Mitra</span>
+                                    </a>
+                                    <a href="{{ route('kinerja-mitra.mitra.index') }}"
+                                       class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.mitra.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                        <i class="fa-solid fa-address-book text-[10px]"></i>
+                                        <span>Katalog Mitra</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                        @elseif(Auth::user()->isKepala())
+                            {{-- KEPALA BPS: Viewer Monitoring Mitra & Penilaian --}}
+                            <div x-data="{ mitraKepalaOpen: {{ request()->routeIs('kinerja-mitra.*') ? 'true' : 'false' }} }" class="space-y-1">
+                                <button @click="mitraKepalaOpen = !mitraKepalaOpen"
+                                        class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('kinerja-mitra.*') ? 'bg-blue-50 dark:bg-slate-800 text-bps-blue dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('kinerja-mitra.*') ? 'text-bps-blue dark:text-blue-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                            <i class="fa-solid fa-handshake-angle text-xs"></i>
+                                        </div>
+                                        <span>Kinerja Mitra</span>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 text-slate-400" :class="mitraKepalaOpen ? 'rotate-180 text-bps-blue' : ''"></i>
+                                </button>
+
+                                <div x-show="mitraKepalaOpen" x-transition.origin.top class="pl-10 pr-2 space-y-1 py-1">
+                                    <a href="{{ route('kinerja-mitra.mitra.index') }}"
+                                       class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.mitra.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                        <i class="fa-solid fa-address-book text-[10px]"></i>
+                                        <span>Daftar Informasi Mitra</span>
+                                    </a>
+                                    <a href="{{ route('kinerja-mitra.penilaian.index') }}"
+                                       class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.penilaian.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                        <i class="fa-solid fa-chart-line text-[10px]"></i>
+                                        <span>Monitoring Penilaian Mitra</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                        @else
+                            {{-- ANGGOTA TIM: Hanya menu Penilaian Mitra --}}
+                            <div x-data="{ mitraAnggotaOpen: {{ request()->routeIs('kinerja-mitra.*') ? 'true' : 'false' }} }" class="space-y-1">
+                                <button @click="mitraAnggotaOpen = !mitraAnggotaOpen"
+                                        class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('kinerja-mitra.*') ? 'bg-blue-50 dark:bg-slate-800 text-bps-blue dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('kinerja-mitra.*') ? 'text-bps-blue dark:text-blue-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                            <i class="fa-solid fa-handshake-angle text-xs"></i>
+                                        </div>
+                                        <span>Kinerja Mitra</span>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 text-slate-400" :class="mitraAnggotaOpen ? 'rotate-180 text-bps-blue' : ''"></i>
+                                </button>
+
+                                <div x-show="mitraAnggotaOpen" x-transition.origin.top class="pl-10 pr-2 space-y-1 py-1">
+                                    <a href="{{ route('kinerja-mitra.penilaian.index') }}"
+                                       class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.penilaian.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                        <i class="fa-solid fa-star-half-stroke text-[10px]"></i>
+                                        <span>Penilaian Mitra</span>
+                                    </a>
+                                    <a href="{{ route('kinerja-mitra.mitra.index') }}"
+                                       class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.mitra.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                        <i class="fa-solid fa-address-book text-[10px]"></i>
+                                        <span>Katalog Mitra</span>
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
                     </nav>
                 </div>
 
