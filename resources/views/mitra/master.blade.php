@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Master Mitra Statistik')
+@section('title', 'Master Data Mitra Statistik')
 @section('page_title', 'Master Data Mitra')
 
 @section('content')
@@ -49,7 +49,7 @@
 
     {{-- Filter & Pencarian --}}
     <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800">
-        <form method="GET" action="{{ route('admin.mitra.index') }}" class="flex flex-wrap items-center gap-3">
+        <form method="GET" action="{{ route('kinerja-mitra.master_mitra.index') }}" class="flex flex-wrap items-center gap-3">
             <div class="relative min-w-[240px]">
                 <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, Sobat-ID, NIK..."
@@ -124,7 +124,7 @@
                         </td>
 
                         <td class="px-4 py-4 text-center">
-                            <form method="POST" action="{{ route('admin.mitra.toggle', $m->id) }}" class="inline">
+                            <form method="POST" action="{{ route('kinerja-mitra.master_mitra.toggle', $m->id) }}" class="inline">
                                 @csrf
                                 <button type="submit" 
                                         class="px-2.5 py-1 rounded-full text-[10px] font-bold border transition cursor-pointer {{ $m->is_active ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100' : 'bg-slate-100 text-slate-500 border-slate-300 hover:bg-slate-200' }}">
@@ -166,7 +166,7 @@
             </table>
         </div>
 
-        <div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex items-center justify-between text-xs text-slate-500">
+        <div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-855 flex items-center justify-between text-xs text-slate-500">
             <span>Menampilkan {{ $mitras->count() }} dari {{ $mitras->total() }} data</span>
             <div>
                 {{ $mitras->links() }}
@@ -184,7 +184,7 @@
                 <button @click="modalTambah = false" class="text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <form method="POST" action="{{ route('admin.mitra.store') }}" enctype="multipart/form-data" class="flex flex-col flex-1 overflow-hidden">
+            <form method="POST" action="{{ route('kinerja-mitra.master_mitra.store') }}" enctype="multipart/form-data" class="flex flex-col flex-1 overflow-hidden">
                 @csrf
                 <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-700 dark:text-slate-300">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -248,14 +248,33 @@
                     </div>
 
                     <div>
-                        <label class="block font-bold mb-1">Foto Mitra (Opsional, max 2MB)</label>
-                        <input type="file" name="foto" accept="image/*" class="w-full text-xs text-slate-600 dark:text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-bps-faint file:text-bps-blue border border-slate-200 dark:border-slate-700 rounded-xl py-1.5 bg-white dark:bg-slate-900">
+                        <label class="block font-bold mb-1">Email Mitra</label>
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com"
+                               class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
+                    </div>
+
+                    <div>
+                        <label class="block font-bold mb-1">Pas Foto Mitra (Opsional)</label>
+                        <input type="file" name="foto" accept="image/*"
+                               class="w-full text-xs text-slate-600 dark:text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-bps-faint file:text-bps-blue border border-slate-200 dark:border-slate-700 rounded-xl py-1.5 bg-slate-50 dark:bg-slate-800">
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-2">
+                        <input type="checkbox" name="is_active" id="tambah_is_active" value="1" checked
+                               class="rounded text-bps-blue focus:ring-bps-blue">
+                        <label for="tambah_is_active" class="font-bold cursor-pointer">Status Mitra Aktif</label>
                     </div>
                 </div>
 
-                <div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex justify-end gap-2 shrink-0">
-                    <button type="button" @click="modalTambah = false" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold">Batal</button>
-                    <button type="submit" class="px-5 py-2 bg-bps-blue text-white rounded-xl font-bold shadow-md">Simpan Mitra</button>
+                <div class="p-5 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50/50 dark:bg-slate-800/40">
+                    <button type="button" @click="modalTambah = false" 
+                            class="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold hover:bg-slate-100 transition">
+                        Batal
+                    </button>
+                    <button type="submit" 
+                            class="px-5 py-2 rounded-xl bg-bps-blue text-white font-bold hover:bg-bps-dark transition shadow-md shadow-bps-blue/20">
+                        Simpan Data Mitra
+                    </button>
                 </div>
             </form>
         </div>
@@ -271,7 +290,7 @@
                 <button @click="modalEdit = false" class="text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <form :action="'/admin/mitra/' + editData.id + '/update'" method="POST" enctype="multipart/form-data" class="flex flex-col flex-1 overflow-hidden">
+            <form :action="'{{ url('kinerja-mitra/master-mitra') }}/' + editData.id + '/update'" method="POST" enctype="multipart/form-data" class="flex flex-col flex-1 overflow-hidden">
                 @csrf
                 <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-700 dark:text-slate-300">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -289,26 +308,29 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block font-bold mb-1">NIK</label>
-                            <input type="text" name="nik" x-model="editData.nik" 
+                            <label class="block font-bold mb-1">NIK (16 Digit)</label>
+                            <input type="text" name="nik" x-model="editData.nik" maxlength="30"
                                    class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue font-mono">
                         </div>
                         <div>
-                            <label class="block font-bold mb-1">Posisi Default</label>
-                            <input type="text" name="posisi_default" x-model="editData.posisi_default" 
-                                   class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
+                            <label class="block font-bold mb-1">Jenis Kelamin</label>
+                            <select name="jenis_kelamin" x-model="editData.jenis_kelamin" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
+                                <option value="">-- Pilih --</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block font-bold mb-1">Nomor Telepon / WA</label>
-                            <input type="text" name="telepon" x-model="editData.telepon" 
+                            <label class="block font-bold mb-1">Posisi Default</label>
+                            <input type="text" name="posisi_default" x-model="editData.posisi_default" 
                                    class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
                         </div>
                         <div>
-                            <label class="block font-bold mb-1">Email</label>
-                            <input type="email" name="email" x-model="editData.email" 
+                            <label class="block font-bold mb-1">Nomor Telepon / WA</label>
+                            <input type="text" name="telepon" x-model="editData.telepon" 
                                    class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
                         </div>
                     </div>
@@ -327,36 +349,50 @@
                     </div>
 
                     <div>
-                        <label class="block font-bold mb-1">Alamat Lengkap</label>
+                        <label class="block font-bold mb-1">Alamat Lengkap Domisili</label>
                         <textarea name="alamat" x-model="editData.alamat" rows="2" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue"></textarea>
                     </div>
 
                     <div>
-                        <label class="block font-bold mb-1">Ganti Foto Mitra (Opsional)</label>
-                        <input type="file" name="foto" accept="image/*" class="w-full text-xs text-slate-600 dark:text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-bps-faint file:text-bps-blue border border-slate-200 dark:border-slate-700 rounded-xl py-1.5 bg-white dark:bg-slate-900">
+                        <label class="block font-bold mb-1">Email Mitra</label>
+                        <input type="email" name="email" x-model="editData.email" 
+                               class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
+                    </div>
+
+                    <div>
+                        <label class="block font-bold mb-1">Ubah Foto Mitra (Kosongkan bila tidak diganti)</label>
+                        <input type="file" name="foto" accept="image/*"
+                               class="w-full text-xs text-slate-600 dark:text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-bps-faint file:text-bps-blue border border-slate-200 dark:border-slate-700 rounded-xl py-1.5 bg-slate-50 dark:bg-slate-800">
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-2">
+                        <input type="checkbox" name="is_active" id="edit_is_active" value="1" :checked="editData.is_active"
+                               class="rounded text-bps-blue focus:ring-bps-blue">
+                        <label for="edit_is_active" class="font-bold cursor-pointer">Status Mitra Aktif</label>
                     </div>
                 </div>
 
-                <div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex justify-end gap-2 shrink-0">
-                    <button type="button" @click="modalEdit = false" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold">Batal</button>
-                    <button type="submit" class="px-5 py-2 bg-bps-blue text-white rounded-xl font-bold shadow-md">Simpan Perubahan</button>
+                <div class="p-5 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2 bg-slate-50/50 dark:bg-slate-800/40">
+                    <button type="button" @click="modalEdit = false" 
+                            class="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold hover:bg-slate-100 transition">
+                        Batal
+                    </button>
+                    <button type="submit" 
+                            class="px-5 py-2 rounded-xl bg-bps-blue text-white font-bold hover:bg-bps-dark transition shadow-md shadow-bps-blue/20">
+                        Perbarui Data Mitra
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    {{-- MODAL IMPORT EXCEL MITRA --}}
+    {{-- MODAL IMPORT EXCEL --}}
     <div x-show="modalImport" x-cloak style="display: none;" 
          class="fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div @click.away="modalImport = false" x-show="modalImport" x-transition.duration.200ms
-             class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 w-full max-w-lg overflow-hidden">
-            <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-gradient-to-r from-emerald-500/10 to-transparent">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                        <i class="fa-solid fa-file-excel"></i>
-                    </div>
-                    <h3 class="font-bold text-slate-900 dark:text-white text-sm">Import Data Mitra dari Excel</h3>
-                </div>
+             class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 w-full max-w-lg overflow-hidden flex flex-col">
+            <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50">
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm">Import Mitra dari Berkas Excel</h3>
                 <button @click="modalImport = false" class="text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
@@ -366,7 +402,7 @@
                     <div class="flex-1">
                         <p class="font-bold text-slate-800 dark:text-slate-200 mb-1">Unduh Template Berkas</p>
                         <p class="text-[11px] text-slate-500 mb-2">Unduh template Excel resmi BPS untuk pengisian data mitra massal.</p>
-                        <a href="{{ route('admin.mitra.template') }}" target="_blank"
+                        <a href="{{ route('kinerja-mitra.master_mitra.template') }}" target="_blank"
                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition">
                             <i class="fa-solid fa-download"></i>
                             <span>Unduh Template</span>
@@ -378,7 +414,7 @@
                     <div class="w-6 h-6 rounded-full bg-bps-blue text-white flex items-center justify-center font-bold text-xs shrink-0">2</div>
                     <div class="flex-1">
                         <p class="font-bold text-slate-800 dark:text-slate-200 mb-1">Unggah Berkas Excel</p>
-                        <form method="POST" action="{{ route('admin.mitra.import') }}" enctype="multipart/form-data" class="space-y-3">
+                        <form method="POST" action="{{ route('kinerja-mitra.master_mitra.import') }}" enctype="multipart/form-data" class="space-y-3">
                             @csrf
                             <input type="file" name="file_excel" accept=".xlsx,.xls" required 
                                    class="w-full text-xs text-slate-600 dark:text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-bps-faint file:text-bps-blue border border-slate-200 dark:border-slate-700 rounded-xl py-1.5 bg-white dark:bg-slate-900">
@@ -408,7 +444,7 @@
             </div>
             <div class="flex items-center justify-center gap-3 pt-2">
                 <button @click="modalHapus = false" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold">Batal</button>
-                <form :action="'/admin/mitra/' + hapusId" method="POST" class="inline">
+                <form :action="'{{ url('kinerja-mitra/master-mitra') }}/' + hapusId" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="px-5 py-2 bg-rose-600 text-white rounded-xl text-xs font-bold shadow-md">

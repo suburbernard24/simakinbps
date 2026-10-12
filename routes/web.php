@@ -90,16 +90,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/user-publik', [AdminController::class, 'userPublikStore'])->name('user_publik.store');
         Route::delete('/user-publik/{id}', [AdminController::class, 'userPublikDestroy'])->name('user_publik.destroy');
 
-        // Manage Master Mitra Statistik
-        Route::get('/mitra', [MitraController::class, 'adminIndex'])->name('mitra.index');
-        Route::post('/mitra', [MitraController::class, 'adminStore'])->name('mitra.store');
-        Route::get('/mitra/template-excel', [MitraController::class, 'downloadTemplate'])->name('mitra.template');
-        Route::post('/mitra/import-excel', [MitraController::class, 'importExcel'])->name('mitra.import');
-        Route::post('/mitra/{id}/update', [MitraController::class, 'adminUpdate'])->name('mitra.update');
-        Route::post('/mitra/{id}/toggle-status', [MitraController::class, 'adminToggleStatus'])->name('mitra.toggle');
-        Route::delete('/mitra/{id}', [MitraController::class, 'adminDestroy'])->name('mitra.destroy');
-
-        // Pengaturan Maksimal Honor Mitra
+        // Pengaturan Honor Mitra
         Route::get('/honor-mitra', [HonorMitraController::class, 'index'])->name('honor_mitra.index');
         Route::post('/honor-mitra', [HonorMitraController::class, 'store'])->name('honor_mitra.store');
     });
@@ -219,6 +210,17 @@ Route::middleware('auth')->group(function () {
         // Katalog & Detail Informasi Mitra (Ketua Tim, Anggota Tim, Kepala BPS)
         Route::get('/mitra', [MitraController::class, 'index'])->name('mitra.index');
         Route::get('/mitra/{id}', [MitraController::class, 'show'])->name('mitra.show');
+
+        // Master Data Mitra: HANYA KETUA TIM (Input, Edit, Hapus, Import)
+        Route::prefix('master-mitra')->name('master_mitra.')->middleware('role:ketua_tim')->group(function () {
+            Route::get('/', [MitraController::class, 'masterIndex'])->name('index');
+            Route::post('/', [MitraController::class, 'masterStore'])->name('store');
+            Route::get('/template-excel', [MitraController::class, 'downloadTemplate'])->name('template');
+            Route::post('/import-excel', [MitraController::class, 'importExcel'])->name('import');
+            Route::post('/{id}/update', [MitraController::class, 'masterUpdate'])->name('update');
+            Route::post('/{id}/toggle-status', [MitraController::class, 'masterToggleStatus'])->name('toggle');
+            Route::delete('/{id}', [MitraController::class, 'masterDestroy'])->name('destroy');
+        });
 
         // Alokasi Pekerjaan Mitra: HANYA KETUA TIM
         Route::prefix('alokasi')->name('alokasi.')->middleware('role:ketua_tim')->group(function () {

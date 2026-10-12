@@ -219,6 +219,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function canManageMasterMitra(): bool
+    {
+        return $this->isKetuaTim();
+    }
+
     public function canManageAlokasiMitra(): bool
     {
         return $this->isKetuaTim();

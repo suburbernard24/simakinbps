@@ -63,13 +63,13 @@ class KinerjaMitraTest extends TestCase
         $this->assertEquals(5000000, PengaturanHonorMitra::getMaksimalHonor(2026, 10));
     }
 
-    public function test_admin_can_manage_master_mitra(): void
+    public function test_ketua_tim_can_manage_master_mitra(): void
     {
-        $response = $this->actingAs($this->admin)->get(route('admin.mitra.index'));
+        $response = $this->actingAs($this->ketua)->get(route('kinerja-mitra.master_mitra.index'));
         $response->assertStatus(200);
         $response->assertSee('Master Data Mitra');
 
-        $responsePost = $this->actingAs($this->admin)->post(route('admin.mitra.store'), [
+        $responsePost = $this->actingAs($this->ketua)->post(route('kinerja-mitra.master_mitra.store'), [
             'sobat_id'       => '5310-M999',
             'nama'           => 'Mitra Uji Baru',
             'nik'            => '5310123456789999',
@@ -79,11 +79,25 @@ class KinerjaMitraTest extends TestCase
             'posisi_default' => 'Petugas Pencacah Lapangan (PCL)',
         ]);
 
-        $responsePost->assertRedirect();
+        $responsePost->assertRedirect(route('kinerja-mitra.master_mitra.index'));
         $this->assertDatabaseHas('mitras', [
             'sobat_id' => '5310-M999',
             'nama'     => 'Mitra Uji Baru',
         ]);
+    }
+
+    public function test_admin_cannot_access_master_mitra(): void
+    {
+        // Admin forbidden from Ketua Tim master-mitra route
+        $response = $this->actingAs($this->admin)->get(route('kinerja-mitra.master_mitra.index'));
+        $response->assertStatus(403);
+    }
+
+    public function test_anggota_tim_cannot_access_master_mitra(): void
+    {
+        // Anggota Tim forbidden from Ketua Tim master-mitra route
+        $response = $this->actingAs($this->anggota)->get(route('kinerja-mitra.master_mitra.index'));
+        $response->assertStatus(403);
     }
 
     public function test_admin_cannot_allocate_or_rate_mitra(): void
@@ -325,5 +339,45 @@ class KinerjaMitraTest extends TestCase
             'bintang'          => 4,
             'komentar'         => $komentarValid,
         ]);
+    }
+
+    public function test_ketua_tim_can_delete_mitra(): void
+    {
+        $mitraToDelete = Mitra::create([
+            'sobat_id'  => '9999-TEST',
+            'nama'      => 'Mitra Uji Hapus',
+            'provinsi'  => 'NTT',
+            'kabupaten' => 'Manggarai',
+            'is_active' => true,
+        ]);
+
+        $response = $this->actingAs($this->ketua)->delete(route('kinerja-mitra.master_mitra.destroy', $mitraToDelete->id));
+
+        $response->assertRedirect(route('kinerja-mitra.master_mitra.index'));
+        $this->assertDatabaseMissing('mitras', ['id' => $mitraToDelete->id]);
+    }
+
+    public function test_ketua_tim_can_delete_alokasi_mitra(): void
+    {
+        $alokasiToDelete = AlokasiMitra::create([
+            'mitra_id'         => $this->mitra->id,
+            'tim_id'           => $this->tim->id,
+            'created_by'       => $this->ketua->id,
+            'nama_kegiatan'    => 'Survei Uji Hapus Alokasi',
+            'kegiatan'         => 'Rincian',
+            'posisi'           => 'PCL',
+            'satuan'           => 'Dokumen',
+            'target_kuantitas' => 1,
+            'honor'            => 500000,
+            'tanggal_mulai'    => '2026-10-01',
+            'tanggal_selesai'  => '2026-10-05',
+            'tahun'            => 2026,
+            'bulan'            => 10,
+        ]);
+
+        $response = $this->actingAs($this->ketua)->delete(route('kinerja-mitra.alokasi.destroy', $alokasiToDelete->id));
+
+        $response->assertRedirect(route('kinerja-mitra.alokasi.index', ['tahun' => 2026, 'bulan' => 10]));
+        $this->assertDatabaseMissing('alokasi_mitras', ['id' => $alokasiToDelete->id]);
     }
 }

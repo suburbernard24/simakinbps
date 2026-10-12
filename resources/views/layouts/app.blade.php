@@ -466,15 +466,7 @@
                             <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.honor_mitra.*') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
                                 <i class="fa-solid fa-coins text-xs"></i>
                             </div>
-                            <span>Pengaturan Maksimal Honor</span>
-                        </a>
-
-                        <a href="{{ route('admin.mitra.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.mitra.*') ? 'nav-item-active' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
-                            <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.mitra.*') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
-                                <i class="fa-solid fa-users-gear text-xs"></i>
-                            </div>
-                            <span>Master Data Mitra</span>
+                            <span>Pengaturan Honor Mitra</span>
                         </a>
 
                         <a href="{{ route('admin.frontend.index') }}" 
@@ -644,6 +636,11 @@
                                 </button>
 
                                 <div x-show="mitraKetuaOpen" x-transition.origin.top class="pl-10 pr-2 space-y-1 py-1">
+                                    <a href="{{ route('kinerja-mitra.master_mitra.index') }}"
+                                       class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.master_mitra.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                        <i class="fa-solid fa-users-gear text-[10px]"></i>
+                                        <span>Data Mitra</span>
+                                    </a>
                                     <a href="{{ route('kinerja-mitra.alokasi.index') }}"
                                        class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('kinerja-mitra.alokasi.*') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
                                         <i class="fa-solid fa-clipboard-user text-[10px]"></i>

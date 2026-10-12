@@ -255,7 +255,7 @@ class AlokasiMitraController extends Controller
             abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang menghapus alokasi pekerjaan mitra.');
         }
 
-        $alokasi = AlokasiMitra::where('created_by', $user->id)->findOrFail($id);
+        $alokasi = AlokasiMitra::findOrFail($id);
         $tahun = $alokasi->tahun;
         $bulan = $alokasi->bulan;
         $namaMitra = $alokasi->mitra->nama ?? 'Mitra';

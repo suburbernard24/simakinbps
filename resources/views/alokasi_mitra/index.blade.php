@@ -484,7 +484,7 @@
             </div>
             <div class="flex items-center justify-center gap-3 pt-2">
                 <button @click="deleteModal = false" class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold">Batal</button>
-                <form :action="'/kinerja-mitra/alokasi/' + deleteId" method="POST" class="inline">
+                <form :action="'{{ url('kinerja-mitra/alokasi') }}/' + deleteId" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-md transition">

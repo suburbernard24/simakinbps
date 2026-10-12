@@ -93,11 +93,16 @@ class MitraController extends Controller
     }
 
     // =========================================================================
-    // B. ADMINISTRATOR: MANAJEMEN MASTER MITRA (CRUD & IMPORT EXCEL)
+    // B. KETUA TIM: MANAJEMEN MASTER MITRA (CRUD & IMPORT EXCEL)
     // =========================================================================
 
-    public function adminIndex(Request $request)
+    public function masterIndex(Request $request)
     {
+        $user = auth()->user();
+        if (!$user || !$user->isKetuaTim()) {
+            abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang mengelola master data mitra.');
+        }
+
         $query = Mitra::withCount('alokasiMitras');
 
         if ($request->filled('search')) {
@@ -117,11 +122,16 @@ class MitraController extends Controller
 
         $mitras = $query->orderBy('nama')->paginate(15)->withQueryString();
 
-        return view('admin.mitra.index', compact('mitras'));
+        return view('mitra.master', compact('mitras'));
     }
 
-    public function adminStore(Request $request)
+    public function masterStore(Request $request)
     {
+        $user = auth()->user();
+        if (!$user || !$user->isKetuaTim()) {
+            abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang menambah data mitra.');
+        }
+
         $validated = $request->validate([
             'sobat_id'        => 'required|string|max:50|unique:mitras,sobat_id',
             'nama'            => 'required|string|max:255',
@@ -163,11 +173,16 @@ class MitraController extends Controller
             'foto'            => $fotoPath,
         ]);
 
-        return redirect()->route('admin.mitra.index')->with('success', "Data mitra '{$validated['nama']}' berhasil ditambahkan.");
+        return redirect()->route('kinerja-mitra.master_mitra.index')->with('success', "Data mitra '{$validated['nama']}' berhasil ditambahkan.");
     }
 
-    public function adminUpdate(Request $request, $id)
+    public function masterUpdate(Request $request, $id)
     {
+        $user = auth()->user();
+        if (!$user || !$user->isKetuaTim()) {
+            abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang memperbarui data mitra.');
+        }
+
         $mitra = Mitra::findOrFail($id);
 
         $validated = $request->validate([
@@ -199,11 +214,16 @@ class MitraController extends Controller
         $validated['is_active'] = $request->boolean('is_active', true);
         $mitra->update($validated);
 
-        return redirect()->route('admin.mitra.index')->with('success', "Data mitra '{$mitra->nama}' berhasil diperbarui.");
+        return redirect()->route('kinerja-mitra.master_mitra.index')->with('success', "Data mitra '{$mitra->nama}' berhasil diperbarui.");
     }
 
-    public function adminToggleStatus($id)
+    public function masterToggleStatus($id)
     {
+        $user = auth()->user();
+        if (!$user || !$user->isKetuaTim()) {
+            abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang mengubah status mitra.');
+        }
+
         $mitra = Mitra::findOrFail($id);
         $mitra->is_active = !$mitra->is_active;
         $mitra->save();
@@ -212,8 +232,13 @@ class MitraController extends Controller
         return redirect()->back()->with('success', "Status mitra '{$mitra->nama}' berhasil {$statusTeks}.");
     }
 
-    public function adminDestroy($id)
+    public function masterDestroy($id)
     {
+        $user = auth()->user();
+        if (!$user || !$user->isKetuaTim()) {
+            abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang menghapus data mitra.');
+        }
+
         $mitra = Mitra::findOrFail($id);
         $nama = $mitra->nama;
 
@@ -224,14 +249,26 @@ class MitraController extends Controller
             $mitra->delete();
         });
 
-        return redirect()->route('admin.mitra.index')->with('success', "Data mitra '{$nama}' berhasil dihapus.");
+        return redirect()->route('kinerja-mitra.master_mitra.index')->with('success', "Data mitra '{$nama}' berhasil dihapus.");
     }
 
+    // Backwards compatibility aliases
+    public function adminIndex(Request $request) { return $this->masterIndex($request); }
+    public function adminStore(Request $request) { return $this->masterStore($request); }
+    public function adminUpdate(Request $request, $id) { return $this->masterUpdate($request, $id); }
+    public function adminToggleStatus($id) { return $this->masterToggleStatus($id); }
+    public function adminDestroy($id) { return $this->masterDestroy($id); }
+
     /**
-     * Download template import mitra statistik untuk admin.
+     * Download template import mitra statistik untuk Ketua Tim.
      */
     public function downloadTemplate()
     {
+        $user = auth()->user();
+        if (!$user || !$user->isKetuaTim()) {
+            abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang mengunduh template mitra.');
+        }
+
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Template Mitra');
@@ -323,6 +360,11 @@ class MitraController extends Controller
      */
     public function importExcel(Request $request)
     {
+        $user = auth()->user();
+        if (!$user || !$user->isKetuaTim()) {
+            abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang mengimpor data mitra.');
+        }
+
         $request->validate([
             'file_excel' => 'required|file|mimes:xlsx,xls|max:5120',
         ], [
@@ -338,7 +380,7 @@ class MitraController extends Controller
             $sheet = $spreadsheet->getActiveSheet();
             $rows = $sheet->toArray(null, true, true, true);
         } catch (\Exception $e) {
-            return redirect()->route('admin.mitra.index')->with('error', 'Gagal membaca file Excel: ' . $e->getMessage());
+            return redirect()->route('kinerja-mitra.master_mitra.index')->with('error', 'Gagal membaca file Excel: ' . $e->getMessage());
         }
 
         $imported = 0;
@@ -407,6 +449,6 @@ class MitraController extends Controller
             $msg .= ' Beberapa baris bermasalah: ' . implode(' | ', array_slice($errors, 0, 5));
         }
 
-        return redirect()->route('admin.mitra.index')->with($imported > 0 ? 'success' : 'error', $msg);
+        return redirect()->route('kinerja-mitra.master_mitra.index')->with($imported > 0 ? 'success' : 'error', $msg);
     }
 }

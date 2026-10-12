@@ -44,6 +44,13 @@
             <button type="submit" class="px-4 py-2.5 rounded-xl bg-bps-blue hover:bg-bps-dark text-white text-xs font-bold transition shadow-sm">
                 Cari
             </button>
+
+            @if(Auth::user()->isKetuaTim())
+            <a href="{{ route('kinerja-mitra.master_mitra.index') }}" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-700 text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5 shrink-0">
+                <i class="fa-solid fa-users-gear text-xs"></i>
+                <span>Kelola Master</span>
+            </a>
+            @endif
         </form>
     </div>
 
