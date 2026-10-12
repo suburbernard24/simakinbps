@@ -44,14 +44,14 @@
     <!-- METODE PEMBUATAN SURAT: SISTEM vs UPLOAD LUAR -->
     <div class="glass-panel p-5 rounded-2xl border border-slate-200/80 bg-white">
         <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
-            <i class="fa-solid fa-layer-group text-bps-blue mr-1"></i> 1. Pilih Metode Pembuatan Naskah SUrat
+            <i class="fa-solid fa-layer-group text-bps-blue mr-1"></i> 1. Pilih Metode Pembuatan Naskah
         </label>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Mode 1: Buat di Sistem -->
             <label @click="sumberSurat = 'sistem'"
                    class="relative flex items-start gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all"
                    :class="sumberSurat === 'sistem' ? 'border-bps-blue bg-blue-50/40 shadow-sm ring-2 ring-bps-blue/20' : 'border-slate-200 hover:border-slate-300 bg-white'">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors"
                      :class="sumberSurat === 'sistem' ? 'bg-bps-blue text-white shadow-md shadow-bps-blue/20' : 'bg-slate-100 text-slate-500'">
                     <i class="fa-solid fa-file-pen text-lg"></i>
                 </div>
@@ -70,7 +70,7 @@
             <label @click="sumberSurat = 'luar'"
                    class="relative flex items-start gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all"
                    :class="sumberSurat === 'luar' ? 'border-indigo-600 bg-indigo-50/40 shadow-sm ring-2 ring-indigo-500/20' : 'border-slate-200 hover:border-slate-300 bg-white'">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors"
                      :class="sumberSurat === 'luar' ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'bg-slate-100 text-slate-500'">
                     <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
                 </div>
@@ -188,17 +188,29 @@
                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-bps-blue focus:border-bps-blue">
                 </div>
 
-                <!-- Unit Kerja / Fungsi -->
+                <!-- Unit Kerja / Tim Pengusul (Diambil dari Tim BPS) -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Unit Kerja / Fungsi Pengusul</label>
-                    <select name="unit_kerja_id" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-bps-blue focus:border-bps-blue">
-                        <option value="">-- Pilih Unit Kerja / Fungsi --</option>
-                        @foreach($unitKerjas as $uk)
-                        <option value="{{ $uk->id }}" {{ old('unit_kerja_id', Auth::user()->unit_kerja_id) == $uk->id ? 'selected' : '' }}>
-                            {{ $uk->nama }}
-                        </option>
-                        @endforeach
-                    </select>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Unit Kerja / Tim Pengusul</label>
+                    @if(Auth::user()->tim)
+                        <div class="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold text-slate-700">
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-users-gear text-bps-blue"></i>
+                                {{ Auth::user()->tim->nama_tim }}
+                            </span>
+                            <span class="text-[10px] bg-blue-100 text-bps-blue px-2 py-0.5 rounded-md font-bold">Tim Pemohon</span>
+                        </div>
+                        <input type="hidden" name="fungsi" value="{{ Auth::user()->tim->nama_tim }}">
+                    @else
+                        <select name="fungsi" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-bps-blue focus:border-bps-blue">
+                            <option value="BPS Kabupaten Manggarai">-- Pilih Tim Pengusul --</option>
+                            @foreach($teams as $tim)
+                            <option value="{{ $tim->nama_tim }}" {{ old('fungsi') == $tim->nama_tim ? 'selected' : '' }}>
+                                {{ $tim->nama_tim }}
+                            </option>
+                            @endforeach
+                        </select>
+                    @endif
+                    <p class="text-[10px] text-slate-400 mt-1">Otomatis diambil dari Tim Kerja BPS pemohon</p>
                 </div>
 
                 <!-- Template Surat (Hanya jika dibuat di sistem) -->

@@ -136,7 +136,7 @@ class SuratService
             '{nama}'              => $pegawaiUtama?->name ?? ($surat->pemohon->name ?? ''),
             '{nip}'               => $pegawaiUtama?->nip ?? ($surat->pemohon->nip ?? '-'),
             '{jabatan}'           => $pegawaiUtama?->jabatan ?? ($surat->pemohon->jabatan ?? '-'),
-            '{unit_kerja}'        => $surat->unitKerja?->nama ?? ($surat->fungsi ?? 'BPS Kabupaten Manggarai'),
+            '{unit_kerja}'        => $surat->fungsi ?: ($surat->pemohon?->tim?->nama_tim ?? ($surat->unitKerja?->nama ?? 'BPS Kabupaten Manggarai')),
             '{tujuan}'            => $penerimaUtama?->nama_penerima ?? ($penerimaUtama?->instansi ?? 'Pihak Terkait'),
             '{perihal}'           => $surat->perihal,
             '{tempat}'            => $surat->detail?->tempat_kegiatan ?? 'Kabupaten Manggarai',
