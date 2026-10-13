@@ -593,7 +593,7 @@
                                 <a href="{{ route('ckp.index') }}"
                                    class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('ckp.index') ? 'nav-item-active' : 'text-slate-500 dark:text-slate-400 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
                                     <i class="fa-solid fa-pen-nib text-[10px]"></i>
-                                    <span>CKP Saya (Realisasi)</span>
+                                    <span>CKP Saya</span>
                                 </a>
                                 @endif
 
