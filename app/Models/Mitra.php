@@ -82,10 +82,16 @@ class Mitra extends Model
 
     /**
      * Hitung sisa kuota honor yang masih boleh diterima pada bulan & tahun tertentu.
+     *
+     * @param string $jenisMitra 'pendataan_lapangan' | 'pengolahan'
      */
-    public function sisaKuotaHonor(int $tahun, int $bulan, ?int $excludeAlokasiId = null): int
-    {
-        $maksimal = PengaturanHonorMitra::getMaksimalHonor($tahun, $bulan);
+    public function sisaKuotaHonor(
+        int $tahun,
+        int $bulan,
+        ?int $excludeAlokasiId = null,
+        string $jenisMitra = PengaturanHonorMitra::JENIS_PENDATAAN
+    ): int {
+        $maksimal = PengaturanHonorMitra::getMaksimalHonor($jenisMitra, $tahun, $bulan);
         $terpakai = $this->totalHonorBulan($tahun, $bulan, $excludeAlokasiId);
         $sisa = $maksimal - $terpakai;
         return max(0, $sisa);

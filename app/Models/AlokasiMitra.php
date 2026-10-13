@@ -22,7 +22,9 @@ class AlokasiMitra extends Model
         'nama_kegiatan',
         'kegiatan',
         'posisi',
+        'jenis_mitra',
         'satuan',
+        'harga_satuan',
         'target_kuantitas',
         'honor',
         'tanggal_mulai',
@@ -33,12 +35,14 @@ class AlokasiMitra extends Model
         'provinsi',
         'kabupaten',
         'keterangan',
+        'akun_pok',
     ];
 
     protected $casts = [
         'tanggal_mulai'    => 'date',
         'tanggal_selesai'  => 'date',
         'target_kuantitas' => 'float',
+        'harga_satuan'     => 'integer',
         'honor'            => 'integer',
         'tahun'            => 'integer',
         'bulan'            => 'integer',

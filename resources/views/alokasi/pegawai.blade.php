@@ -236,8 +236,8 @@
                                 <th class="p-3 text-center">Satuan</th>
                                 <th class="p-3 text-center">Target</th>
                                 <th class="p-3 text-center">Realisasi</th>
-                                <th class="p-3 text-center">% Kuantitas</th>
-                                <th class="p-3 text-center">% Kualitas</th>
+                                <th class="p-3 text-center">Kuantitas</th>
+                                <th class="p-3 text-center">Kualitas</th>
                                 <th class="p-3 text-center">Estimasi Jam</th>
                                 <th class="p-3">Tanggal</th>
                                 <th class="p-3 text-center">Nilai CKP</th>
@@ -255,8 +255,8 @@
                                     <td class="p-3 text-center font-medium" x-text="item.satuan"></td>
                                     <td class="p-3 text-center font-bold text-slate-800" x-text="item.target_kuantitas"></td>
                                     <td class="p-3 text-center font-bold text-emerald-600" x-text="item.realisasi_kuantitas"></td>
-                                    <td class="p-3 text-center font-bold" x-text="item.persentase_kuantitas + '%'"></td>
-                                    <td class="p-3 text-center font-bold text-amber-600" x-text="item.kualitas > 0 ? item.kualitas + '%' : '-'"></td>
+                                    <td class="p-3 text-center font-bold" x-text="item.persentase_kuantitas"></td>
+                                    <td class="p-3 text-center font-bold text-amber-600" x-text="item.kualitas > 0 ? item.kualitas : '-'"></td>
                                     <td class="p-3 text-center font-bold text-slate-700" x-text="item.estimasi_waktu + ' Jam'"></td>
                                     <td class="p-3 text-slate-600 text-[11px] font-medium whitespace-nowrap">
                                         <div class="inline-flex items-center gap-1.5">

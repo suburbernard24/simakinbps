@@ -12,6 +12,7 @@
     deleteModal: false,
     deleteNama: '',
     selectedMitraId: '',
+    jenisMitraModal: '{{ old('jenis_mitra', 'pendataan_lapangan') }}',
     honorInput: '',
     formatRupiah(val) {
         let clean = (val + '').replace(/\D/g, '');
@@ -36,9 +37,14 @@
 
         <div class="flex flex-wrap items-center gap-3">
             <div class="px-4 py-2 rounded-2xl bg-blue-50 dark:bg-slate-800 border border-blue-100 dark:border-slate-700 text-xs">
-                <span class="text-slate-500 dark:text-slate-400 text-[10px] uppercase font-bold block">Batas Maksimal Honor:</span>
-                <span class="font-black text-bps-blue dark:text-blue-400 text-sm">Rp {{ number_format($maksimalHonor, 0, ',', '.') }}</span>
-                <span class="text-[10px] text-slate-400">/ bulan / mitra</span>
+                <span class="text-slate-500 dark:text-slate-400 text-[10px] uppercase font-bold block">Batas Maksimal Honor / Bulan / Mitra:</span>
+                <div class="flex items-center gap-3 mt-0.5">
+                    <span class="text-[10px] text-slate-500">🗺️ Pendataan:</span>
+                    <span class="font-black text-bps-blue dark:text-blue-400">Rp {{ number_format($maksimalHonorPendataan, 0, ',', '.') }}</span>
+                    <span class="text-[10px] text-slate-400">•</span>
+                    <span class="text-[10px] text-slate-500">🖥️ Pengolahan:</span>
+                    <span class="font-black text-emerald-600 dark:text-emerald-400">Rp {{ number_format($maksimalHonorPengolahan, 0, ',', '.') }}</span>
+                </div>
             </div>
 
             <button @click="pilihMetodeModal = true"
@@ -102,7 +108,6 @@
                         <th class="px-4 py-3.5">Satuan &amp; Target</th>
                         <th class="px-4 py-3.5 min-w-[130px]">Honor (IDR)</th>
                         <th class="px-4 py-3.5 min-w-[140px]">Jadwal Pelaksanaan</th>
-                        <th class="px-4 py-3.5 text-center">Status</th>
                         <th class="px-4 py-3.5 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -159,20 +164,6 @@
                             </p>
                         </td>
 
-                        {{-- Status --}}
-                        <td class="px-4 py-4 text-center">
-                            @php
-                                $badgeColor = match($item->status) {
-                                    'selesai', 'diterima' => 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
-                                    'berjalan'            => 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border-blue-200 dark:border-blue-800',
-                                    'terlambat'           => 'bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 border-rose-200 dark:border-rose-800',
-                                    default               => 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 border-amber-200 dark:border-amber-800',
-                                };
-                            @endphp
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border {{ $badgeColor }}">
-                                {{ ucfirst($item->status) }}
-                            </span>
-                        </td>
 
                         {{-- Aksi --}}
                         <td class="px-4 py-4 text-center">
@@ -266,9 +257,9 @@
 
     {{-- ==================== MODAL: FORM 1 ORANG MITRA ==================== --}}
     <div x-show="modalOpen" x-cloak style="display: none;" 
-         class="fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+         class="fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4">
         <div @click.away="modalOpen = false" x-show="modalOpen" x-transition.duration.200ms 
-             class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+             class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 w-full max-w-7xl overflow-hidden flex flex-col max-h-[95vh]">
             
             <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-800/50">
                 <div class="flex items-center gap-3">
@@ -280,46 +271,57 @@
                 <button @click="modalOpen = false" class="text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <form method="POST" action="{{ route('kinerja-mitra.alokasi.store') }}" class="flex flex-col flex-1 overflow-hidden">
+            <form method="POST" action="{{ route('kinerja-mitra.alokasi.store') }}" class="flex flex-col flex-1 overflow-hidden"
+                  x-data="{
+                      rows: [{ kegiatan: '', volume: '', satuan: 'Dokumen', harga_satuan: '', tanggal_mulai: '{{ date('Y-m-01') }}', tanggal_selesai: '{{ date('Y-m-t') }}', akun_pok: '' }],
+                      addRow() {
+                          this.rows.push({ kegiatan: '', volume: '', satuan: 'Dokumen', harga_satuan: '', tanggal_mulai: '{{ date('Y-m-01') }}', tanggal_selesai: '{{ date('Y-m-t') }}', akun_pok: '' });
+                      },
+                      removeRow(i) {
+                          if (this.rows.length > 1) this.rows.splice(i, 1);
+                      },
+                      jumlah(row) {
+                          let v = parseFloat((row.volume + '').replace(/,/g, '.')) || 0;
+                          let h = parseInt((row.harga_satuan + '').replace(/\D/g, '')) || 0;
+                          return v * h;
+                      },
+                      totalHonor() {
+                          return this.rows.reduce((s, r) => s + this.jumlah(r), 0);
+                      },
+                      formatRp(val) {
+                          if (!val && val !== 0) return '';
+                          return 'Rp\u00a0' + new Intl.NumberFormat('id-ID').format(Math.round(val));
+                      },
+                      formatInput(row) {
+                          let clean = (row.harga_satuan + '').replace(/\D/g, '');
+                          row.harga_satuan = clean;
+                      }
+                  }">
                 @csrf
-                <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-700 dark:text-slate-300">
+
+                {{-- ===== HEADER: Mitra, Posisi, Jenis Mitra ===== --}}
+                <div class="px-6 pt-5 pb-4 border-b border-slate-100 dark:border-slate-800 space-y-3 text-xs">
 
                     {{-- Pilihan Mitra --}}
                     <div>
-                        <label class="block font-bold mb-1">Mitra Statistik yang Ditugaskan <span class="text-rose-500">*</span></label>
-                        <select name="mitra_id" required 
+                        <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">Mitra Statistik yang Ditugaskan <span class="text-rose-500">*</span></label>
+                        <select name="mitra_id" required
                                 x-model="selectedMitraId"
-                                class="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue font-medium">
+                                class="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue font-medium text-slate-800 dark:text-slate-200">
                             <option value="">-- Pilih Mitra Statistik Terdaftar --</option>
                             @foreach($mitras as $m)
                                 <option value="{{ $m->id }}" {{ old('mitra_id') == $m->id ? 'selected' : '' }}>
-                                    {{ $m->nama }} (Sobat-ID: {{ $m->sobat_id }}) — {{ $m->kabupaten }}
+                                    {{ $m->nama }} ({{ $m->sobat_id }})
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
-                    {{-- Nama Kegiatan Survei & Rincian Kegiatan --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        {{-- Posisi --}}
                         <div>
-                            <label class="block font-bold mb-1">Survei / Kegiatan Utama <span class="text-rose-500">*</span></label>
-                            <input type="text" name="nama_kegiatan" value="{{ old('nama_kegiatan') }}" required 
-                                   placeholder="Contoh: Survei Angkatan Kerja Nasional (Sakernas)"
-                                   class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
-                        </div>
-                        <div>
-                            <label class="block font-bold mb-1">Rincian Kegiatan <span class="text-rose-500">*</span></label>
-                            <input type="text" name="kegiatan" value="{{ old('kegiatan') }}" required 
-                                   placeholder="Contoh: Pencacahan Lapangan Blok Sensus"
-                                   class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
-                        </div>
-                    </div>
-
-                    {{-- Posisi, Satuan, Target Kuantitas --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block font-bold mb-1">Posisi Penugasan <span class="text-rose-500">*</span></label>
-                            <select name="posisi" required class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
+                            <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">Posisi Penugasan <span class="text-rose-500">*</span></label>
+                            <select name="posisi" required class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue text-slate-800 dark:text-slate-200">
                                 <option value="Petugas Pencacah Lapangan (PCL)">Petugas Pencacah Lapangan (PCL)</option>
                                 <option value="Petugas Pemeriksa Lapangan (PML)">Petugas Pemeriksa Lapangan (PML)</option>
                                 <option value="Petugas Pengolahan Data">Petugas Pengolahan Data</option>
@@ -327,80 +329,135 @@
                                 <option value="Operator Entri Data">Operator Entri Data</option>
                             </select>
                         </div>
+                        {{-- Jenis Mitra --}}
                         <div>
-                            <label class="block font-bold mb-1">Satuan Target <span class="text-rose-500">*</span></label>
-                            <input type="text" name="satuan" value="{{ old('satuan', 'Dokumen') }}" required 
-                                   placeholder="Dokumen, BS, Rumah Tangga"
-                                   class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
-                        </div>
-                        <div>
-                            <label class="block font-bold mb-1">Target Kuantitas <span class="text-rose-500">*</span></label>
-                            <input type="number" step="any" min="0.01" name="target_kuantitas" value="{{ old('target_kuantitas', 1) }}" required 
-                                   class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
-                        </div>
-                    </div>
-
-                    {{-- Honor IDR & Status Batas Maksimal Honor --}}
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <label class="block font-bold">Honor Mitra (IDR) <span class="text-rose-500">*</span></label>
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400">
-                                Batas honor bulanan: <strong class="text-bps-blue dark:text-blue-400">Rp {{ number_format($maksimalHonor, 0, ',', '.') }}</strong>
-                            </span>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
-                            <input type="text" 
-                                   name="honor" 
-                                   x-model="honorInput"
-                                   @input="honorInput = formatRupiah($event.target.value)"
-                                   value="{{ old('honor') }}" 
-                                   required 
-                                   placeholder="Contoh: 2.500.000"
-                                   class="w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue font-bold text-sm text-slate-800 dark:text-slate-100">
-                        </div>
-                        <p class="text-[10px] text-slate-400 mt-1">
-                            * Total honor yang diterima mitra pada bulan yang sama tidak boleh melebihi batas maksimal honor yang diatur oleh Admin.
-                        </p>
-                    </div>
-
-                    {{-- Tanggal Mulai, Tanggal Selesai, Status --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block font-bold mb-1">Tanggal Mulai <span class="text-rose-500">*</span></label>
-                            <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', date('Y-m-01')) }}" required 
-                                   class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
-                        </div>
-                        <div>
-                            <label class="block font-bold mb-1">Tanggal Selesai <span class="text-rose-500">*</span></label>
-                            <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai', date('Y-m-t')) }}" required 
-                                   class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
-                        </div>
-                        <div>
-                            <label class="block font-bold mb-1">Status Penugasan</label>
-                            <select name="status" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">
-                                <option value="terjadwal">Terjadwal</option>
-                                <option value="berjalan">Berjalan</option>
-                                <option value="selesai">Selesai</option>
-                                <option value="diterima">Diterima</option>
+                            <label class="block font-bold mb-1 text-slate-700 dark:text-slate-300">Jenis Mitra <span class="text-rose-500">*</span></label>
+                            <select name="jenis_mitra" required x-model="jenisMitraModal"
+                                    class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue text-slate-800 dark:text-slate-200">
+                                <option value="pendataan_lapangan">🗺️ Mitra Pendataan Lapangan</option>
+                                <option value="pengolahan">🖥️ Mitra Pengolahan</option>
                             </select>
                         </div>
                     </div>
 
-                    {{-- Keterangan Opsional --}}
-                    <div>
-                        <label class="block font-bold mb-1">Catatan / Keterangan Penugasan</label>
-                        <textarea name="keterangan" rows="2" placeholder="Catatan wilayah blok sensus atau instruksi teknis..." 
-                                  class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue">{{ old('keterangan') }}</textarea>
+                    {{-- Info batas honor --}}
+                    <div class="flex items-center gap-2 text-[10px] text-slate-400 bg-blue-50 dark:bg-slate-800/60 rounded-xl px-3 py-2">
+                        <i class="fa-solid fa-circle-info text-bps-blue"></i>
+                        <span>Batas honor bulanan:</span>
+                        <strong class="text-bps-blue dark:text-blue-400"
+                                x-text="jenisMitraModal === 'pengolahan' ? 'Rp {{ number_format($maksimalHonorPengolahan, 0, ',', '.') }}' : 'Rp {{ number_format($maksimalHonorPendataan, 0, ',', '.') }}'"></strong>
+                        <span>/ mitra / bulan</span>
                     </div>
-
                 </div>
 
-                <div class="p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex justify-end gap-3 shrink-0">
-                    <button type="button" @click="modalOpen = false" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300">Batal</button>
-                    <button type="submit" class="px-5 py-2 bg-bps-blue hover:bg-bps-dark text-white rounded-xl text-xs font-bold shadow-md">Simpan Alokasi Mitra</button>
+                {{-- ===== TABEL BARIS KEGIATAN ===== --}}
+                <div class="flex-1 overflow-auto p-4">
+                    <table class="w-full text-xs border-collapse min-w-[1100px]">
+                        <thead>
+                            <tr class="bg-slate-700 dark:bg-slate-800 text-white text-center">
+                                <th class="px-2 py-3 rounded-tl-lg w-10 font-bold">No</th>
+                                <th class="px-3 py-3 font-bold text-left min-w-[280px]">Kegiatan <span class="text-rose-300">*</span></th>
+                                <th class="px-3 py-3 font-bold w-20">Volume <span class="text-rose-300">*</span></th>
+                                <th class="px-3 py-3 font-bold w-24">Satuan <span class="text-rose-300">*</span></th>
+                                <th class="px-3 py-3 font-bold w-36">Harga Satuan <span class="text-rose-300">*</span></th>
+                                <th class="px-3 py-3 font-bold w-36">Jumlah Honor</th>
+                                <th class="px-3 py-3 font-bold w-36">Tgl Mulai <span class="text-rose-300">*</span></th>
+                                <th class="px-3 py-3 font-bold w-36">Tgl Selesai <span class="text-rose-300">*</span></th>
+                                <th class="px-3 py-3 font-bold min-w-[200px]">Beban Anggaran / Akun POK</th>
+                                <th class="px-2 py-3 rounded-tr-lg w-10"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="(row, i) in rows" :key="i">
+                                <tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-800/30">
+                                    <td class="px-2 py-2.5 text-center text-slate-400 font-bold" x-text="i + 1"></td>
+                                    <td class="px-2 py-2">
+                                        <input type="text" :name="`rows[${i}][kegiatan]`" x-model="row.kegiatan" required
+                                               placeholder="Uraian kegiatan..."
+                                               class="w-full px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-bps-blue text-slate-800 dark:text-slate-200">
+                                    </td>
+                                    <td class="px-2 py-2">
+                                        <input type="number" :name="`rows[${i}][volume]`" x-model="row.volume" required min="0.01" step="any"
+                                               placeholder="0"
+                                               class="w-full px-2 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-bps-blue text-center text-slate-800 dark:text-slate-200">
+                                    </td>
+                                    <td class="px-2 py-2">
+                                        <input type="text" :name="`rows[${i}][satuan]`" x-model="row.satuan" required
+                                               placeholder="Dokumen"
+                                               class="w-full px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-bps-blue text-slate-800 dark:text-slate-200">
+                                    </td>
+                                    <td class="px-2 py-2">
+                                        <div class="relative">
+                                            <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-[11px] font-bold">Rp</span>
+                                            <input type="text" :name="`rows[${i}][harga_satuan]`" x-model="row.harga_satuan"
+                                                   @input="formatInput(row)"
+                                                   required placeholder="0"
+                                                   class="w-full pl-7 pr-2 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-bps-blue text-slate-800 dark:text-slate-200">
+                                        </div>
+                                    </td>
+                                    <td class="px-2 py-2 text-center">
+                                        <span class="font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap text-sm"
+                                              x-text="formatRp(jumlah(row))"></span>
+                                        {{-- Hidden field untuk honor tidak diperlukan, dihitung di server --}}
+                                    </td>
+                                    <td class="px-2 py-2">
+                                        <input type="date" :name="`rows[${i}][tanggal_mulai]`" x-model="row.tanggal_mulai" required
+                                               class="w-full px-2 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-bps-blue text-slate-800 dark:text-slate-200">
+                                    </td>
+                                    <td class="px-2 py-2">
+                                        <input type="date" :name="`rows[${i}][tanggal_selesai]`" x-model="row.tanggal_selesai" required
+                                               class="w-full px-2 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-bps-blue text-slate-800 dark:text-slate-200">
+                                    </td>
+                                    <td class="px-2 py-2">
+                                        <input type="text" :name="`rows[${i}][akun_pok]`" x-model="row.akun_pok"
+                                               placeholder="Belanja Honor Output..."
+                                               class="w-full px-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-bps-blue text-slate-800 dark:text-slate-200">
+                                    </td>
+                                    <td class="px-2 py-2 text-center">
+                                        <button type="button" @click="removeRow(i)"
+                                                :disabled="rows.length === 1"
+                                                :class="rows.length === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-rose-500 hover:text-white cursor-pointer'"
+                                                class="w-7 h-7 rounded-lg bg-rose-50 dark:bg-rose-950/30 text-rose-400 flex items-center justify-center transition-colors mx-auto">
+                                            <i class="fa-solid fa-minus text-[10px]"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+
+                            {{-- Baris TOTAL --}}
+                            <tr class="bg-slate-50 dark:bg-slate-800/50 border-t-2 border-slate-200 dark:border-slate-700">
+                                <td colspan="5" class="px-3 py-2 font-extrabold text-slate-700 dark:text-slate-300 text-right">TOTAL</td>
+                                <td class="px-2 py-2 text-center font-extrabold text-emerald-600 dark:text-emerald-400 whitespace-nowrap"
+                                    x-text="formatRp(totalHonor())"></td>
+                                <td colspan="4"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    {{-- Tombol tambah baris --}}
+                    <button type="button" @click="addRow()"
+                            class="mt-3 flex items-center gap-2 px-4 py-1.5 rounded-xl border-2 border-dashed border-bps-blue/40 hover:border-bps-blue hover:bg-bps-faint/40 text-bps-blue text-[11px] font-bold transition-colors cursor-pointer">
+                        <i class="fa-solid fa-plus text-[10px]"></i>
+                        Tambah Baris Kegiatan
+                    </button>
+                </div>
+
+                <div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex items-center justify-between gap-3 shrink-0">
+                    <div class="text-[11px] text-slate-500">
+                        Total honor: <strong class="text-emerald-600 dark:text-emerald-400" x-text="formatRp(totalHonor())"></strong>
+                        <span class="ml-2 text-slate-400">•</span>
+                        <span class="ml-2" x-text="rows.length + ' baris kegiatan'"></span>
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="button" @click="modalOpen = false" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300">Batal</button>
+                        <button type="submit" class="px-5 py-2 bg-bps-blue hover:bg-bps-dark text-white rounded-xl text-xs font-bold shadow-md flex items-center gap-2">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Simpan Alokasi
+                        </button>
+                    </div>
                 </div>
             </form>
+
         </div>
     </div>
 

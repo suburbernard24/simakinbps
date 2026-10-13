@@ -770,13 +770,6 @@
                         <span>Profil Saya</span>
                     </a>
 
-                    <a href="{{ route('profile.settings') }}" 
-                       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('profile.settings') ? 'nav-item-active' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
-                        <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('profile.settings') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
-                            <i class="fa-solid fa-palette text-xs"></i>
-                        </div>
-                        <span>Preferensi & Tema</span>
-                    </a>
                 </nav>
             </div>
         </div>
@@ -872,10 +865,7 @@
                                 <i class="fa-solid fa-id-badge w-4 text-bps-blue dark:text-blue-400"></i>
                                 <span>Profil Saya</span>
                             </a>
-                            <a href="{{ route('profile.settings') }}" class="flex items-center gap-2.5 px-4 py-2 text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold transition">
-                                <i class="fa-solid fa-palette w-4 text-bps-blue dark:text-blue-400"></i>
-                                <span>Pengaturan & Tema</span>
-                            </a>
+
                         </div>
                         
                         <div class="pt-1 border-t border-slate-100 dark:border-slate-800">
