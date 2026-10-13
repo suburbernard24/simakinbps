@@ -16,7 +16,7 @@
                     <span class="typewriter-greeting" style="color: #0A2540;" data-text="Halo, {{ Auth::user()->name }}!"></span><span class="typewriter-cursor title-cursor inline-block w-[3px] h-[0.85em] bg-bps-blue ml-1.5 align-middle"></span>
                 </h2>
                 <p class="text-xs sm:text-sm max-w-2xl leading-relaxed min-h-[22px] font-medium" style="color: #334155;">
-                    <span class="typewriter-desc" data-text="Pantau kinerja makro organisasi, efektivitas tim kerja statistik, dan peringkat evaluasi seluruh pegawai."></span><span class="typewriter-cursor desc-cursor inline-block w-[2px] h-[0.85em] bg-slate-500 ml-1 align-middle hidden"></span>
+                    <span class="typewriter-desc" data-text="Selamat Datang di SIMAKINBPS - Sistem Manajemen Kinerja BPS Manggarai"></span><span class="typewriter-cursor desc-cursor inline-block w-[2px] h-[0.85em] bg-slate-500 ml-1 align-middle hidden"></span>
                 </p>
             </div>
 
