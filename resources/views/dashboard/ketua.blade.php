@@ -78,23 +78,21 @@
             
             <!-- 1. Total Tugas Tim -->
             <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Total Tugas Tim</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Total Pekerjaan Tim</span>
                 <p class="text-2xl font-black text-slate-900 dark:text-white mt-2">{{ $totalUtama + $totalTambahan }}</p>
                 <p class="text-[10px] text-slate-500 mt-1">Utama: <strong>{{ $totalUtama }}</strong> | Tambahan: <strong>{{ $totalTambahan }}</strong></p>
             </div>
 
             <!-- 2. Tim: Berjalan -->
             <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Pek. Berjalan</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Pekerjaan Berjalan</span>
                 <p class="text-2xl font-black text-amber-500 mt-2">{{ $pekerjaanBerjalan }}</p>
-                <p class="text-[10px] text-slate-500 mt-1">Dalam proses tim</p>
             </div>
 
             <!-- 3. Tim: Selesai -->
             <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Pek. Selesai</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Pekerjaan Selesai</span>
                 <p class="text-2xl font-black text-emerald-600 mt-2">{{ $pekerjaanSelesai }}</p>
-                <p class="text-[10px] text-slate-500 mt-1">Selesai dikerjakan</p>
             </div>
 
             <!-- 4. Total Realisasi Kuantitas -->
@@ -110,14 +108,12 @@
             <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
                 <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Rata-rata Skor Tim</span>
                 <p class="text-2xl font-black text-bps-blue mt-2">{{ $timSkorKinerja }}%</p>
-                <p class="text-[10px] text-slate-500 mt-1">Efisiensi jam kerja tim</p>
             </div>
 
             <!-- 6. Rata-rata Nilai CKP Tim -->
             <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Avg CKP Tim</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Rata-rata CKP Tim</span>
                 <p class="text-2xl font-black text-amber-500 mt-2">{{ $timCkp }}</p>
-                <p class="text-[10px] text-slate-500 mt-1">Kualitas &amp; kuantitas tim</p>
             </div>
 
         </div>
@@ -136,24 +132,21 @@
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div class="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">Tugas Pribadi</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase">Pekerjaan Saya</span>
                 <p class="text-lg font-black text-slate-900 dark:text-white mt-1">{{ $kinerja['jumlah_utama'] + $kinerja['jumlah_tambahan'] }}</p>
                 <p class="text-[10px] text-slate-400">Utama: {{ $kinerja['jumlah_utama'] }} &bull; Tambahan: {{ $kinerja['jumlah_tambahan'] }}</p>
             </div>
             <div class="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">Status Tugas</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase">Status Pekerjaan Saya</span>
                 <p class="text-lg font-black text-emerald-600 mt-1">{{ $kinerja['selesai'] }} <span class="text-xs font-medium text-slate-400">/ {{ $kinerja['berjalan'] }} jalan</span></p>
-                <p class="text-[10px] text-slate-400">Pekerjaan mandiri</p>
             </div>
             <div class="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">Skor Kinerja Pribadi</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase">Skor Kinerja Saya</span>
                 <p class="text-lg font-black text-bps-blue mt-1">{{ $kinerja['skor_kinerja'] }}%</p>
-                <p class="text-[10px] text-slate-400">Beban jam kerja pribadi</p>
             </div>
             <div class="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">Nilai CKP Pribadi</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase">Nilai CKP Saya</span>
                 <p class="text-lg font-black text-amber-500 mt-1">{{ $kinerja['nilai_ckp'] }}</p>
-                <p class="text-[10px] text-slate-400">Capaian CKP bulanan</p>
             </div>
         </div>
     </div>

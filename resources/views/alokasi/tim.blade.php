@@ -19,25 +19,21 @@
         <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80">
             <span class="text-[10px] font-extrabold uppercase text-slate-400">Total Alokasi</span>
             <p class="text-2xl font-black text-slate-900 mt-1">{{ $total_alokasi }}</p>
-            <p class="text-xs text-slate-500 mt-0.5">Pekerjaan</p>
         </div>
 
         <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80">
             <span class="text-[10px] font-extrabold uppercase text-slate-400">Total Pegawai</span>
             <p class="text-2xl font-black text-slate-900 mt-1">{{ $total_pegawai }}</p>
-            <p class="text-xs text-slate-500 mt-0.5">Orang Terlibat</p>
         </div>
 
         <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80">
             <span class="text-[10px] font-extrabold uppercase text-slate-400">Sedang Berjalan</span>
             <p class="text-2xl font-black text-amber-500 mt-1">{{ $berjalan }}</p>
-            <p class="text-xs text-slate-500 mt-0.5">Dalam Proses</p>
         </div>
 
         <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-200/80">
             <span class="text-[10px] font-extrabold uppercase text-slate-400">Selesai Dikerjakan</span>
             <p class="text-2xl font-black text-emerald-600 mt-1">{{ $selesai }}</p>
-            <p class="text-xs text-slate-500 mt-0.5">Tuntas</p>
         </div>
     </div>
 

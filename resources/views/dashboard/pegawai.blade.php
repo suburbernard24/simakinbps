@@ -70,19 +70,17 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-slate-900 dark:text-white mt-2">{{ $kinerja['jumlah_utama'] }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Kegiatan Inti BPS</p>
         </div>
 
         <!-- 2. Pekerjaan Tambahan -->
         <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Pek. Tambahan</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Pekerjaan Tambahan</span>
                 <div class="w-7 h-7 rounded-xl bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-xs">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
             </div>
             <p class="text-2xl font-black text-indigo-600 dark:text-indigo-400 mt-2">{{ $kinerja['jumlah_tambahan'] }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Tugas Penunjang</p>
         </div>
 
         <!-- 3. Berjalan -->
@@ -94,7 +92,6 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-amber-600 dark:text-amber-400 mt-2">{{ $kinerja['berjalan'] }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Dalam Proses</p>
         </div>
 
         <!-- 4. Selesai -->
@@ -106,7 +103,6 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{{ $kinerja['selesai'] }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Tuntas Dikerjakan</p>
         </div>
 
         <!-- 5. Skor Kinerja -->
@@ -126,13 +122,12 @@
         <!-- 6. CKP Bulanan -->
         <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">CKP Bulanan</span>
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">CKP Saya</span>
                 <div class="w-7 h-7 rounded-xl bg-amber-50 dark:bg-amber-900/40 text-amber-500 flex items-center justify-center text-xs">
                     <i class="fa-solid fa-award"></i>
                 </div>
             </div>
             <p class="text-2xl font-black text-amber-500 mt-2">{{ $kinerja['nilai_ckp'] }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Target Maksimal: 100</p>
         </div>
 
     </div>

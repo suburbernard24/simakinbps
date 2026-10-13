@@ -54,7 +54,6 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-slate-900 dark:text-white mt-2">{{ $totalPegawai }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Insan BPS Manggarai</p>
         </div>
 
         <!-- 2. Total Tim Kerja -->
@@ -66,19 +65,17 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-indigo-600 dark:text-indigo-400 mt-2">{{ $totalTim }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Tim Statistik &amp; Subbag</p>
         </div>
 
         <!-- 3. Total Pekerjaan -->
         <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Total Beban</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Total Pekerjaan</span>
                 <div class="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs">
                     <i class="fa-solid fa-bars-progress"></i>
                 </div>
             </div>
             <p class="text-2xl font-black text-slate-900 dark:text-white mt-2">{{ $totalPekerjaan }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Kegiatan Terjadwal</p>
         </div>
 
         <!-- 4. Selesai vs Berjalan -->
@@ -92,33 +89,28 @@
             <p class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">
                 {{ $pekerjaanSelesai }} <span class="text-xs text-slate-400 font-semibold">/ {{ $pekerjaanBerjalan }}</span>
             </p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
-                {{ $totalPekerjaan > 0 ? round(($pekerjaanSelesai / $totalPekerjaan) * 100) : 0 }}% Tuntas
-            </p>
         </div>
 
         <!-- 5. Rata-rata Skor Kinerja -->
         <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Avg Skor Kantor</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Rata-rata Skor Kinerja Pegawai</span>
                 <div class="w-7 h-7 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-bps-blue dark:text-blue-300 flex items-center justify-center text-xs">
                     <i class="fa-solid fa-chart-line"></i>
                 </div>
             </div>
             <p class="text-2xl font-black text-bps-blue dark:text-blue-400 mt-2">{{ $avgSkorKinerja }}%</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Utilisasi Jam Kerja</p>
         </div>
 
         <!-- 6. Rata-rata Capaian CKP -->
         <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Avg CKP Kantor</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Rata-rata Capaian CKP</span>
                 <div class="w-7 h-7 rounded-xl bg-amber-50 dark:bg-amber-900/40 text-amber-500 flex items-center justify-center text-xs">
                     <i class="fa-solid fa-award"></i>
                 </div>
             </div>
             <p class="text-2xl font-black text-amber-500 mt-2">{{ $avgCkp }}</p>
-            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Kualitas &amp; Kuantitas</p>
         </div>
 
     </div>
