@@ -226,6 +226,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('alokasi')->name('alokasi.')->middleware('role:ketua_tim')->group(function () {
             Route::get('/', [AlokasiMitraController::class, 'index'])->name('index');
             Route::post('/', [AlokasiMitraController::class, 'store'])->name('store');
+            Route::get('/cek-kuota', [AlokasiMitraController::class, 'cekKuota'])->name('cek-kuota');
             Route::get('/template-excel', [AlokasiMitraController::class, 'downloadTemplate'])->name('template');
             Route::post('/import-excel', [AlokasiMitraController::class, 'importExcel'])->name('import');
             Route::get('/{id}/edit', [AlokasiMitraController::class, 'edit'])->name('edit');

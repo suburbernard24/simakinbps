@@ -60,6 +60,17 @@ class HonorMitraController extends Controller
      */
     public function store(Request $request)
     {
+        // Backward compatibility: jika dikirim via single field 'maksimal_honor'
+        if ($request->filled('maksimal_honor') && !$request->filled('maksimal_honor_pendataan')) {
+            $rawSingle = preg_replace('/[^\d]/', '', (string) $request->input('maksimal_honor'));
+            $request->merge([
+                'maksimal_honor_pendataan'  => $rawSingle,
+                'maksimal_honor_pengolahan' => $rawSingle,
+                'keterangan_pendataan'      => $request->input('keterangan', 'SBM Honor Mitra Pendataan Lapangan BPS'),
+                'keterangan_pengolahan'     => $request->input('keterangan', 'SBM Honor Mitra Pengolahan BPS'),
+            ]);
+        }
+
         // Bersihkan pemisah ribuan jika dikirim dalam format angka berpemisah
         foreach (['maksimal_honor_pendataan', 'maksimal_honor_pengolahan'] as $field) {
             $raw = $request->input($field);

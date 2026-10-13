@@ -153,8 +153,25 @@
                         </td>
 
                         {{-- Honor --}}
-                        <td class="px-4 py-4 font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
-                            Rp {{ number_format($item->honor, 0, ',', '.') }}
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            <div class="font-extrabold text-slate-900 dark:text-white text-xs">
+                                Rp {{ number_format($item->honor, 0, ',', '.') }}
+                            </div>
+                            @if($item->melebihi_batas || $item->honor_tidak_dibayar > 0)
+                                <div class="mt-1 space-y-0.5">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-[10px] font-bold text-amber-700 dark:text-amber-300">
+                                        <i class="fa-solid fa-triangle-exclamation text-[9px]"></i>
+                                        Rp {{ number_format($item->honor_tidak_dibayar, 0, ',', '.') }} Tidak Dibayar
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 block">
+                                        Dibayar: <strong class="text-emerald-600 dark:text-emerald-400">Rp {{ number_format($item->honor_dibayar, 0, ',', '.') }}</strong>
+                                    </span>
+                                </div>
+                            @else
+                                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold block mt-0.5">
+                                    <i class="fa-solid fa-check text-[9px]"></i> Dibayar Penuh
+                                </span>
+                            @endif
                         </td>
 
                         {{-- Jadwal --}}
@@ -271,8 +288,15 @@
                 <button @click="modalOpen = false" class="text-slate-400 hover:text-rose-500"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <form method="POST" action="{{ route('kinerja-mitra.alokasi.store') }}" class="flex flex-col flex-1 overflow-hidden"
+            <form method="POST" action="{{ route('kinerja-mitra.alokasi.store') }}" 
+                  x-ref="formAlokasi"
+                  class="flex flex-col flex-1 overflow-hidden"
                   x-data="{
+                      selectedMitraId: '{{ old('mitra_id', '') }}',
+                      jenisMitraModal: '{{ old('jenis_mitra', 'pendataan_lapangan') }}',
+                      quotaMap: @js($mitraQuotaMap),
+                      popOverLimitModal: false,
+                      konfirmasiMelebihiBatas: false,
                       rows: [{ kegiatan: '', volume: '', satuan: 'Dokumen', harga_satuan: '', tanggal_mulai: '{{ date('Y-m-01') }}', tanggal_selesai: '{{ date('Y-m-t') }}', akun_pok: '' }],
                       addRow() {
                           this.rows.push({ kegiatan: '', volume: '', satuan: 'Dokumen', harga_satuan: '', tanggal_mulai: '{{ date('Y-m-01') }}', tanggal_selesai: '{{ date('Y-m-t') }}', akun_pok: '' });
@@ -289,15 +313,83 @@
                           return this.rows.reduce((s, r) => s + this.jumlah(r), 0);
                       },
                       formatRp(val) {
-                          if (!val && val !== 0) return '';
+                          if (!val && val !== 0) return 'Rp 0';
                           return 'Rp\u00a0' + new Intl.NumberFormat('id-ID').format(Math.round(val));
                       },
                       formatInput(row) {
                           let clean = (row.harga_satuan + '').replace(/\D/g, '');
                           row.harga_satuan = clean;
+                      },
+                      getMitraData() {
+                          if (!this.selectedMitraId || !this.quotaMap[this.selectedMitraId]) return null;
+                          return this.quotaMap[this.selectedMitraId];
+                      },
+                      getMitraNama() {
+                          let m = this.getMitraData();
+                          return m ? m.nama : 'Mitra Terpilih';
+                      },
+                      getMitraInfo() {
+                          let m = this.getMitraData();
+                          if (!m) return null;
+                          return m[this.jenisMitraModal] || null;
+                      },
+                      getMaksimalHonor() {
+                          let info = this.getMitraInfo();
+                          if (info) return info.maksimal;
+                          return this.jenisMitraModal === 'pengolahan' ? {{ (int) $maksimalHonorPengolahan }} : {{ (int) $maksimalHonorPendataan }};
+                      },
+                      getTerpakaiHonor() {
+                          let info = this.getMitraInfo();
+                          return info ? info.terpakai : 0;
+                      },
+                      getSisaHonor() {
+                          let info = this.getMitraInfo();
+                          return info ? info.sisa : this.getMaksimalHonor();
+                      },
+                      isMelebihiBatas() {
+                          if (!this.selectedMitraId) return false;
+                          return this.totalHonor() > this.getSisaHonor();
+                      },
+                      getKelebihanHonor() {
+                          if (!this.isMelebihiBatas()) return 0;
+                          return this.totalHonor() - this.getSisaHonor();
+                      },
+                      getHonorDibayar() {
+                          return Math.min(this.totalHonor(), this.getSisaHonor());
+                      },
+                      getHonorTidakDibayar() {
+                          return Math.max(0, this.totalHonor() - this.getSisaHonor());
+                      },
+                      handleFormSubmit() {
+                          if (!this.selectedMitraId) {
+                              alert('Silakan pilih Mitra Statistik yang ditugaskan terlebih dahulu.');
+                              return;
+                          }
+                          if (this.totalHonor() <= 0) {
+                              alert('Silakan lengkapi kegiatan, volume, dan harga satuan honor dengan benar.');
+                              return;
+                          }
+
+                          // Cek apakah alokasi pekerjaan dan honor melewati batas maksimum
+                          if (this.isMelebihiBatas()) {
+                              // TAMPILKAN POP UP NOTIFIKASI
+                              this.popOverLimitModal = true;
+                          } else {
+                              // Masih dalam batas kuota: simpan langsung secara normal
+                              this.konfirmasiMelebihiBatas = false;
+                              this.$refs.formAlokasi.submit();
+                          }
+                      },
+                      confirmAndSubmit() {
+                          this.konfirmasiMelebihiBatas = true;
+                          this.popOverLimitModal = false;
+                          this.$nextTick(() => {
+                              this.$refs.formAlokasi.submit();
+                          });
                       }
                   }">
                 @csrf
+                <input type="hidden" name="konfirmasi_melebihi_batas" :value="konfirmasiMelebihiBatas ? '1' : '0'">
 
                 {{-- ===== HEADER: Mitra, Posisi, Jenis Mitra ===== --}}
                 <div class="px-6 pt-5 pb-4 border-b border-slate-100 dark:border-slate-800 space-y-3 text-xs">
@@ -340,13 +432,75 @@
                         </div>
                     </div>
 
-                    {{-- Info batas honor --}}
-                    <div class="flex items-center gap-2 text-[10px] text-slate-400 bg-blue-50 dark:bg-slate-800/60 rounded-xl px-3 py-2">
+                    {{-- ==================== KARTU STATUS & SISA HONOR MITRA ==================== --}}
+                    <div x-show="selectedMitraId" class="p-3.5 rounded-2xl border transition-all duration-200"
+                         :class="isMelebihiBatas() 
+                             ? 'bg-rose-50/70 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/60' 
+                             : 'bg-emerald-50/60 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/50'">
+                        
+                        <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b"
+                             :class="isMelebihiBatas() ? 'border-rose-100 dark:border-rose-900/40' : 'border-emerald-100 dark:border-emerald-900/30'">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full" :class="isMelebihiBatas() ? 'bg-rose-500 animate-pulse' : 'bg-emerald-500'"></span>
+                                <span class="font-bold text-xs text-slate-800 dark:text-slate-100">
+                                    Status Honor Mitra: <strong x-text="getMitraNama()"></strong>
+                                </span>
+                            </div>
+                            <div class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                                Batas Maksimal Honor: <span class="font-black text-slate-700 dark:text-slate-200" x-text="formatRp(getMaksimalHonor())"></span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2.5 text-center">
+                            {{-- Honor Terpakai --}}
+                            <div class="p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800 shadow-2xs">
+                                <span class="text-[10px] text-slate-400 font-semibold block uppercase">Sudah Dialokasikan</span>
+                                <span class="font-bold text-slate-700 dark:text-slate-300 text-xs mt-0.5 block" x-text="formatRp(getTerpakaiHonor())"></span>
+                            </div>
+
+                            {{-- Sisa Honor Yang Tersedia --}}
+                            <div class="p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800 shadow-2xs">
+                                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold block uppercase">Sisa Honor Tersedia</span>
+                                <span class="font-black text-emerald-600 dark:text-emerald-400 text-sm mt-0.5 block" x-text="formatRp(getSisaHonor())"></span>
+                            </div>
+
+                            {{-- Honor Rencana Baru --}}
+                            <div class="p-2.5 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800 shadow-2xs">
+                                <span class="text-[10px] text-bps-blue dark:text-blue-400 font-bold block uppercase">Rencana Alokasi Ini</span>
+                                <span class="font-black text-bps-blue dark:text-blue-400 text-sm mt-0.5 block" x-text="formatRp(totalHonor())"></span>
+                            </div>
+
+                            {{-- Status Sisa / Melebihi --}}
+                            <div class="p-2.5 rounded-xl border shadow-2xs"
+                                 :class="isMelebihiBatas() 
+                                     ? 'bg-rose-100/90 dark:bg-rose-950/70 border-rose-300 dark:border-rose-900 text-rose-700 dark:text-rose-300' 
+                                     : 'bg-emerald-100/90 dark:bg-emerald-950/70 border-emerald-300 dark:border-emerald-900 text-emerald-700 dark:text-emerald-300'">
+                                <span class="text-[10px] font-bold block uppercase" x-text="isMelebihiBatas() ? 'Melebihi Batas' : 'Sisa Setelah Ini'"></span>
+                                <span class="font-black text-sm mt-0.5 block" 
+                                      x-text="isMelebihiBatas() ? '+ ' + formatRp(getKelebihanHonor()) : formatRp(getSisaHonor() - totalHonor())"></span>
+                            </div>
+                        </div>
+
+                        {{-- Alert Jika Melebihi Batas --}}
+                        <div x-show="isMelebihiBatas()" class="mt-2.5 p-2.5 rounded-xl bg-rose-100/90 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900/60 flex items-start gap-2.5 text-[11px] text-rose-800 dark:text-rose-200">
+                            <i class="fa-solid fa-triangle-exclamation text-rose-500 mt-0.5 shrink-0 text-xs"></i>
+                            <div class="flex-1">
+                                <p class="font-bold">Peringatan: Total Honor Melewati Batas Maksimum!</p>
+                                <p class="text-[10px] text-rose-700 dark:text-rose-300 mt-0.5 leading-relaxed">
+                                    Honor baru (<strong x-text="formatRp(totalHonor())"></strong>) melebihi sisa honor mitra (<strong x-text="formatRp(getSisaHonor())"></strong>).
+                                    Nominal kelebihan sebesar <strong class="underline" x-text="formatRp(getKelebihanHonor())"></strong> tidak akan dibayarkan jika penugasan ini dialokasikan.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Fallback info jika mitra belum dipilih --}}
+                    <div x-show="!selectedMitraId" class="flex items-center gap-2 text-[10px] text-slate-400 bg-blue-50 dark:bg-slate-800/60 rounded-xl px-3 py-2">
                         <i class="fa-solid fa-circle-info text-bps-blue"></i>
                         <span>Batas honor bulanan:</span>
                         <strong class="text-bps-blue dark:text-blue-400"
                                 x-text="jenisMitraModal === 'pengolahan' ? 'Rp {{ number_format($maksimalHonorPengolahan, 0, ',', '.') }}' : 'Rp {{ number_format($maksimalHonorPendataan, 0, ',', '.') }}'"></strong>
-                        <span>/ mitra / bulan</span>
+                        <span>/ mitra / bulan. Pilih mitra di atas untuk melihat rincian sisa kuota honor mitra.</span>
                     </div>
                 </div>
 
@@ -398,7 +552,6 @@
                                     <td class="px-2 py-2 text-center">
                                         <span class="font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap text-sm"
                                               x-text="formatRp(jumlah(row))"></span>
-                                        {{-- Hidden field untuk honor tidak diperlukan, dihitung di server --}}
                                     </td>
                                     <td class="px-2 py-2">
                                         <input type="date" :name="`rows[${i}][tanggal_mulai]`" x-model="row.tanggal_mulai" required
@@ -442,20 +595,92 @@
                     </button>
                 </div>
 
+                {{-- Footer form --}}
                 <div class="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex items-center justify-between gap-3 shrink-0">
                     <div class="text-[11px] text-slate-500">
                         Total honor: <strong class="text-emerald-600 dark:text-emerald-400" x-text="formatRp(totalHonor())"></strong>
                         <span class="ml-2 text-slate-400">•</span>
                         <span class="ml-2" x-text="rows.length + ' baris kegiatan'"></span>
+                        <template x-if="selectedMitraId && isMelebihiBatas()">
+                            <span class="ml-2 px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300 font-bold text-[10px]">
+                                Melebihi batas honor
+                            </span>
+                        </template>
                     </div>
                     <div class="flex gap-3">
                         <button type="button" @click="modalOpen = false" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300">Batal</button>
-                        <button type="submit" class="px-5 py-2 bg-bps-blue hover:bg-bps-dark text-white rounded-xl text-xs font-bold shadow-md flex items-center gap-2">
+                        <button type="button" @click="handleFormSubmit()" 
+                                class="px-5 py-2 bg-bps-blue hover:bg-bps-dark text-white rounded-xl text-xs font-bold shadow-md flex items-center gap-2 cursor-pointer transition">
                             <i class="fa-solid fa-floppy-disk"></i>
                             Simpan Alokasi
                         </button>
                     </div>
                 </div>
+
+                {{-- ==================== POP UP NOTIFIKASI MELEWATI BATAS ==================== --}}
+                <div x-show="popOverLimitModal" x-cloak style="display: none;"
+                     class="fixed inset-0 z-[80] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div @click.away="popOverLimitModal = false"
+                         x-show="popOverLimitModal" x-transition.duration.200ms
+                         class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-md overflow-hidden text-center p-6 space-y-5">
+                        
+                        {{-- Ikon Pop Up --}}
+                        <div class="w-16 h-16 rounded-2xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-2xl mx-auto shadow-inner">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                        {{-- Teks Pertanyaan Konfirmasi Sesuai Permintaan User --}}
+                        <div class="space-y-2">
+                            <h3 class="font-black text-slate-900 dark:text-white text-base">
+                                Konfirmasi Alokasi Pekerjaan Mitra
+                            </h3>
+                            <p class="text-sm font-extrabold text-amber-600 dark:text-amber-400 leading-snug px-2">
+                                Apakah ingin mengalokasikan pekerjaan kepada Mitra? Jika Ya maka honor yang melebihi batas akan tidak dibayar
+                            </p>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400">
+                                Ketentuan ini hanya berlaku ketika alokasi pekerjaan dan honor melewati batas maksimum kuota mitra.
+                            </p>
+                        </div>
+
+                        {{-- Rincian Kalkulasi Honor --}}
+                        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 text-xs text-left space-y-2">
+                            <div class="flex justify-between items-center text-[11px]">
+                                <span class="text-slate-500">Nama Mitra:</span>
+                                <strong class="text-slate-800 dark:text-slate-200" x-text="getMitraNama()"></strong>
+                            </div>
+                            <div class="flex justify-between items-center text-[11px]">
+                                <span class="text-slate-500">Sisa Kuota Honor Tersedia:</span>
+                                <strong class="text-emerald-600 dark:text-emerald-400" x-text="formatRp(getSisaHonor())"></strong>
+                            </div>
+                            <div class="flex justify-between items-center text-[11px]">
+                                <span class="text-slate-500">Total Honor Rencana Alokasi:</span>
+                                <strong class="text-bps-blue dark:text-blue-400" x-text="formatRp(totalHonor())"></strong>
+                            </div>
+                            <div class="border-t border-slate-200 dark:border-slate-700 pt-2 flex justify-between items-center font-bold">
+                                <span class="text-rose-600 dark:text-rose-400">Honor Melebihi Batas (TIDAK DIBAYAR):</span>
+                                <span class="text-rose-600 dark:text-rose-400 font-black text-sm" x-text="formatRp(getKelebihanHonor())"></span>
+                            </div>
+                            <div class="flex justify-between items-center text-[11px]">
+                                <span class="text-slate-500">Honor yang Tetap Dibayar:</span>
+                                <strong class="text-emerald-600 dark:text-emerald-400" x-text="formatRp(getHonorDibayar())"></strong>
+                            </div>
+                        </div>
+
+                        {{-- Tombol Pilihan Aksi Pop Up --}}
+                        <div class="flex items-center justify-center gap-3 pt-1">
+                            <button type="button" @click="popOverLimitModal = false"
+                                    class="w-1/2 py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs transition cursor-pointer">
+                                Batal
+                            </button>
+                            <button type="button" @click="confirmAndSubmit()"
+                                    class="w-1/2 py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md shadow-amber-600/30 transition cursor-pointer flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-check"></i>
+                                Ya, Alokasikan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </form>
 
         </div>

@@ -65,10 +65,17 @@ class PengaturanHonorMitra extends Model
      * @param int|null $bulan
      */
     public static function getMaksimalHonor(
-        string $jenisMitra = self::JENIS_PENDATAAN,
+        string|int $jenisMitra = self::JENIS_PENDATAAN,
         ?int $tahun = null,
         ?int $bulan = null
     ): int {
+        // Backward compatibility jika dipanggil dengan format lama: getMaksimalHonor(2026, 10)
+        if (is_numeric($jenisMitra)) {
+            $bulan = $tahun;
+            $tahun = (int) $jenisMitra;
+            $jenisMitra = self::JENIS_PENDATAAN;
+        }
+
         $base = static::where('jenis_mitra', $jenisMitra);
 
         // 1. Cek konfigurasi spesifik tahun & bulan

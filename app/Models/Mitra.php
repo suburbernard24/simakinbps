@@ -65,7 +65,7 @@ class Mitra extends Model
     }
 
     /**
-     * Hitung total honor yang sudah dialokasikan untuk mitra pada bulan & tahun tertentu.
+     * Hitung total honor yang dibayarkan untuk mitra pada bulan & tahun tertentu (memotong kuota batas honor).
      */
     public function totalHonorBulan(int $tahun, int $bulan, ?int $excludeAlokasiId = null): int
     {
@@ -77,7 +77,39 @@ class Mitra extends Model
             $query->where('id', '!=', $excludeAlokasiId);
         }
 
+        return (int) $query->sum(\Illuminate\Support\Facades\DB::raw('COALESCE(honor_dibayar, honor)'));
+    }
+
+    /**
+     * Hitung total nilai nominal seluruh kegiatan mitra (termasuk yang melebihi batas).
+     */
+    public function totalHonorNominalBulan(int $tahun, int $bulan, ?int $excludeAlokasiId = null): int
+    {
+        $query = $this->alokasiMitras()
+            ->where('tahun', $tahun)
+            ->where('bulan', $bulan);
+
+        if ($excludeAlokasiId) {
+            $query->where('id', '!=', $excludeAlokasiId);
+        }
+
         return (int) $query->sum('honor');
+    }
+
+    /**
+     * Hitung total honor yang tidak dibayar karena melebihi batas kuota maksimum.
+     */
+    public function totalHonorTidakDibayarBulan(int $tahun, int $bulan, ?int $excludeAlokasiId = null): int
+    {
+        $query = $this->alokasiMitras()
+            ->where('tahun', $tahun)
+            ->where('bulan', $bulan);
+
+        if ($excludeAlokasiId) {
+            $query->where('id', '!=', $excludeAlokasiId);
+        }
+
+        return (int) $query->sum('honor_tidak_dibayar');
     }
 
     /**
@@ -95,5 +127,29 @@ class Mitra extends Model
         $terpakai = $this->totalHonorBulan($tahun, $bulan, $excludeAlokasiId);
         $sisa = $maksimal - $terpakai;
         return max(0, $sisa);
+    }
+
+    /**
+     * Ambil rincian lengkap kuota honor mitra untuk bulan & tahun tertentu.
+     */
+    public function infoKuotaHonor(
+        int $tahun,
+        int $bulan,
+        string $jenisMitra = PengaturanHonorMitra::JENIS_PENDATAAN,
+        ?int $excludeAlokasiId = null
+    ): array {
+        $maksimal = PengaturanHonorMitra::getMaksimalHonor($jenisMitra, $tahun, $bulan);
+        $terpakai = $this->totalHonorBulan($tahun, $bulan, $excludeAlokasiId);
+        $sisa = max(0, $maksimal - $terpakai);
+        $tidakDibayar = $this->totalHonorTidakDibayarBulan($tahun, $bulan, $excludeAlokasiId);
+        $nominalTotal = $this->totalHonorNominalBulan($tahun, $bulan, $excludeAlokasiId);
+
+        return [
+            'maksimal'      => $maksimal,
+            'terpakai'      => $terpakai,
+            'sisa'          => $sisa,
+            'tidak_dibayar' => $tidakDibayar,
+            'nominal_total' => $nominalTotal,
+        ];
     }
 }

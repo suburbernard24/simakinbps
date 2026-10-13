@@ -61,12 +61,27 @@ class AlokasiMitraController extends Controller
         $maksimalHonorPengolahan = PengaturanHonorMitra::getMaksimalHonor(PengaturanHonorMitra::JENIS_PENGOLAHAN, $currentYear, $currentMonth);
         $maksimalHonor = $maksimalHonorPendataan; // backward compat untuk view
 
+        // Preload kuota honor untuk setiap mitra di bulan & tahun ini
+        $mitraQuotaMap = [];
+        foreach ($mitras as $m) {
+            $infoPendataan = $m->infoKuotaHonor($currentYear, $currentMonth, PengaturanHonorMitra::JENIS_PENDATAAN);
+            $infoPengolahan = $m->infoKuotaHonor($currentYear, $currentMonth, PengaturanHonorMitra::JENIS_PENGOLAHAN);
+            $mitraQuotaMap[$m->id] = [
+                'id'                  => $m->id,
+                'nama'                => $m->nama,
+                'sobat_id'            => $m->sobat_id,
+                'pendataan_lapangan'  => $infoPendataan,
+                'pengolahan'          => $infoPengolahan,
+            ];
+        }
+
         $daftarTahun = $this->getDaftarTahun();
         $daftarBulan = $this->getDaftarBulan();
 
         return view('alokasi_mitra.index', compact(
             'alokasiList',
             'mitras',
+            'mitraQuotaMap',
             'currentYear',
             'currentMonth',
             'maksimalHonor',
@@ -75,6 +90,40 @@ class AlokasiMitraController extends Controller
             'daftarTahun',
             'daftarBulan'
         ));
+    }
+
+    /**
+     * Endpoint AJAX untuk cek kuota honor mitra secara dinamis.
+     */
+    public function cekKuota(Request $request)
+    {
+        $user = auth()->user();
+        if (!$user->isKetuaTim()) {
+            return response()->json(['error' => 'Akses ditolak: Hanya Ketua Tim yang berwenang.'], 403);
+        }
+
+        $request->validate([
+            'mitra_id'    => 'required|exists:mitras,id',
+            'tahun'       => 'required|integer',
+            'bulan'       => 'required|integer',
+            'jenis_mitra' => 'nullable|in:pendataan_lapangan,pengolahan',
+        ]);
+
+        $mitra = Mitra::findOrFail($request->mitra_id);
+        $jenisMitra = $request->input('jenis_mitra', PengaturanHonorMitra::JENIS_PENDATAAN);
+        $excludeId = $request->input('exclude_alokasi_id');
+
+        $info = $mitra->infoKuotaHonor((int) $request->tahun, (int) $request->bulan, $jenisMitra, $excludeId ? (int) $excludeId : null);
+
+        return response()->json([
+            'success'     => true,
+            'mitra_id'    => $mitra->id,
+            'mitra_nama'  => $mitra->nama,
+            'tahun'       => (int) $request->tahun,
+            'bulan'       => (int) $request->bulan,
+            'jenis_mitra' => $jenisMitra,
+            'kuota'       => $info,
+        ]);
     }
 
     /**
@@ -90,18 +139,43 @@ class AlokasiMitraController extends Controller
             abort(403, 'Akses Ditolak: Hanya Ketua Tim yang berwenang menambah alokasi pekerjaan mitra.');
         }
 
+        // Backward compatibility: jika dikirim dalam format single alokasi lama
+        if (!$request->has('rows')) {
+            $rawHonor = preg_replace('/[^\d]/', '', (string) $request->input('honor', 0));
+            $vol = (float) $request->input('target_kuantitas', 1);
+            $harga = $request->filled('harga_satuan')
+                ? (int) preg_replace('/[^\d]/', '', (string) $request->input('harga_satuan'))
+                : (int) round(((int)$rawHonor) / max(1, $vol));
+
+            $request->merge([
+                'jenis_mitra' => $request->input('jenis_mitra', PengaturanHonorMitra::JENIS_PENDATAAN),
+                'rows' => [
+                    [
+                        'kegiatan'        => $request->input('kegiatan', $request->input('nama_kegiatan', 'Kegiatan Mitra')),
+                        'volume'          => $vol,
+                        'satuan'          => $request->input('satuan', 'Dokumen'),
+                        'harga_satuan'    => $harga,
+                        'tanggal_mulai'   => $request->input('tanggal_mulai', date('Y-m-d')),
+                        'tanggal_selesai' => $request->input('tanggal_selesai', $request->input('tanggal_mulai', date('Y-m-d'))),
+                        'akun_pok'        => $request->input('akun_pok'),
+                    ]
+                ]
+            ]);
+        }
+
         $request->validate([
-            'mitra_id'              => 'required|exists:mitras,id',
-            'posisi'                => 'required|string|max:100',
-            'jenis_mitra'           => 'required|in:pendataan_lapangan,pengolahan',
-            'rows'                  => 'required|array|min:1',
-            'rows.*.kegiatan'       => 'required|string|max:500',
-            'rows.*.volume'         => 'required|numeric|min:0.01',
-            'rows.*.satuan'         => 'required|string|max:100',
-            'rows.*.harga_satuan'   => 'required|numeric|min:0',
-            'rows.*.tanggal_mulai'  => 'required|date',
-            'rows.*.tanggal_selesai'=> 'required|date|after_or_equal:rows.*.tanggal_mulai',
-            'rows.*.akun_pok'       => 'nullable|string|max:255',
+            'mitra_id'                  => 'required|exists:mitras,id',
+            'posisi'                    => 'required|string|max:100',
+            'jenis_mitra'               => 'required|in:pendataan_lapangan,pengolahan',
+            'konfirmasi_melebihi_batas' => 'nullable',
+            'rows'                      => 'required|array|min:1',
+            'rows.*.kegiatan'           => 'required|string|max:500',
+            'rows.*.volume'             => 'required|numeric|min:0.01',
+            'rows.*.satuan'             => 'required|string|max:100',
+            'rows.*.harga_satuan'       => 'required|numeric|min:0',
+            'rows.*.tanggal_mulai'      => 'required|date',
+            'rows.*.tanggal_selesai'    => 'required|date|after_or_equal:rows.*.tanggal_mulai',
+            'rows.*.akun_pok'           => 'nullable|string|max:255',
         ], [
             'mitra_id.required'             => 'Mitra statistik wajib dipilih.',
             'posisi.required'               => 'Posisi penugasan mitra wajib diisi.',
@@ -153,41 +227,80 @@ class AlokasiMitraController extends Controller
         $sisaKuota     = $mitra->sisaKuotaHonor($refTahun, $refBulan, null, $jenisMitra);
         $maksimalHonor = PengaturanHonorMitra::getMaksimalHonor($jenisMitra, $refTahun, $refBulan);
 
-        if ($totalHonorBatch > $sisaKuota) {
+        $konfirmasiMelebihiBatas = filter_var($request->input('konfirmasi_melebihi_batas'), FILTER_VALIDATE_BOOLEAN)
+            || in_array($request->input('konfirmasi_melebihi_batas'), ['1', 1, 'true', 'yes'], true);
+
+        // Jika melebihi batas kuota dan BELUM dikonfirmasi oleh Ketua Tim melalui pop up notifikasi
+        if ($totalHonorBatch > $sisaKuota && !$konfirmasiMelebihiBatas) {
             $honorFmt = 'Rp ' . number_format($totalHonorBatch, 0, ',', '.');
             $sisaFmt  = 'Rp ' . number_format($sisaKuota, 0, ',', '.');
             $maxFmt   = 'Rp ' . number_format($maksimalHonor, 0, ',', '.');
-            return back()->withInput()->with('error', "Validasi Batas Honor Gagal: Total honor batch ({$honorFmt}) melebihi batas maksimal bulanan ({$maxFmt}). Sisa kuota mitra '{$mitra->nama}': {$sisaFmt}.");
+            return back()->withInput()->with('error', "Validasi Batas Honor Gagal: Total honor batch ({$honorFmt}) melebihi batas maksimal bulanan ({$maxFmt}). Sisa kuota mitra '{$mitra->nama}': {$sisaFmt}. Silakan konfirmasi persetujuan agar alokasi dapat disimpan dengan ketentuan honor yang melebihi batas tidak dibayar.");
         }
 
+        // Hitung pembagian honor yang dibayar dan tidak dibayar per baris
+        $kuotaTersisa = $sisaKuota;
+        $totalDibayar = 0;
+        $totalTidakDibayar = 0;
+
+        foreach ($rowsData as &$row) {
+            $h = $row['honor'];
+            if ($kuotaTersisa >= $h) {
+                $row['honor_dibayar']       = $h;
+                $row['honor_tidak_dibayar'] = 0;
+                $row['melebihi_batas']      = false;
+                $kuotaTersisa -= $h;
+            } elseif ($kuotaTersisa > 0) {
+                $row['honor_dibayar']       = $kuotaTersisa;
+                $row['honor_tidak_dibayar'] = $h - $kuotaTersisa;
+                $row['melebihi_batas']      = true;
+                $kuotaTersisa = 0;
+            } else {
+                $row['honor_dibayar']       = 0;
+                $row['honor_tidak_dibayar'] = $h;
+                $row['melebihi_batas']      = true;
+            }
+            $totalDibayar += $row['honor_dibayar'];
+            $totalTidakDibayar += $row['honor_tidak_dibayar'];
+        }
+        unset($row);
+
         // Simpan semua baris
-        $namaKegiatan = $mitra->nama . ' - ' . now()->format('M Y');
+        $namaKegiatan = $request->input('nama_kegiatan') ?: ($mitra->nama . ' - ' . now()->format('M Y'));
         foreach ($rowsData as $row) {
             AlokasiMitra::create([
-                'mitra_id'         => $mitra->id,
-                'tim_id'           => $user->tim_id,
-                'created_by'       => $user->id,
-                'nama_kegiatan'    => $namaKegiatan,
-                'kegiatan'         => $row['kegiatan'],
-                'posisi'           => $posisi,
-                'jenis_mitra'      => $jenisMitra,
-                'satuan'           => $row['satuan'],
-                'harga_satuan'     => $row['harga_satuan'],
-                'target_kuantitas' => $row['volume'],
-                'honor'            => $row['honor'],
-                'tanggal_mulai'    => $row['tanggal_mulai'],
-                'tanggal_selesai'  => $row['tanggal_selesai'],
-                'tahun'            => $row['tahun'],
-                'bulan'            => $row['bulan'],
-                'status'           => 'terjadwal',
-                'provinsi'         => $mitra->provinsi,
-                'kabupaten'        => $mitra->kabupaten,
-                'akun_pok'         => $row['akun_pok'],
+                'mitra_id'            => $mitra->id,
+                'tim_id'              => $user->tim_id,
+                'created_by'          => $user->id,
+                'nama_kegiatan'       => $namaKegiatan,
+                'kegiatan'            => $row['kegiatan'],
+                'posisi'              => $posisi,
+                'jenis_mitra'         => $jenisMitra,
+                'satuan'              => $row['satuan'],
+                'harga_satuan'        => $row['harga_satuan'],
+                'target_kuantitas'    => $row['volume'],
+                'honor'               => $row['honor'],
+                'honor_dibayar'       => $row['honor_dibayar'],
+                'honor_tidak_dibayar' => $row['honor_tidak_dibayar'],
+                'melebihi_batas'      => $row['melebihi_batas'],
+                'tanggal_mulai'       => $row['tanggal_mulai'],
+                'tanggal_selesai'     => $row['tanggal_selesai'],
+                'tahun'               => $row['tahun'],
+                'bulan'               => $row['bulan'],
+                'status'              => 'terjadwal',
+                'provinsi'            => $mitra->provinsi,
+                'kabupaten'           => $mitra->kabupaten,
+                'akun_pok'            => $row['akun_pok'],
             ]);
         }
 
+        $successMsg = count($rowsData) . " kegiatan alokasi pekerjaan untuk mitra '{$mitra->nama}' berhasil disimpan.";
+        if ($totalTidakDibayar > 0) {
+            $successMsg .= " Catatan: Honor sebesar Rp " . number_format($totalTidakDibayar, 0, ',', '.') . " yang melebihi batas maksimum tidak akan dibayarkan sesuai konfirmasi.";
+        }
+
         return redirect()->route('kinerja-mitra.alokasi.index', ['tahun' => $refTahun, 'bulan' => $refBulan])
-            ->with('success', count($rowsData) . " kegiatan alokasi pekerjaan untuk mitra '{$mitra->nama}' berhasil disimpan.");
+            ->with('success', $successMsg);
     }
 
     /**
@@ -226,19 +339,20 @@ class AlokasiMitraController extends Controller
         $request->merge(['harga_satuan' => preg_replace('/[^\d]/', '', (string) $rawHargaSatuan)]);
 
         $validated = $request->validate([
-            'mitra_id'        => 'required|exists:mitras,id',
-            'nama_kegiatan'   => 'required|string|max:500',
-            'kegiatan'        => 'required|string|max:500',
-            'posisi'          => 'required|string|max:100',
-            'jenis_mitra'     => 'required|in:pendataan_lapangan,pengolahan',
-            'satuan'          => 'required|string|max:100',
-            'harga_satuan'    => 'required|numeric|min:0',
-            'target_kuantitas'=> 'required|numeric|min:0.01',
-            'tanggal_mulai'   => 'required|date',
-            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'status'          => 'required|in:terjadwal,berjalan,selesai,terlambat,diterima',
-            'akun_pok'        => 'nullable|string|max:255',
-            'keterangan'      => 'nullable|string',
+            'mitra_id'                  => 'required|exists:mitras,id',
+            'nama_kegiatan'             => 'required|string|max:500',
+            'kegiatan'                  => 'required|string|max:500',
+            'posisi'                    => 'required|string|max:100',
+            'jenis_mitra'               => 'required|in:pendataan_lapangan,pengolahan',
+            'satuan'                    => 'required|string|max:100',
+            'harga_satuan'              => 'required|numeric|min:0',
+            'target_kuantitas'          => 'required|numeric|min:0.01',
+            'tanggal_mulai'             => 'required|date',
+            'tanggal_selesai'           => 'required|date|after_or_equal:tanggal_mulai',
+            'status'                    => 'required|in:terjadwal,berjalan,selesai,terlambat,diterima',
+            'akun_pok'                  => 'nullable|string|max:255',
+            'keterangan'                => 'nullable|string',
+            'konfirmasi_melebihi_batas' => 'nullable',
         ]);
 
         $mitra = Mitra::findOrFail($validated['mitra_id']);
@@ -254,34 +368,49 @@ class AlokasiMitraController extends Controller
         $sisaKuota = $mitra->sisaKuotaHonor($tahun, $bulan, $alokasi->id, $jenisMitra);
         $maksimalHonor = PengaturanHonorMitra::getMaksimalHonor($jenisMitra, $tahun, $bulan);
 
-        if ($honorBaru > $sisaKuota) {
+        $konfirmasi = filter_var($request->input('konfirmasi_melebihi_batas'), FILTER_VALIDATE_BOOLEAN)
+            || in_array($request->input('konfirmasi_melebihi_batas'), ['1', 1, 'true', 'yes'], true);
+
+        if ($honorBaru > $sisaKuota && !$konfirmasi) {
             $honorFmt = 'Rp ' . number_format($honorBaru, 0, ',', '.');
             $sisaFmt  = 'Rp ' . number_format($sisaKuota, 0, ',', '.');
             $maxFmt   = 'Rp ' . number_format($maksimalHonor, 0, ',', '.');
             return back()->withInput()->with('error', "Validasi Batas Honor Gagal: Total honor mitra '{$mitra->nama}' untuk periode {$bulan}/{$tahun} melebihi batas maksimal ({$maxFmt}). Kuota honor yang tersisa adalah {$sisaFmt}.");
         }
 
+        $honorDibayar = min($honorBaru, $sisaKuota);
+        $honorTidakDibayar = max(0, $honorBaru - $sisaKuota);
+        $melebihiBatas = ($honorTidakDibayar > 0);
+
         $alokasi->update([
-            'mitra_id'         => $mitra->id,
-            'nama_kegiatan'    => $validated['nama_kegiatan'],
-            'kegiatan'         => $validated['kegiatan'],
-            'posisi'           => $validated['posisi'],
-            'jenis_mitra'      => $validated['jenis_mitra'],
-            'satuan'           => $validated['satuan'],
-            'harga_satuan'     => $hargaSatuan,
-            'target_kuantitas' => $volume,
-            'honor'            => $honorBaru,
-            'tanggal_mulai'    => $mulai->toDateString(),
-            'tanggal_selesai'  => Carbon::parse($validated['tanggal_selesai'])->toDateString(),
-            'tahun'            => $tahun,
-            'bulan'            => $bulan,
-            'status'           => $validated['status'],
-            'akun_pok'         => $validated['akun_pok'] ?? null,
-            'keterangan'       => $validated['keterangan'] ?? null,
+            'mitra_id'            => $mitra->id,
+            'nama_kegiatan'       => $validated['nama_kegiatan'],
+            'kegiatan'            => $validated['kegiatan'],
+            'posisi'              => $validated['posisi'],
+            'jenis_mitra'         => $validated['jenis_mitra'],
+            'satuan'              => $validated['satuan'],
+            'harga_satuan'        => $hargaSatuan,
+            'target_kuantitas'    => $volume,
+            'honor'               => $honorBaru,
+            'honor_dibayar'       => $honorDibayar,
+            'honor_tidak_dibayar' => $honorTidakDibayar,
+            'melebihi_batas'      => $melebihiBatas,
+            'tanggal_mulai'       => $mulai->toDateString(),
+            'tanggal_selesai'     => Carbon::parse($validated['tanggal_selesai'])->toDateString(),
+            'tahun'               => $tahun,
+            'bulan'               => $bulan,
+            'status'              => $validated['status'],
+            'akun_pok'            => $validated['akun_pok'] ?? null,
+            'keterangan'          => $validated['keterangan'] ?? null,
         ]);
 
+        $updateMsg = "Alokasi pekerjaan mitra '{$mitra->nama}' berhasil diperbarui.";
+        if ($honorTidakDibayar > 0) {
+            $updateMsg .= " Catatan: Honor sebesar Rp " . number_format($honorTidakDibayar, 0, ',', '.') . " yang melebihi batas maksimum tidak akan dibayarkan sesuai konfirmasi.";
+        }
+
         return redirect()->route('kinerja-mitra.alokasi.index', ['tahun' => $tahun, 'bulan' => $bulan])
-            ->with('success', "Alokasi pekerjaan mitra '{$mitra->nama}' berhasil diperbarui.");
+            ->with('success', $updateMsg);
     }
 
     /**

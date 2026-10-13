@@ -36,16 +36,22 @@ class AlokasiMitra extends Model
         'kabupaten',
         'keterangan',
         'akun_pok',
+        'honor_dibayar',
+        'honor_tidak_dibayar',
+        'melebihi_batas',
     ];
 
     protected $casts = [
-        'tanggal_mulai'    => 'date',
-        'tanggal_selesai'  => 'date',
-        'target_kuantitas' => 'float',
-        'harga_satuan'     => 'integer',
-        'honor'            => 'integer',
-        'tahun'            => 'integer',
-        'bulan'            => 'integer',
+        'tanggal_mulai'       => 'date',
+        'tanggal_selesai'     => 'date',
+        'target_kuantitas'    => 'float',
+        'harga_satuan'        => 'integer',
+        'honor'               => 'integer',
+        'honor_dibayar'       => 'integer',
+        'honor_tidak_dibayar' => 'integer',
+        'melebihi_batas'      => 'boolean',
+        'tahun'               => 'integer',
+        'bulan'               => 'integer',
     ];
 
     protected static function booted(): void

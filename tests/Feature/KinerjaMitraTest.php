@@ -262,6 +262,76 @@ class KinerjaMitraTest extends TestCase
         ]);
     }
 
+    public function test_alokasi_melebihi_batas_bisa_disimpan_dengan_konfirmasi_dan_kelebihan_tidak_dibayar(): void
+    {
+        // Batas honor: Rp 1.000.000 untuk 2026-11
+        PengaturanHonorMitra::updateOrCreate(
+            ['tahun' => 2026, 'bulan' => 11, 'jenis_mitra' => PengaturanHonorMitra::JENIS_PENDATAAN],
+            ['maksimal_honor' => 1000000]
+        );
+
+        // Alokasi pekerjaan 1 sebesar Rp 600.000 (sisa kuota menjadi Rp 400.000)
+        AlokasiMitra::create([
+            'mitra_id'            => $this->mitra->id,
+            'tim_id'              => $this->tim->id,
+            'created_by'          => $this->ketua->id,
+            'nama_kegiatan'       => 'Pekerjaan Pertama 600rb',
+            'kegiatan'            => 'Pencacahan',
+            'posisi'              => 'Petugas Pencacah Lapangan (PCL)',
+            'jenis_mitra'         => PengaturanHonorMitra::JENIS_PENDATAAN,
+            'satuan'              => 'Dokumen',
+            'target_kuantitas'    => 1,
+            'harga_satuan'        => 600000,
+            'honor'               => 600000,
+            'honor_dibayar'       => 600000,
+            'honor_tidak_dibayar' => 0,
+            'melebihi_batas'      => false,
+            'tanggal_mulai'       => '2026-11-01',
+            'tanggal_selesai'     => '2026-11-10',
+            'tahun'               => 2026,
+            'bulan'               => 11,
+        ]);
+
+        $this->assertEquals(400000, $this->mitra->sisaKuotaHonor(2026, 11));
+
+        // Alokasi pekerjaan 2 sebesar Rp 600.000 dengan konfirmasi pop up disetujui (konfirmasi_melebihi_batas = 1)
+        // Melebihi kuota 400rb sebesar 200rb
+        $response = $this->actingAs($this->ketua)->post(route('kinerja-mitra.alokasi.store'), [
+            'mitra_id'                  => $this->mitra->id,
+            'posisi'                    => 'Petugas Pencacah Lapangan (PCL)',
+            'jenis_mitra'               => 'pendataan_lapangan',
+            'konfirmasi_melebihi_batas' => '1',
+            'rows'                      => [
+                [
+                    'kegiatan'        => 'Pekerjaan Kedua Melebihi Batas',
+                    'volume'          => 1,
+                    'satuan'          => 'Dokumen',
+                    'harga_satuan'    => '600000',
+                    'tanggal_mulai'   => '2026-11-15',
+                    'tanggal_selesai' => '2026-11-20',
+                ]
+            ],
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHas('success');
+
+        // Pastikan alokasi tersimpan dengan rincian honor_dibayar = 400.000 dan honor_tidak_dibayar = 200.000
+        $this->assertDatabaseHas('alokasi_mitras', [
+            'mitra_id'            => $this->mitra->id,
+            'kegiatan'            => 'Pekerjaan Kedua Melebihi Batas',
+            'honor'               => 600000,
+            'honor_dibayar'       => 400000,
+            'honor_tidak_dibayar' => 200000,
+            'melebihi_batas'      => true,
+            'tahun'               => 2026,
+            'bulan'               => 11,
+        ]);
+
+        // Kuota sisa honor mitra sekarang adalah 0 karena 600rb + 400rb = 1.000.000 (maksimal tercapai)
+        $this->assertEquals(0, $this->mitra->sisaKuotaHonor(2026, 11));
+    }
+
     // =========================================================================
     // 3. VALIDASI PENILAIAN MITRA (BINTANG 1–5, KOMENTAR >= 20 KARAKTER)
     // =========================================================================

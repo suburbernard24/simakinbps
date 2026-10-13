@@ -128,9 +128,18 @@
                         <span class="text-slate-600 dark:text-slate-300">Honor Bulan {{ \Carbon\Carbon::createFromDate($currentYear, $currentMonth, 1)->translatedFormat('F Y') }}</span>
                     </div>
                     <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-500 dark:text-slate-400">Total Terjadwal:</span>
+                        <span class="text-slate-500 dark:text-slate-400">Total Terjadwal (Dibayar):</span>
                         <span class="font-extrabold text-bps-blue dark:text-blue-400">Rp {{ number_format($totalHonorBulanIni, 0, ',', '.') }}</span>
                     </div>
+                    @php
+                        $tidakDibayarBulanIni = $mitra->totalHonorTidakDibayarBulan($currentYear, $currentMonth);
+                    @endphp
+                    @if($tidakDibayarBulanIni > 0)
+                    <div class="flex items-center justify-between text-xs text-amber-600 dark:text-amber-400 font-bold">
+                        <span>Melebihi Batas (Tidak Dibayar):</span>
+                        <span>Rp {{ number_format($tidakDibayarBulanIni, 0, ',', '.') }}</span>
+                    </div>
+                    @endif
                     <div class="flex items-center justify-between text-xs">
                         <span class="text-slate-500 dark:text-slate-400">Sisa Kuota:</span>
                         <span class="font-extrabold text-emerald-600 dark:text-emerald-400">Rp {{ number_format($sisaKuotaBulanIni, 0, ',', '.') }}</span>
