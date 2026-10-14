@@ -64,7 +64,7 @@
                         @endif
                         <div class="p-4 bg-slate-50/50 flex items-center justify-between border-t border-slate-100">
                             <span class="text-xs font-bold text-slate-800 line-clamp-1">{{ $info->judul }}</span>
-                            <a class="text-xs text-[#0B4F82] group-hover:text-[#08385d] font-bold flex items-center gap-1 shrink-0" href="{{ $info->link_url ?: '#' }}" {{ str_starts_with($info->link_url ?? '', 'http') ? 'target="_blank"' : '' }}>
+                            <a class="text-xs text-[#0B4F82] group-hover:text-[#08385d] font-bold flex items-center gap-1 shrink-0" href="{{ $info->link_url ?: 'https://manggaraikab.bps.go.id/id/infographic' }}" target="_blank" rel="noopener noreferrer">
                                 <span>Lihat</span>
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                             </a>
@@ -287,7 +287,7 @@
         <!-- More Infographics Button -->
         <div class="text-center mt-10">
             <a class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white hover:bg-[#F4F7FB] border border-slate-200 text-xs font-bold text-[#172B4D] hover:text-[#0B4F82] transition-colors shadow-2xs" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
-                <span>LIHAT SEMUA INFOGRAFIS</span>
+                <span>LEBIH BANYAK INFOGRAFIS</span>
                 <svg class="w-4 h-4 text-[#0B4F82]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
             </a>
         </div>
