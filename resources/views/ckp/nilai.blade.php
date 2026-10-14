@@ -135,7 +135,7 @@
                         <th class="py-3.5 px-4 min-w-[200px]">Uraian Kegiatan</th>
                         <th class="py-3.5 px-4 text-center">Target</th>
                         <th class="py-3.5 px-4 text-center">Realisasi</th>
-                        <th class="py-3.5 px-4 text-center">% Kuantitas</th>
+                        <th class="py-3.5 px-4 text-center">Kuantitas</th>
                         <th class="py-3.5 px-4 text-center">Nilai Kualitas</th>
                         <th class="py-3.5 px-4 text-center">Nilai CKP</th>
                         <th class="py-3.5 px-4 text-center">Aksi</th>
@@ -232,7 +232,7 @@
                         <th class="py-3.5 px-4 min-w-[200px]">Uraian Kegiatan Tambahan</th>
                         <th class="py-3.5 px-4 text-center">Target</th>
                         <th class="py-3.5 px-4 text-center">Realisasi</th>
-                        <th class="py-3.5 px-4 text-center">% Kuantitas</th>
+                        <th class="py-3.5 px-4 text-center">Kuantitas</th>
                         <th class="py-3.5 px-4 text-center">Nilai Kualitas</th>
                         <th class="py-3.5 px-4 text-center">Nilai CKP</th>
                         <th class="py-3.5 px-4 text-center">Aksi</th>

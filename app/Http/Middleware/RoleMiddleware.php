@@ -48,6 +48,9 @@ class RoleMiddleware
             if ($role === 'penilai' && ($user->isKepala() || $user->isKetuaTim())) {
                 return $next($request);
             }
+            if ($role === 'penilai_mitra' && ($user->isKetuaTim() || $user->isPegawai())) {
+                return $next($request);
+            }
         }
 
         abort(403, 'Akses Ditolak: Anda tidak memiliki izin untuk mengakses halaman atau fungsi ini.');

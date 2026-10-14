@@ -68,7 +68,7 @@
                         <th class="py-3.5 px-4 text-center">Satuan</th>
                         <th class="py-3.5 px-4 text-center">Target</th>
                         <th class="py-3.5 px-4 text-center">Realisasi</th>
-                        <th class="py-3.5 px-4 text-center">% Kuantitas</th>
+                        <th class="py-3.5 px-4 text-center">Kuantitas</th>
                         <th class="py-3.5 px-4 text-center">Kualitas</th>
                         <th class="py-3.5 px-6 text-right rounded-tr-2xl">Nilai CKP</th>
                     </tr>

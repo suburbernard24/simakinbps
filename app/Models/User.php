@@ -219,6 +219,26 @@ class User extends Authenticatable
         return false;
     }
 
+    public function canManageMasterMitra(): bool
+    {
+        return $this->isKetuaTim();
+    }
+
+    public function canManageAlokasiMitra(): bool
+    {
+        return $this->isKetuaTim();
+    }
+
+    public function canRateMitra(): bool
+    {
+        return $this->isKetuaTim() || $this->isPegawai();
+    }
+
+    public function canViewMitra(): bool
+    {
+        return $this->isNonAdmin();
+    }
+
     public static function getKepala(): ?self
     {
         return static::where('role', 'kepala_bps')->where('is_active', true)->first();

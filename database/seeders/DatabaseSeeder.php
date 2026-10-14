@@ -304,5 +304,8 @@ class DatabaseSeeder extends Seeder
 
         // 7. Seed modul e-Surat (Unit Kerja, Jenis Surat, Template, contoh surat)
         $this->call(ESuratSeeder::class);
+
+        // 8. Seed modul Kinerja Mitra (Master Mitra, Pengaturan Honor, Alokasi & Penilaian)
+        $this->call(MitraSeeder::class);
     }
 }
