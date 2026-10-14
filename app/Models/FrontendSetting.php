@@ -35,4 +35,35 @@ class FrontendSetting extends Model
     {
         return static::all()->pluck('value', 'key')->toArray();
     }
+
+    /**
+     * Menu navigasi default untuk landing page (home)
+     */
+    public static function defaultNavMenu(): array
+    {
+        return [
+            ['label' => 'Beranda', 'url' => '#', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Indikator', 'url' => '#indikator', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Publikasi', 'url' => '#publikasi', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Data Pokok', 'url' => '#datapokok', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Infografis', 'url' => '#infografis', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Kegiatan', 'url' => '#kegiatan', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Layanan PST', 'url' => '#pst', 'target' => '_self', 'is_active' => true],
+        ];
+    }
+
+    /**
+     * Ambil menu navigasi landing page yang sudah dikonfigurasi
+     */
+    public static function getNavMenu(): array
+    {
+        $raw = static::get('home_nav_menu');
+        if ($raw) {
+            $decoded = json_decode($raw, true);
+            if (is_array($decoded) && !empty($decoded)) {
+                return $decoded;
+            }
+        }
+        return static::defaultNavMenu();
+    }
 }

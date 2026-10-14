@@ -13,15 +13,28 @@ use App\Http\Controllers\PenilaianMitraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\SuratMasterController;
+use App\Http\Controllers\BpsApiController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root: landing page for guests, dashboard for authenticated
-Route::get('/', function () {
-    if (auth()->check()) {
+Route::get('/', function (Request $request) {
+    if (auth()->check() && !$request->has('preview') && !$request->has('portal')) {
         return redirect()->route('dashboard');
     }
     return view('welcome');
 })->name('home');
+
+Route::get('/portal', function () {
+    return view('welcome');
+})->name('portal');
+
+// Public API BPS Routes (WebAPI Integration)
+Route::prefix('api/bps')->name('api.bps.')->group(function () {
+    Route::get('/publikasi', [BpsApiController::class, 'getPublikasi'])->name('publikasi');
+    Route::get('/indikator', [BpsApiController::class, 'getIndikator'])->name('indikator');
+    Route::post('/test-connection', [BpsApiController::class, 'testConnection'])->name('test_connection');
+});
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
@@ -80,6 +93,26 @@ Route::middleware('auth')->group(function () {
         Route::post('/frontend/galeri/{id}/update', [AdminController::class, 'galeriUpdate'])->name('frontend.galeri.update');
         Route::delete('/frontend/galeri/{id}', [AdminController::class, 'galeriDestroy'])->name('frontend.galeri.destroy');
         Route::post('/frontend/galeri/{id}/toggle', [AdminController::class, 'galeriToggle'])->name('frontend.galeri.toggle');
+
+        // Infografis Frontend CRUD
+        Route::post('/frontend/infografis', [AdminController::class, 'infografisStore'])->name('frontend.infografis.store');
+        Route::post('/frontend/infografis/{id}/update', [AdminController::class, 'infografisUpdate'])->name('frontend.infografis.update');
+        Route::delete('/frontend/infografis/{id}', [AdminController::class, 'infografisDestroy'])->name('frontend.infografis.destroy');
+
+        // Quotes Frontend CRUD
+        Route::post('/frontend/quotes', [AdminController::class, 'quoteStore'])->name('frontend.quotes.store');
+        Route::post('/frontend/quotes/{id}/update', [AdminController::class, 'quoteUpdate'])->name('frontend.quotes.update');
+        Route::delete('/frontend/quotes/{id}', [AdminController::class, 'quoteDestroy'])->name('frontend.quotes.destroy');
+
+        // Kegiatan Frontend CRUD
+        Route::post('/frontend/kegiatan', [AdminController::class, 'kegiatanStore'])->name('frontend.kegiatan.store');
+        Route::post('/frontend/kegiatan/{id}/update', [AdminController::class, 'kegiatanUpdate'])->name('frontend.kegiatan.update');
+        Route::delete('/frontend/kegiatan/{id}', [AdminController::class, 'kegiatanDestroy'])->name('frontend.kegiatan.destroy');
+
+        // Indikator Frontend CRUD
+        Route::post('/frontend/indikator', [AdminController::class, 'indikatorStore'])->name('frontend.indikator.store');
+        Route::post('/frontend/indikator/{id}/update', [AdminController::class, 'indikatorUpdate'])->name('frontend.indikator.update');
+        Route::delete('/frontend/indikator/{id}', [AdminController::class, 'indikatorDestroy'])->name('frontend.indikator.destroy');
 
         // Input Hari Kerja Aktif Bulanan
         Route::get('/hari-kerja', [AdminController::class, 'hariKerjaIndex'])->name('hari_kerja.index');

@@ -9,6 +9,14 @@
 
     <div class="login-left">
 
+        {{-- Tombol Navigasi Kembali ke Home Page (Atas) --}}
+        <div style="padding: 24px 36px 0; display: flex; align-items: center; justify-content: flex-start;">
+            <a href="{{ url('/') }}" id="btn-back-home" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #1e3a8a; text-decoration: none; padding: 8px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: all 0.22s ease;" onmouseover="this.style.background='#ffffff'; this.style.color='#0D47A1'; this.style.boxShadow='0 4px 14px rgba(21,101,192,0.18)'; this.style.transform='translateX(-3px)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.85)'; this.style.color='#1e3a8a'; this.style.boxShadow='0 2px 10px rgba(0,0,0,0.06)'; this.style.transform='none'">
+                <i class="fa-solid fa-arrow-left" style="font-size: 11px;"></i>
+                <span>Kembali ke Beranda</span>
+            </a>
+        </div>
+
         <div class="login-form-area">
             <div class="login-title-block" style="text-align: center; margin-bottom: 24px;">
                 <a href="{{ url('/') }}" style="display: inline-block; margin-bottom: 16px;">
@@ -102,6 +110,14 @@
                     <span>Masuk</span>
                 </button>
             </form>
+
+            {{-- Tombol / Tautan Tambahan Kembali ke Home Page (Bawah) --}}
+            <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(0, 0, 0, 0.08);">
+                <a href="{{ url('/') }}" id="link-back-home-bottom" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #1565C0; text-decoration: none; transition: all 0.2s;" onmouseover="this.style.textDecoration='underline'; this.style.color='#0D47A1'" onmouseout="this.style.textDecoration='none'; this.style.color='#1565C0'">
+                    <i class="fa-solid fa-house" style="font-size: 12px;"></i>
+                    <span>Kembali ke Home Page (Portal Publik BPS)</span>
+                </a>
+            </div>
         </div><!-- /login-form-area -->
 
     </div><!-- /login-left -->

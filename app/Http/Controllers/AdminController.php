@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\AlokasiPekerjaan;
 use App\Models\FrontendGallery;
+use App\Models\FrontendInfografis;
+use App\Models\FrontendQuote;
+use App\Models\FrontendKegiatan;
+use App\Models\FrontendIndikator;
 use App\Models\FrontendSetting;
 use App\Models\HariKerjaAktif;
 use App\Models\Team;
@@ -957,9 +961,38 @@ class AdminController extends Controller
             ['key' => 'btn_color',       'label' => 'Warna Tombol Masuk',             'type' => 'color',    'group' => 'warna',  'default' => '#1565C0'],
 
             // ── GAMBAR ───────────────────────────────────────────────────────────
-            ['key' => 'img_logo_simakin','label' => 'Logo SIMAKIN (Panel Kiri)',      'type' => 'image',    'group' => 'gambar', 'default' => null],
-            ['key' => 'img_logo_bps',    'label' => 'Logo BPS (Panel Kanan Atas)',    'type' => 'image',    'group' => 'gambar', 'default' => null],
-            ['key' => 'img_kantor',      'label' => 'Gambar Gedung / Kantor',         'type' => 'image',    'group' => 'gambar', 'default' => null],
+            ['key' => 'img_logo_simakin', 'label' => 'Logo SIMAKIN (Panel Kiri)',      'type' => 'image',    'group' => 'gambar', 'default' => null],
+            ['key' => 'img_logo_bps',     'label' => 'Logo BPS (Panel Kanan Atas)',    'type' => 'image',    'group' => 'gambar', 'default' => null],
+            ['key' => 'img_kantor',       'label' => 'Gambar Gedung / Kantor',         'type' => 'image',    'group' => 'gambar', 'default' => null],
+            ['key' => 'img_quote_avatar', 'label' => 'Foto Kepala BPS (Quotes)',       'type' => 'image',    'group' => 'gambar', 'default' => null],
+
+            // ── PENGUMUMAN TICKER ────────────────────────────────────────────────
+            ['key' => 'ticker_text',      'label' => 'Teks Pengumuman Berjalan',       'type' => 'textarea', 'group' => 'pengumuman', 'default' => 'Selamat datang di Website Resmi Pelayanan Statistik Terpadu BPS Kabupaten Manggarai — Hubungi PST Online melalui WhatsApp untuk permohonan data dan konsultasi statistik sektoral.'],
+
+            // ── 8 INDIKATOR STRATEGIS (DATA POKOK) ────────────────────────────────
+            ['key' => 'stat_penduduk',             'label' => 'Jumlah Penduduk (Jiwa)',             'type' => 'text', 'group' => 'data', 'default' => '338.414'],
+            ['key' => 'stat_pertumbuhan_ekonomi',  'label' => 'Pertumbuhan Ekonomi (%)',            'type' => 'text', 'group' => 'data', 'default' => '5,02%'],
+            ['key' => 'stat_inflasi',              'label' => 'Tingkat Inflasi y-on-y (%)',         'type' => 'text', 'group' => 'data', 'default' => '2,15%'],
+            ['key' => 'stat_kemiskinan',           'label' => 'Persentase Penduduk Miskin (%)',     'type' => 'text', 'group' => 'data', 'default' => '19,84%'],
+            ['key' => 'stat_tpt',                  'label' => 'Tingkat Pengangguran Terbuka TPT (%)','type' => 'text', 'group' => 'data', 'default' => '2,82%'],
+            ['key' => 'stat_ipm',                  'label' => 'Indeks Pembangunan Manusia (IPM)',   'type' => 'text', 'group' => 'data', 'default' => '67,03'],
+            ['key' => 'stat_gini',                 'label' => 'Gini Ratio (Ketimpangan)',           'type' => 'text', 'group' => 'data', 'default' => '0,312'],
+            ['key' => 'stat_pdrb_kapita',          'label' => 'PDRB Per Kapita ADHB',               'type' => 'text', 'group' => 'data', 'default' => 'Rp 27,64 Jt'],
+
+            // ── QUOTES OF THE DAY ────────────────────────────────────────────────
+            ['key' => 'quote_nama',       'label' => 'Nama Tokoh / Pimpinan',          'type' => 'text',     'group' => 'quotes', 'default' => 'Dr. Ir. Habibie'],
+            ['key' => 'quote_jabatan',    'label' => 'Jabatan Pimpinan',               'type' => 'text',     'group' => 'quotes', 'default' => 'KEPALA BPS KABUPATEN MANGGARAI'],
+            ['key' => 'quote_text',       'label' => 'Isi Kutipan (Quotes)',           'type' => 'textarea', 'group' => 'quotes', 'default' => 'Data yang akurat dan berkualitas adalah fondasi utama bagi perencanaan, evaluasi pembangunan bangsa yang berkelanjutan serta kesejahteraan masyarakat secara merata.'],
+
+            // ── LAYANAN PST & PENGADUAN ──────────────────────────────────────────
+            ['key' => 'pst_whatsapp',     'label' => 'Nomor WhatsApp Halo PST',        'type' => 'text',     'group' => 'kontak', 'default' => '08113904990'],
+            ['key' => 'pst_jam_layanan',  'label' => 'Jam Operasional PST',            'type' => 'text',     'group' => 'kontak', 'default' => 'Senin s.d. Jumat, 08.00 - 15.30 WITA'],
+            ['key' => 'pst_alamat',       'label' => 'Alamat Ruang PST',               'type' => 'text',     'group' => 'kontak', 'default' => 'Kantor BPS Kab. Manggarai, Jl. Ranaka, Ruteng, Flores, NTT'],
+            ['key' => 'pengaduan_email',  'label' => 'Email Saluran Pengaduan Resmi',  'type' => 'text',     'group' => 'kontak', 'default' => 'bps5310@bps.go.id'],
+
+            // ── INTEGRASI API BPS (WEBAPI) ────────────────────────────────────────
+            ['key' => 'bps_api_key',      'label' => 'BPS WebAPI Key (webapi.bps.go.id)', 'type' => 'text', 'group' => 'api_bps', 'default' => ''],
+            ['key' => 'bps_domain',       'label' => 'Kode Domain Wilayah BPS',        'type' => 'text',     'group' => 'api_bps', 'default' => '5310'],
         ];
     }
 
@@ -987,13 +1020,43 @@ class AdminController extends Controller
             ];
         }
 
-        $galeri = FrontendGallery::orderBy('urutan')->orderByDesc('created_at')->get();
+        $navMenus   = FrontendSetting::getNavMenu();
+        $galeri     = FrontendGallery::orderBy('urutan')->orderByDesc('created_at')->get();
+        $infografis = FrontendInfografis::orderBy('urutan')->get();
+        $quotes     = FrontendQuote::orderBy('urutan')->get();
+        $kegiatans  = FrontendKegiatan::orderBy('urutan')->get();
+        $indikators = FrontendIndikator::orderBy('urutan')->get();
 
-        return view('admin.frontend.index', compact('settings', 'galeri'));
+        return view('admin.frontend.index', compact(
+            'settings', 'galeri', 'navMenus', 'infografis', 'quotes', 'kegiatans', 'indikators'
+        ));
     }
 
     public function frontendUpdate(Request $request)
     {
+        // 1. Reset Navigasi ke Default jika diminta
+        if ($request->has('reset_nav_menu')) {
+            FrontendSetting::set('home_nav_menu', json_encode(FrontendSetting::defaultNavMenu()));
+            return redirect()->route('admin.frontend.index')
+                             ->with('success', 'Menu navigasi beranda berhasil dikembalikan ke standar awal.');
+        }
+
+        // 2. Simpan Pengaturan Menu Navigasi jika ada input nav_menu
+        if ($request->has('nav_menu') && is_array($request->input('nav_menu'))) {
+            $menus = [];
+            foreach ($request->input('nav_menu') as $item) {
+                if (!empty($item['label'])) {
+                    $menus[] = [
+                        'label'     => trim($item['label']),
+                        'url'       => trim($item['url'] ?? '#'),
+                        'target'    => ($item['target'] ?? '_self') === '_blank' ? '_blank' : '_self',
+                        'is_active' => !empty($item['is_active']),
+                    ];
+                }
+            }
+            FrontendSetting::set('home_nav_menu', json_encode($menus));
+        }
+
         $fields = $this->frontendFields();
 
         foreach ($fields as $field) {
@@ -1020,7 +1083,7 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.frontend.index')
-                         ->with('success', 'Tampilan halaman depan berhasil diperbarui.');
+                         ->with('success', 'Tampilan halaman depan dan menu navigasi berhasil diperbarui.');
     }
 
     public function frontendResetImage(Request $request)
@@ -1117,5 +1180,337 @@ class AdminController extends Controller
         $status = $foto->is_active ? 'ditampilkan' : 'disembunyikan';
         return redirect()->route('admin.frontend.index', ['tab' => 'galeri'])
                          ->with('success', "Foto '{$foto->judul}' berhasil {$status}.");
+    }
+
+    // ── INFOGRAFIS CRUD ───────────────────────────────────────────────────────
+    public function infografisStore(Request $request)
+    {
+        $request->validate([
+            'judul'       => 'required|string|max:255',
+            'kategori'    => 'required|string|max:100',
+            'badge_text'  => 'nullable|string|max:100',
+            'bg_gradient' => 'nullable|string|max:100',
+            'sumber'      => 'nullable|string|max:255',
+            'tahun'       => 'nullable|string|max:100',
+            'link_url'    => 'nullable|string|max:500',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:6144',
+            'urutan'      => 'nullable|integer|min:0',
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('infografis', 'public');
+        }
+
+        $dataPoints = [];
+        if ($request->has('data_labels') && is_array($request->input('data_labels'))) {
+            $labels = $request->input('data_labels');
+            $values = $request->input('data_values', []);
+            foreach ($labels as $i => $lbl) {
+                if (!empty($lbl)) {
+                    $dataPoints[] = [
+                        'label' => trim($lbl),
+                        'value' => trim($values[$i] ?? ''),
+                    ];
+                }
+            }
+        }
+
+        FrontendInfografis::create([
+            'judul'       => $request->judul,
+            'kategori'    => strtolower($request->kategori),
+            'badge_text'  => $request->badge_text ?: strtoupper('STATISTIK ' . $request->kategori),
+            'bg_gradient' => $request->bg_gradient ?: 'from-blue-600 to-indigo-700',
+            'data_points' => !empty($dataPoints) ? json_encode($dataPoints) : null,
+            'sumber'      => $request->sumber ?: 'BPS Kabupaten Manggarai',
+            'tahun'       => $request->tahun ?: date('Y'),
+            'image_path'  => $imagePath,
+            'link_url'    => $request->link_url ?: 'https://manggaraikab.bps.go.id',
+            'urutan'      => $request->input('urutan', 0),
+            'is_active'   => true,
+        ]);
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'infografis'])
+                         ->with('success', "Infografis '{$request->judul}' berhasil ditambahkan.");
+    }
+
+    public function infografisUpdate(Request $request, $id)
+    {
+        $info = FrontendInfografis::findOrFail($id);
+
+        $request->validate([
+            'judul'       => 'required|string|max:255',
+            'kategori'    => 'required|string|max:100',
+            'badge_text'  => 'nullable|string|max:100',
+            'bg_gradient' => 'nullable|string|max:100',
+            'sumber'      => 'nullable|string|max:255',
+            'tahun'       => 'nullable|string|max:100',
+            'link_url'    => 'nullable|string|max:500',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:6144',
+            'urutan'      => 'nullable|integer|min:0',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($info->image_path && Storage::disk('public')->exists($info->image_path)) {
+                Storage::disk('public')->delete($info->image_path);
+            }
+            $info->image_path = $request->file('image')->store('infografis', 'public');
+        }
+
+        $dataPoints = [];
+        if ($request->has('data_labels') && is_array($request->input('data_labels'))) {
+            $labels = $request->input('data_labels');
+            $values = $request->input('data_values', []);
+            foreach ($labels as $i => $lbl) {
+                if (!empty($lbl)) {
+                    $dataPoints[] = [
+                        'label' => trim($lbl),
+                        'value' => trim($values[$i] ?? ''),
+                    ];
+                }
+            }
+        }
+
+        $info->update([
+            'judul'       => $request->judul,
+            'kategori'    => strtolower($request->kategori),
+            'badge_text'  => $request->badge_text ?: $info->badge_text,
+            'bg_gradient' => $request->bg_gradient ?: $info->bg_gradient,
+            'data_points' => !empty($dataPoints) ? json_encode($dataPoints) : $info->data_points,
+            'sumber'      => $request->sumber ?: $info->sumber,
+            'tahun'       => $request->tahun ?: $info->tahun,
+            'image_path'  => $info->image_path,
+            'link_url'    => $request->link_url ?: $info->link_url,
+            'urutan'      => $request->input('urutan', $info->urutan),
+            'is_active'   => $request->boolean('is_active', true),
+        ]);
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'infografis'])
+                         ->with('success', "Infografis '{$info->judul}' berhasil diperbarui.");
+    }
+
+    public function infografisDestroy($id)
+    {
+        $info = FrontendInfografis::findOrFail($id);
+        if ($info->image_path && Storage::disk('public')->exists($info->image_path)) {
+            Storage::disk('public')->delete($info->image_path);
+        }
+        $judul = $info->judul;
+        $info->delete();
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'infografis'])
+                         ->with('success', "Infografis '{$judul}' berhasil dihapus.");
+    }
+
+    // ── QUOTES CRUD ───────────────────────────────────────────────────────────
+    public function quoteStore(Request $request)
+    {
+        $request->validate([
+            'nama'    => 'required|string|max:255',
+            'jabatan' => 'nullable|string|max:255',
+            'quote'   => 'required|string|max:1000',
+            'foto'    => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:6144',
+            'urutan'  => 'nullable|integer|min:0',
+        ]);
+
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('quotes', 'public');
+        }
+
+        FrontendQuote::create([
+            'nama'      => $request->nama,
+            'jabatan'   => $request->jabatan ?: 'KEPALA BPS KABUPATEN MANGGARAI',
+            'quote'     => $request->quote,
+            'foto'      => $fotoPath,
+            'urutan'    => $request->input('urutan', 0),
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'quotes'])
+                         ->with('success', "Kutipan dari '{$request->nama}' berhasil ditambahkan.");
+    }
+
+    public function quoteUpdate(Request $request, $id)
+    {
+        $q = FrontendQuote::findOrFail($id);
+
+        $request->validate([
+            'nama'    => 'required|string|max:255',
+            'jabatan' => 'nullable|string|max:255',
+            'quote'   => 'required|string|max:1000',
+            'foto'    => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:6144',
+            'urutan'  => 'nullable|integer|min:0',
+        ]);
+
+        if ($request->hasFile('foto')) {
+            if ($q->foto && Storage::disk('public')->exists($q->foto)) {
+                Storage::disk('public')->delete($q->foto);
+            }
+            $q->foto = $request->file('foto')->store('quotes', 'public');
+        }
+
+        $q->update([
+            'nama'      => $request->nama,
+            'jabatan'   => $request->jabatan,
+            'quote'     => $request->quote,
+            'foto'      => $q->foto,
+            'urutan'    => $request->input('urutan', $q->urutan),
+            'is_active' => $request->boolean('is_active', true),
+        ]);
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'quotes'])
+                         ->with('success', "Kutipan dari '{$q->nama}' berhasil diperbarui.");
+    }
+
+    public function quoteDestroy($id)
+    {
+        $q = FrontendQuote::findOrFail($id);
+        if ($q->foto && Storage::disk('public')->exists($q->foto)) {
+            Storage::disk('public')->delete($q->foto);
+        }
+        $nama = $q->nama;
+        $q->delete();
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'quotes'])
+                         ->with('success', "Kutipan dari '{$nama}' berhasil dihapus.");
+    }
+
+    // ── KEGIATAN CRUD ─────────────────────────────────────────────────────────
+    public function kegiatanStore(Request $request)
+    {
+        $request->validate([
+            'judul'           => 'required|string|max:255',
+            'kategori'        => 'required|string|max:100',
+            'tanggal_display' => 'nullable|string|max:100',
+            'deskripsi'       => 'required|string|max:2000',
+            'badge_color'     => 'nullable|string|max:50',
+            'link_url'        => 'nullable|string|max:500',
+            'urutan'          => 'nullable|integer|min:0',
+        ]);
+
+        FrontendKegiatan::create([
+            'judul'           => $request->judul,
+            'kategori'        => $request->kategori,
+            'tanggal_display' => $request->tanggal_display ?: date('d F Y'),
+            'deskripsi'       => $request->deskripsi,
+            'badge_color'     => $request->badge_color ?: 'blue',
+            'link_url'        => $request->link_url ?: '#',
+            'urutan'          => $request->input('urutan', 0),
+            'is_active'       => true,
+        ]);
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'kegiatan'])
+                         ->with('success', "Kegiatan '{$request->judul}' berhasil ditambahkan.");
+    }
+
+    public function kegiatanUpdate(Request $request, $id)
+    {
+        $keg = FrontendKegiatan::findOrFail($id);
+
+        $request->validate([
+            'judul'           => 'required|string|max:255',
+            'kategori'        => 'required|string|max:100',
+            'tanggal_display' => 'nullable|string|max:100',
+            'deskripsi'       => 'required|string|max:2000',
+            'badge_color'     => 'nullable|string|max:50',
+            'link_url'        => 'nullable|string|max:500',
+            'urutan'          => 'nullable|integer|min:0',
+        ]);
+
+        $keg->update([
+            'judul'           => $request->judul,
+            'kategori'        => $request->kategori,
+            'tanggal_display' => $request->tanggal_display ?: $keg->tanggal_display,
+            'deskripsi'       => $request->deskripsi,
+            'badge_color'     => $request->badge_color ?: $keg->badge_color,
+            'link_url'        => $request->link_url ?: $keg->link_url,
+            'urutan'          => $request->input('urutan', $keg->urutan),
+            'is_active'       => $request->boolean('is_active', true),
+        ]);
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'kegiatan'])
+                         ->with('success', "Kegiatan '{$keg->judul}' berhasil diperbarui.");
+    }
+
+    public function kegiatanDestroy($id)
+    {
+        $keg = FrontendKegiatan::findOrFail($id);
+        $judul = $keg->judul;
+        $keg->delete();
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'kegiatan'])
+                         ->with('success', "Kegiatan '{$judul}' berhasil dihapus.");
+    }
+
+    // ── INDIKATOR CAROUSEL CRUD ───────────────────────────────────────────────
+    public function indikatorStore(Request $request)
+    {
+        $request->validate([
+            'judul'      => 'required|string|max:255',
+            'sub_judul'  => 'nullable|string|max:100',
+            'nilai'      => 'required|string|max:100',
+            'periode'    => 'nullable|string|max:100',
+            'deskripsi'  => 'nullable|string|max:500',
+            'badge_text' => 'nullable|string|max:100',
+            'link_tabel' => 'nullable|string|max:500',
+            'urutan'     => 'nullable|integer|min:0',
+        ]);
+
+        FrontendIndikator::create([
+            'judul'      => $request->judul,
+            'sub_judul'  => $request->sub_judul,
+            'nilai'      => $request->nilai,
+            'periode'    => $request->periode,
+            'deskripsi'  => $request->deskripsi ?: 'Data sensus, survei, dan indikator strategis resmi BPS Kabupaten Manggarai.',
+            'badge_text' => $request->badge_text ?: 'Tabel Dinamis',
+            'link_tabel' => $request->link_tabel ?: '#datapokok',
+            'urutan'     => $request->input('urutan', 0),
+            'is_active'  => true,
+        ]);
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'indikator'])
+                         ->with('success', "Indikator '{$request->judul}' berhasil ditambahkan ke carousel.");
+    }
+
+    public function indikatorUpdate(Request $request, $id)
+    {
+        $ind = FrontendIndikator::findOrFail($id);
+
+        $request->validate([
+            'judul'      => 'required|string|max:255',
+            'sub_judul'  => 'nullable|string|max:100',
+            'nilai'      => 'required|string|max:100',
+            'periode'    => 'nullable|string|max:100',
+            'deskripsi'  => 'nullable|string|max:500',
+            'badge_text' => 'nullable|string|max:100',
+            'link_tabel' => 'nullable|string|max:500',
+            'urutan'     => 'nullable|integer|min:0',
+        ]);
+
+        $ind->update([
+            'judul'      => $request->judul,
+            'sub_judul'  => $request->sub_judul,
+            'nilai'      => $request->nilai,
+            'periode'    => $request->periode,
+            'deskripsi'  => $request->deskripsi ?: $ind->deskripsi,
+            'badge_text' => $request->badge_text ?: $ind->badge_text,
+            'link_tabel' => $request->link_tabel ?: $ind->link_tabel,
+            'urutan'     => $request->input('urutan', $ind->urutan),
+            'is_active'  => $request->boolean('is_active', true),
+        ]);
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'indikator'])
+                         ->with('success', "Indikator '{$ind->judul}' berhasil diperbarui.");
+    }
+
+    public function indikatorDestroy($id)
+    {
+        $ind = FrontendIndikator::findOrFail($id);
+        $judul = $ind->judul;
+        $ind->delete();
+
+        return redirect()->route('admin.frontend.index', ['tab' => 'indikator'])
+                         ->with('success', "Indikator '{$judul}' berhasil dihapus.");
     }
 }

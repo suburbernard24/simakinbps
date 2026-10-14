@@ -465,13 +465,64 @@
                             <span>Pengaturan Honor Mitra</span>
                         </a>
 
-                        <a href="{{ route('admin.frontend.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.frontend.*') ? 'nav-item-active' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
-                            <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.frontend.*') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
-                                <i class="fa-solid fa-sliders text-xs"></i>
+                        <div x-data="{ frontendAdminOpen: {{ request()->routeIs('admin.frontend.*') ? 'true' : 'false' }} }" class="space-y-1">
+                            <button @click="frontendAdminOpen = !frontendAdminOpen"
+                                    class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.frontend.*') ? 'bg-blue-50 dark:bg-slate-800 text-bps-blue dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.frontend.*') ? 'text-bps-blue dark:text-blue-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                        <i class="fa-solid fa-sliders text-xs"></i>
+                                    </div>
+                                    <span>Tampilan Frontend</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 text-slate-400" :class="frontendAdminOpen ? 'rotate-180 text-bps-blue' : ''"></i>
+                            </button>
+                            <div x-show="frontendAdminOpen" x-collapse class="pl-10 pr-2 py-1 space-y-1">
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'menu']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab', 'menu') === 'menu' && request()->routeIs('admin.frontend.*') ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-compass text-[10px] mr-1.5 text-indigo-500"></i> Menu Navigasi
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'hero']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'hero' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-font text-[10px] mr-1.5 text-blue-500"></i> Hero & Branding
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'pengumuman']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'pengumuman' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-bullhorn text-[10px] mr-1.5 text-amber-500"></i> Pengumuman Ticker
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'data']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'data' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-chart-pie text-[10px] mr-1.5 text-emerald-500"></i> 8 Data Pokok
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'indikator']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'indikator' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-chart-line text-[10px] mr-1.5 text-blue-600"></i> Indikator Carousel
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'publikasi']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'publikasi' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-book-bookmark text-[10px] mr-1.5 text-cyan-500"></i> Publikasi & WebAPI
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'infografis']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'infografis' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-image text-[10px] mr-1.5 text-teal-600"></i> Galeri Infografis
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'quotes']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'quotes' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-quote-left text-[10px] mr-1.5 text-purple-500"></i> Quotes of the Day
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'kegiatan']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'kegiatan' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-calendar-check text-[10px] mr-1.5 text-orange-500"></i> Berita & Kegiatan
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'pst']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'pst' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-headset text-[10px] mr-1.5 text-teal-500"></i> Layanan PST & Aduan
+                                </a>
+                                <a href="{{ route('admin.frontend.index', ['tab' => 'media']) }}" 
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'media' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                    <i class="fa-solid fa-palette text-[10px] mr-1.5 text-pink-500"></i> Logo, Gambar & Warna
+                                </a>
                             </div>
-                            <span>Tampilan Frontend</span>
-                        </a>
+                        </div>
                     </nav>
                 </div>
 
