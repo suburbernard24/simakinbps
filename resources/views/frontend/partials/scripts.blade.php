@@ -1,5 +1,5 @@
 <!-- BEGIN: BackToTopFloating -->
-<a aria-label="Kembali ke atas" class="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-bps-700 hover:bg-bps-600 text-white shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 z-40" href="#">
+<a aria-label="Kembali ke atas" class="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-[#0B4F82] hover:bg-[#08385d] text-white shadow-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-40 cursor-pointer" href="#" onclick="event.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'});">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
 </a>
 <!-- END: BackToTopFloating -->
@@ -46,9 +46,9 @@ function handleHeroSearch() {
 
 function filterPubCategory(cat, btn) {
   document.querySelectorAll('.pub-filter-btn').forEach(b => {
-    b.className = 'pub-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors';
+    b.className = 'pub-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all';
   });
-  btn.className = 'pub-filter-btn px-5 py-2 rounded-full text-xs font-bold bg-bps-700 text-white shadow-sm shadow-bps-700/20';
+  btn.className = 'pub-filter-btn px-5 py-2 rounded-full text-xs font-bold bg-[#0B4F82] text-white shadow-xs cursor-pointer transition-all';
 
   const cards = document.querySelectorAll('.pub-card-item');
   cards.forEach(card => {
@@ -62,9 +62,9 @@ function filterPubCategory(cat, btn) {
 
 function filterInfografis(cat, btn) {
   document.querySelectorAll('.info-filter-btn').forEach(b => {
-    b.className = 'info-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors';
+    b.className = 'info-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all';
   });
-  btn.className = 'info-filter-btn px-5 py-2 rounded-full text-xs font-bold bg-bps-700 text-white shadow-sm';
+  btn.className = 'info-filter-btn px-5 py-2 rounded-full text-xs font-bold bg-[#0B4F82] text-white shadow-xs cursor-pointer transition-all';
 
   const cards = document.querySelectorAll('.info-card-item');
   cards.forEach(card => {
@@ -93,9 +93,9 @@ function switchQuoteSlide(index) {
   });
   document.querySelectorAll('.quote-dot').forEach((dot, idx) => {
     if (idx === index) {
-      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-white scale-125 transition-all';
+      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-[#0B4F82] scale-125 transition-all';
     } else {
-      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-white/40 transition-all';
+      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-slate-300 transition-all';
     }
   });
 }
@@ -116,9 +116,13 @@ function simpanBukuTamu() {
   showToast('Terima Kasih!', `Kunjungan ${nama} telah tercatat di Buku Tamu Digital PST.`);
 }
 
-function bukaModalApiToken() {
+function bukaModalApi() {
   const modal = document.getElementById('modal-api-token');
   if (modal) modal.classList.remove('hidden');
+}
+
+function bukaModalApiToken() {
+  bukaModalApi();
 }
 
 function tutupModalApiToken() {
