@@ -18,7 +18,7 @@
                     Portal Pelayanan Terpadu Satu Pintu (PTSP) BPS Kabupaten Manggarai menghadirkan pelayanan data statistik berkualitas, cepat, mudah, dan bebas biaya untuk seluruh masyarakat.
                 </p>
                 <div class="space-y-1.5 text-xs text-slate-300">
-                    <p><strong class="text-white">Alamat:</strong> {{ $fs['pst_alamat'] ?? 'Jl. Ranaka, Ruteng, Flores, NTT 86511' }}</p>
+                    <p><strong class="text-white">Alamat:</strong> {{ $fs['pst_alamat'] ?? 'Jl. Bougenville UtaraKelurahan Pau Kecamatan Langke Rembong Ruteng - Manggarai' }}</p>
                     <p><strong class="text-white">Jam Layanan:</strong> {{ $fs['pst_jam_layanan'] ?? 'Senin - Jumat: 08.00 - 15.30 WITA' }}</p>
                     <p><strong class="text-white">Email:</strong> {{ $pengaduanMail }}</p>
                 </div>
