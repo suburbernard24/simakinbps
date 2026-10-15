@@ -5,9 +5,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-12 border-b border-slate-700/80">
             <!-- Col 1: Identity & Office Address (4 cols) -->
             <div class="lg:col-span-4">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-xl bg-[#0B4F82] text-white flex items-center justify-center font-extrabold text-sm shadow-md">
-                        BPS
+                <div class="flex items-center gap-3.5 mb-4">
+                    <div class="w-11 h-11 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-md shrink-0">
+                        <img src="{{ $logoBps ?? asset('images/logo_bps.png') }}" alt="Logo BPS Kabupaten Manggarai" class="w-full h-full object-contain">
                     </div>
                     <div>
                         <h4 class="font-extrabold text-white text-sm tracking-tight">BADAN PUSAT STATISTIK</h4>

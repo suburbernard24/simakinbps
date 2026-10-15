@@ -91,7 +91,9 @@
         $bpsApiKey     = $fs['bps_api_key']      ?? '';
 
         // Favicon & Gambar
-        $logoFavicon   = isset($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin-favicon.png');
+        $logoFavicon   = !empty($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin-favicon.png');
+        $logoBps       = !empty($fs['img_logo_bps']) ? asset('storage/' . $fs['img_logo_bps']) : asset('images/logo_bps.png');
+        $logoSimakin   = !empty($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin.png');
 
         // Navigasi Menu Halaman Utama
         $navMenus       = FrontendSetting::getNavMenu();
@@ -155,17 +157,13 @@
 <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6">
         <!-- Brand & Identity -->
-        <a class="flex items-center gap-3.5 group" href="#">
-            <div class="w-11 h-11 rounded-xl bg-[#0B4F82] flex items-center justify-center p-2 shadow-sm group-hover:bg-[#083E67] transition-all">
-                <svg class="w-full h-full text-white" fill="none" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 4L34 12V28L20 36L6 28V12L20 4Z" stroke="white" stroke-linejoin="round" stroke-width="2.5"></path>
-                    <circle cx="20" cy="20" fill="#38bdf8" r="6"></circle>
-                    <path d="M14 20L20 26L26 20" stroke="white" stroke-linecap="round" stroke-width="2"></path>
-                </svg>
+        <a class="flex items-center gap-3.5 group" href="{{ url('/') }}">
+            <div class="h-11 w-11 flex items-center justify-center transition-transform group-hover:scale-105 shrink-0">
+                <img src="{{ $logoBps }}" alt="Logo BPS" class="h-11 w-auto max-w-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="text-[11px] font-bold tracking-widest text-[#0B4F82] uppercase">{{ $headerNama }}</span>
-                <span class="text-lg font-extrabold text-[#172B4D] tracking-tight flex items-center gap-1.5">
+                <span class="text-[11px] font-bold tracking-widest text-[#0B4F82] uppercase leading-tight">{{ $headerNama }}</span>
+                <span class="text-lg font-extrabold text-[#172B4D] tracking-tight flex items-center gap-1.5 leading-tight">
                     SIMAKIN <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">v2.4</span>
                 </span>
             </div>
