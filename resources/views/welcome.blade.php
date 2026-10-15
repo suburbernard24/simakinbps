@@ -162,10 +162,10 @@
                 <img src="{{ $logoBps }}" alt="Logo BPS" class="h-11 w-auto max-w-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="text-[11px] font-bold tracking-widest text-[#0B4F82] uppercase leading-tight">{{ $headerNama }}</span>
                 <span class="text-lg font-extrabold text-[#172B4D] tracking-tight flex items-center gap-1.5 leading-tight">
-                    SIMAKIN <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono">v2.4</span>
+                    SIMAKIN
                 </span>
+                 <span class="text-[11px] font-bold tracking-widest text-[#0B4F82] uppercase leading-tight">BPS Kabupaten Manggarai</span>
             </div>
         </a>
 
