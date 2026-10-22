@@ -67,10 +67,10 @@ class KinerjaService
             $nilaiCkp = round(($avgKuantitas + $avgKualitas) / 2, 2);
         }
 
-        $berjalan = $items->where('status', 'berjalan')->count();
-        $selesai = $items->where('status', 'selesai')->count();
-        $terjadwal = $items->where('status', 'terjadwal')->count();
-        $terlambat = $items->where('status', 'terlambat')->count();
+        $berjalan = $items->filter(fn($i) => $i->status_waktu === 'berjalan')->count();
+        $selesai  = $items->filter(fn($i) => $i->status_waktu === 'selesai')->count();
+        $terjadwal = $items->filter(fn($i) => $i->status_waktu === 'terjadwal')->count();
+        $terlambat = 0; // tidak digunakan lagi (digantikan oleh status_waktu)
 
         return [
             'pegawai'             => $pegawai,
@@ -196,8 +196,8 @@ class KinerjaService
                 'total_jam'         => $totalJam,
                 'skor_kinerja'      => $skorKinerjaTim,
                 'avg_ckp'           => $avgCkp,
-                'selesai'           => $items->where('status', 'selesai')->count(),
-                'berjalan'          => $items->where('status', 'berjalan')->count(),
+                'selesai'           => $items->filter(fn($i) => $i->status_waktu === 'selesai')->count(),
+                'berjalan'          => $items->filter(fn($i) => $i->status_waktu === 'berjalan')->count(),
             ];
         }
 

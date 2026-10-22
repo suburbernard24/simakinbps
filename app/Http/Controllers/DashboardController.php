@@ -95,8 +95,8 @@ class DashboardController extends Controller
             })->get();
 
             $totalPekerjaan = $allTasks->count();
-            $pekerjaanSelesai = $allTasks->where('status', 'selesai')->count();
-            $pekerjaanBerjalan = $allTasks->where('status', 'berjalan')->count();
+            $pekerjaanSelesai = $allTasks->filter(fn($t) => $t->status_waktu === 'selesai')->count();
+            $pekerjaanBerjalan = $allTasks->filter(fn($t) => $t->status_waktu === 'berjalan')->count();
 
             // Rekap kinerja seluruh pegawai
             $rekapPegawai = KinerjaService::rekapKinerjaSemuaPegawai($currentYear, $currentMonth);
@@ -181,8 +181,8 @@ class DashboardController extends Controller
 
             $totalUtama = $teamTasks->where('jenis_pekerjaan', 'utama')->count();
             $totalTambahan = $teamTasks->where('jenis_pekerjaan', 'tambahan')->count();
-            $pekerjaanBerjalan = $teamTasks->where('status', 'berjalan')->count();
-            $pekerjaanSelesai = $teamTasks->where('status', 'selesai')->count();
+            $pekerjaanBerjalan = $teamTasks->filter(fn($t) => $t->status_waktu === 'berjalan')->count();
+            $pekerjaanSelesai = $teamTasks->filter(fn($t) => $t->status_waktu === 'selesai')->count();
             $totalTarget = (float) $teamTasks->sum('target_kuantitas');
             $totalRealisasi = (float) $teamTasks->sum('realisasi_kuantitas');
 
