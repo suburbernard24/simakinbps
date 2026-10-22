@@ -59,6 +59,7 @@ class AlokasiPekerjaan extends Model
 
     protected $appends = [
         'skor_kinerja',
+        'status_waktu',
     ];
 
     public function pegawai(): BelongsTo
@@ -111,6 +112,36 @@ class AlokasiPekerjaan extends Model
             10 => 'Oktober', 11 => 'November', 12 => 'Desember',
         ];
         return $bulanList[$this->bulan] ?? '-';
+    }
+
+    /**
+     * Hitung status pekerjaan berdasarkan alokasi waktu (tanggal mulai & selesai).
+     * Jika sudah melewati tanggal_selesai → 'selesai'
+     * Jika sudah melewati tanggal_mulai tapi belum selesai → 'berjalan'
+     * Jika belum mencapai tanggal_mulai → 'terjadwal'
+     */
+    public function getStatusWaktuAttribute(): string
+    {
+        $now = Carbon::now()->startOfDay();
+
+        if (! $this->tanggal_mulai) {
+            return $this->status ?? 'terjadwal';
+        }
+
+        $mulai   = Carbon::parse($this->tanggal_mulai)->startOfDay();
+        $selesai = $this->tanggal_selesai
+            ? Carbon::parse($this->tanggal_selesai)->startOfDay()
+            : null;
+
+        if ($selesai && $now->gt($selesai)) {
+            return 'selesai';
+        }
+
+        if ($now->gte($mulai)) {
+            return 'berjalan';
+        }
+
+        return 'terjadwal';
     }
 
     /**

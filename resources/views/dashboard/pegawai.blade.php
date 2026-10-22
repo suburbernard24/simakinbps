@@ -84,18 +84,22 @@
         </div>
 
         <!-- 3. Berjalan -->
-        <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
+        <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-amber-900/40 shadow-sm saas-card">
             <div class="flex items-center justify-between">
                 <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Berjalan</span>
                 <div class="w-7 h-7 rounded-xl bg-amber-50 dark:bg-amber-900/40 text-amber-600 dark:text-amber-300 flex items-center justify-center text-xs">
-                    <i class="fa-solid fa-spinner"></i>
+                    <i class="fa-solid fa-spinner fa-spin-pulse"></i>
                 </div>
             </div>
             <p class="text-2xl font-black text-amber-600 dark:text-amber-400 mt-2">{{ $kinerja['berjalan'] }}</p>
+            <p class="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                Berbasis alokasi waktu
+            </p>
         </div>
 
         <!-- 4. Selesai -->
-        <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
+        <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/40 shadow-sm saas-card">
             <div class="flex items-center justify-between">
                 <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Selesai</span>
                 <div class="w-7 h-7 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 flex items-center justify-center text-xs">
@@ -103,6 +107,10 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{{ $kinerja['selesai'] }}</p>
+            <p class="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                Melewati batas waktu
+            </p>
         </div>
 
         <!-- 5. Skor Kinerja -->
@@ -231,12 +239,25 @@
                 <div class="p-5 sm:px-6 hover:bg-slate-50/70 dark:hover:bg-slate-800/50 transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div class="space-y-1.5">
                         <div class="flex items-center gap-2 flex-wrap">
+                            @php
+                                $sw = $task->status_waktu;
+                            @endphp
                             <span class="px-2.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider {{ $task->jenis_pekerjaan === 'utama' ? 'bg-blue-50 text-bps-blue border border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800' : 'bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-900/40 dark:text-purple-300 dark:border-purple-800' }}">
                                 {{ $task->jenis_pekerjaan === 'utama' ? 'Pekerjaan Utama' : 'Pekerjaan Tambahan' }}
                             </span>
-                            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold {{ $task->status === 'selesai' ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-amber-50 text-amber-600 border border-amber-200' }}">
-                                {{ ucfirst($task->status) }}
-                            </span>
+                            @if($sw === 'selesai')
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-check text-[9px]"></i> Selesai
+                                </span>
+                            @elseif($sw === 'berjalan')
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-50 text-amber-600 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800 flex items-center gap-1">
+                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Berjalan
+                                </span>
+                            @else
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 flex items-center gap-1">
+                                    <i class="fa-regular fa-clock text-[9px]"></i> Terjadwal
+                                </span>
+                            @endif
                         </div>
                         <h4 class="text-sm font-bold text-slate-900 dark:text-white">{{ $task->nama_kegiatan }}</h4>
                         <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-400">

@@ -84,15 +84,17 @@
             </div>
 
             <!-- 2. Tim: Berjalan -->
-            <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Pekerjaan Berjalan</span>
+            <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-amber-900/40 shadow-sm saas-card">
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Tim Berjalan</span>
                 <p class="text-2xl font-black text-amber-500 mt-2">{{ $pekerjaanBerjalan }}</p>
+
             </div>
 
             <!-- 3. Tim: Selesai -->
-            <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Pekerjaan Selesai</span>
+            <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/40 shadow-sm saas-card">
+                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Tim Selesai</span>
                 <p class="text-2xl font-black text-emerald-600 mt-2">{{ $pekerjaanSelesai }}</p>
+
             </div>
 
             <!-- 4. Total Realisasi Kuantitas -->
@@ -137,8 +139,20 @@
                 <p class="text-[10px] text-slate-400">Utama: {{ $kinerja['jumlah_utama'] }} &bull; Tambahan: {{ $kinerja['jumlah_tambahan'] }}</p>
             </div>
             <div class="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">Status Pekerjaan Saya</span>
-                <p class="text-lg font-black text-emerald-600 mt-1">{{ $kinerja['selesai'] }} <span class="text-xs font-medium text-slate-400">/ {{ $kinerja['berjalan'] }} jalan</span></p>
+                <span class="text-[10px] font-bold text-slate-400 uppercase">Status Saya</span>
+                @php
+                    $sSelesai = $kinerja['selesai'];
+                    $sBerjalan = $kinerja['berjalan'];
+                @endphp
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800">
+                        <i class="fa-solid fa-circle-check text-[9px] mr-0.5"></i> {{ $sSelesai }} Selesai
+                    </span>
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-50 text-amber-600 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800">
+                        <i class="fa-solid fa-spinner text-[9px] mr-0.5"></i> {{ $sBerjalan }} Jalan
+                    </span>
+                </div>
+                <p class="text-[9px] text-slate-400 mt-1.5">Berbasis alokasi waktu</p>
             </div>
             <div class="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800">
                 <span class="text-[10px] font-bold text-slate-400 uppercase">Skor Kinerja Saya</span>

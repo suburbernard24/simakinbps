@@ -42,8 +42,8 @@
         </div>
     </div>
 
-    <!-- Executive Summary Metrics (6 Distinct Cards) -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+    <!-- Executive Summary Metrics (7 Distinct Cards) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
         
         <!-- 1. Total Pegawai -->
         <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
@@ -78,17 +78,28 @@
             <p class="text-2xl font-black text-slate-900 dark:text-white mt-2">{{ $totalPekerjaan }}</p>
         </div>
 
-        <!-- 4. Selesai vs Berjalan -->
-        <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
+        <!-- 4a. Pekerjaan Berjalan -->
+        <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-amber-900/40 shadow-sm saas-card">
             <div class="flex items-center justify-between">
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Selesai / Jalan</span>
-                <div class="w-7 h-7 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 flex items-center justify-center text-xs">
-                    <i class="fa-solid fa-check-double"></i>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Berjalan</span>
+                <div class="w-7 h-7 rounded-xl bg-amber-50 dark:bg-amber-900/40 text-amber-500 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-spinner fa-spin-pulse"></i>
                 </div>
             </div>
-            <p class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">
-                {{ $pekerjaanSelesai }} <span class="text-xs text-slate-400 font-semibold">/ {{ $pekerjaanBerjalan }}</span>
-            </p>
+            <p class="text-2xl font-black text-amber-500 mt-2">{{ $pekerjaanBerjalan }}</p>
+
+        </div>
+
+        <!-- 4b. Pekerjaan Selesai -->
+        <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/40 shadow-sm saas-card">
+            <div class="flex items-center justify-between">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">Selesai</span>
+                <div class="w-7 h-7 rounded-xl bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+            </div>
+            <p class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{{ $pekerjaanSelesai }}</p>
+
         </div>
 
         <!-- 5. Rata-rata Skor Kinerja -->
