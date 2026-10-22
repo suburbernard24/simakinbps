@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>PTSP SIMAKIN BPS Kabupaten Manggarai — Portal Satu Pintu Data &amp; Layanan Statistik</title>
+    
 
     <!-- Plus Jakarta Sans & JetBrains Mono Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
