@@ -116,9 +116,6 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-bps-blue dark:text-blue-400 mt-2">{{ $kinerja['skor_kinerja'] }}%</p>
-            <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mt-2 overflow-hidden">
-                <div class="h-full bg-bps-blue rounded-full" style="width: {{ min(100, $kinerja['skor_kinerja']) }}%"></div>
-            </div>
         </div>
 
         <!-- 6. CKP Bulanan -->
