@@ -97,14 +97,6 @@
 
             </div>
 
-            <!-- 4. Total Realisasi Kuantitas -->
-            <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
-                <span class="text-[10px] font-extrabold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Capaian Target</span>
-                <p class="text-2xl font-black text-indigo-600 mt-2">
-                    {{ $totalTarget > 0 ? round(($totalRealisasi / $totalTarget) * 100) : 0 }}%
-                </p>
-                <p class="text-[10px] text-slate-500 mt-1">{{ $totalRealisasi }} / {{ $totalTarget }} Output</p>
-            </div>
 
             <!-- 5. Rata-rata Skor Tim -->
             <div class="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm saas-card">
@@ -152,7 +144,7 @@
                         <i class="fa-solid fa-spinner text-[9px] mr-0.5"></i> {{ $sBerjalan }} Jalan
                     </span>
                 </div>
-                <p class="text-[9px] text-slate-400 mt-1.5">Berbasis alokasi waktu</p>
+
             </div>
             <div class="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800">
                 <span class="text-[10px] font-bold text-slate-400 uppercase">Skor Kinerja Saya</span>

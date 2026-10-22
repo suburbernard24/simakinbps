@@ -92,10 +92,7 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-amber-600 dark:text-amber-400 mt-2">{{ $kinerja['berjalan'] }}</p>
-            <p class="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                Berbasis alokasi waktu
-            </p>
+
         </div>
 
         <!-- 4. Selesai -->
@@ -107,10 +104,7 @@
                 </div>
             </div>
             <p class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{{ $kinerja['selesai'] }}</p>
-            <p class="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
-                <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                Melewati batas waktu
-            </p>
+
         </div>
 
         <!-- 5. Skor Kinerja -->
