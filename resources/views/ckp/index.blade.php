@@ -253,9 +253,6 @@
                     <p class="text-[11px] text-slate-500">Pekerjaan di luar tugas pokok tim yang Anda input secara mandiri (dinilai oleh Kepala BPS)</p>
                 </div>
             </div>
-            <button type="button" @click="modalTambah = true" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5">
-                <i class="fa-solid fa-plus"></i> Tambah Kegiatan
-            </button>
         </div>
 
         <div class="overflow-x-auto">
