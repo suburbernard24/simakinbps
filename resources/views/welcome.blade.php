@@ -141,9 +141,7 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 Pengumuman
             </span>
-            <p class="truncate text-slate-200 text-xs">
-                {{ $fs['ticker_text'] ?? 'Selamat datang di Website Resmi Pelayanan Statistik Terpadu BPS Kabupaten Manggarai — Hubungi PST Online melalui WhatsApp untuk permohonan data & konsultasi.' }}
-            </p>
+           
         </div>
         <a class="inline-flex items-center gap-1 text-sky-300 hover:text-white font-medium transition-colors shrink-0 group" href="#hubungi-pst">
             <span>PST BPS Manggarai</span>
