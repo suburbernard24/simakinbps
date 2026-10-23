@@ -4,19 +4,28 @@
         <!-- 4-Column Categorized Footer Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-12 border-b border-slate-700/80">
             <!-- Col 1: Identity & Office Address (4 cols) -->
-            <div class="lg:col-span-4">
-                <div class="flex items-center gap-3.5 mb-4">
-                    <div class="w-11 h-11 rounded-xl bg-white p-1.5 flex items-center justify-center shadow-md shrink-0">
+            <div class="lg:col-span-4 space-y-4">
+                <div>
+                    <a href="{{ url('/') }}" class="inline-block bg-white px-4 py-2 rounded-2xl shadow-sm hover:shadow-md transition-all group">
+                        <img src="{{ $logoSapa ?? asset('images/sapa_bps.png') }}" alt="SAPA BPS - Informasi Statistik, Mudah Diakses" class="h-10 w-auto object-contain transition-transform group-hover:scale-105">
+                    </a>
+                    <p class="text-xs text-slate-300 mt-2.5 leading-relaxed max-w-sm">
+                        Portal resmi Pelayanan Statistik Terpadu (PST) dan Keterbukaan Informasi Publik BPS Kabupaten Manggarai.
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-3 pt-1">
+                    <div class="w-9 h-9 rounded-xl bg-white/10 p-1 flex items-center justify-center shrink-0 border border-white/10">
                         <img src="{{ $logoBps ?? asset('images/logo_bps.png') }}" alt="Logo BPS Kabupaten Manggarai" class="w-full h-full object-contain">
                     </div>
                     <div>
-                        <h4 class="font-extrabold text-white text-sm tracking-tight">BADAN PUSAT STATISTIK</h4>
-                        <p class="text-xs font-semibold text-sky-300">KABUPATEN MANGGARAI</p>
+                        <h4 class="font-extrabold text-white text-xs tracking-tight">BADAN PUSAT STATISTIK</h4>
+                        <p class="text-[11px] font-semibold text-sky-300">KABUPATEN MANGGARAI</p>
                     </div>
                 </div>
-            
-                <div class="space-y-1.5 text-xs text-slate-300">
-                    <p><strong class="text-white">Alamat:</strong> {{ $fs['pst_alamat'] ?? 'Jl. Bougenville UtaraKelurahan Pau Kecamatan Langke Rembong Ruteng - Manggarai' }}</p>
+        
+                <div class="space-y-1.5 text-xs text-slate-300 pt-1">
+                    <p><strong class="text-white">Alamat:</strong> {{ $fs['pst_alamat'] ?? 'Jl. Bougenville Utara, Kelurahan Pau, Kecamatan Langke Rembong, Ruteng - Manggarai' }}</p>
                     <p><strong class="text-white">Jam Layanan:</strong> {{ $fs['pst_jam_layanan'] ?? 'Senin - Jumat: 08.00 - 15.30 WITA' }}</p>
                     <p><strong class="text-white">Email:</strong> {{ $pengaduanMail }}</p>
                 </div>
@@ -124,7 +133,7 @@
         <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
             <!-- Copyright -->
             <p class="text-slate-400 text-center md:text-left">
-                © {{ date('Y') }} Badan Pusat Statistik Kabupaten Manggarai. Seluruh Hak Cipta Dilindungi.
+                © {{ date('Y') }} SAPA BPS — Badan Pusat Statistik Kabupaten Manggarai. Seluruh Hak Cipta Dilindungi.
             </p>
 
             <!-- Social Media & Back to Top -->

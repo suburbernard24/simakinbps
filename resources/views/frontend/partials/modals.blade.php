@@ -9,8 +9,8 @@
                 <i class="fa-solid fa-book-bookmark"></i>
             </div>
             <div>
-                <h3 class="text-base font-extrabold text-slate-900">Buku Tamu Digital PST</h3>
-                <p class="text-xs text-slate-500">Registrasi Kunjungan Konsultasi &amp; Permohonan Data</p>
+                <h3 class="text-base font-extrabold text-slate-900">Buku Tamu Digital SAPA BPS</h3>
+                <p class="text-xs text-slate-500">Registrasi Kunjungan Konsultasi &amp; Pelayanan Statistik Terpadu (PST)</p>
             </div>
         </div>
         <form onsubmit="event.preventDefault(); simpanBukuTamu();" class="space-y-4">

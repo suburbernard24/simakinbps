@@ -4,7 +4,8 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+    <title>SAPA BPS — Informasi Statistik, Mudah Diakses | BPS Kabupaten Manggarai</title>
+    <meta name="description" content="SAPA BPS Kabupaten Manggarai: Portal Pelayanan Statistik Terpadu (PST), Informasi Statistik, dan Publikasi Resmi BPS Kabupaten Manggarai yang Mudah Diakses.">
 
     <!-- Plus Jakarta Sans & JetBrains Mono Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -73,9 +74,9 @@
         $bpsService = app(BpsApiService::class);
 
         // Teks & Branding dari Pengaturan Admin
-        $brandTagline  = $fs['brand_tagline']   ?? 'Sistem Informasi Manajemen Kinerja';
+        $brandTagline  = $fs['brand_tagline']   ?? 'Informasi Statistik, Mudah Diakses';
         $brandSub      = $fs['brand_sub']        ?? 'BPS Kabupaten Manggarai';
-        $brandDesc     = $fs['brand_desc']       ?? 'SIMAKINBPS adalah platform digital manajemen kinerja pegawai di BPS Kabupaten Manggarai yang dirancang untuk mendukung perencanaan, pemantauan, dan evaluasi kinerja secara terintegrasi, transparan, dan efektif.';
+        $brandDesc     = $fs['brand_desc']       ?? 'SAPA BPS adalah portal pelayanan statistik terpadu dan keterbukaan informasi publik BPS Kabupaten Manggarai yang dirancang untuk memudahkan akses data, publikasi, dan konsultasi statistik secara terintegrasi, transparan, dan terpercaya.';
         $btnLabel      = $fs['btn_masuk_label']  ?? 'Masuk';
         $headerNama    = $fs['header_nama']      ?? 'BPS Kabupaten Manggarai';
         $headerLokasi  = $fs['header_lokasi']    ?? 'Kabupaten Manggarai';
@@ -91,9 +92,10 @@
         $bpsApiKey     = $fs['bps_api_key']      ?? '';
 
         // Favicon & Gambar
-        $logoFavicon   = !empty($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin-favicon.png');
+        $logoFavicon   = !empty($fs['img_logo_sapa']) ? asset('storage/' . $fs['img_logo_sapa']) : asset('images/sapa_bps.png');
         $logoBps       = !empty($fs['img_logo_bps']) ? asset('storage/' . $fs['img_logo_bps']) : asset('images/logo_bps.png');
         $logoSimakin   = !empty($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin.png');
+        $logoSapa      = !empty($fs['img_logo_sapa']) ? asset('storage/' . $fs['img_logo_sapa']) : asset('images/sapa_bps.png');
 
         // Navigasi Menu Halaman Utama
         $navMenus       = FrontendSetting::getNavMenu();
@@ -106,8 +108,8 @@
     @endphp
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ $logoFavicon }}?v=3">
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=3">
+    <link rel="icon" type="image/png" href="{{ $logoFavicon }}?v=4">
+    <link rel="shortcut icon" href="{{ $logoFavicon }}?v=4">
 
     <!-- Micro-Styles -->
     <style data-purpose="base-enhancements">
@@ -141,7 +143,7 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 Pengumuman
             </span>
-           
+            <span class="truncate text-slate-300">Selamat datang di <strong class="text-white font-semibold">SAPA BPS</strong> — Informasi Statistik, Mudah Diakses. Layanan PST &amp; konsultasi data gratis (Rp 0,-).</span>
         </div>
         <a class="inline-flex items-center gap-1 text-sky-300 hover:text-white font-medium transition-colors shrink-0 group" href="#hubungi-pst">
             <span>PST BPS Manggarai</span>
@@ -154,17 +156,9 @@
 <!-- BEGIN: MainNavbar -->
 <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6">
-        <!-- Brand & Identity -->
-        <a class="flex items-center gap-3.5 group" href="{{ url('/') }}">
-            <div class="h-11 w-11 flex items-center justify-center transition-transform group-hover:scale-105 shrink-0">
-                <img src="{{ $logoBps }}" alt="Logo BPS" class="h-11 w-auto max-w-full object-contain">
-            </div>
-            <div class="flex flex-col">
-                <span class="text-lg font-extrabold text-[#172B4D] tracking-tight flex items-center gap-1.5 leading-tight">
-                    SIMAKIN
-                </span>
-                 <span class="text-[11px] font-bold tracking-widest text-[#0B4F82] uppercase leading-tight">BPS Kabupaten Manggarai</span>
-            </div>
+        <!-- Brand & Identity (SAPA BPS) -->
+        <a class="flex items-center gap-3.5 group" href="{{ url('/') }}" title="SAPA BPS - Informasi Statistik, Mudah Diakses">
+            <img src="{{ $logoSapa }}" alt="SAPA BPS - Informasi Statistik, Mudah Diakses" class="h-11 sm:h-12 w-auto max-w-[220px] sm:max-w-none object-contain transition-transform duration-200 group-hover:scale-[1.03]">
         </a>
 
         <!-- Primary Navigation Links (Dynamic dari Dashboard Admin) -->
@@ -224,16 +218,16 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <!-- Micro Breadcrumb Badge -->
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs mb-6 text-xs text-slate-600 font-medium">
-            <svg class="w-3.5 h-3.5 text-[#0B4F82]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-            <span>User Front-Office</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Portal Layanan &amp; Data Statistik</span>
             <span class="text-slate-300">•</span>
-            <span class="text-[#0B4F82] font-semibold">Pelayanan Statistik Terpadu (PST)</span>
+            <span class="text-[#0B4F82] font-semibold">SAPA BPS Manggarai</span>
         </div>
 
-        <!-- Main Headline (32-40px desktop) -->
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-[#172B4D] tracking-tight leading-[1.2]">
-            Pelayanan Terpadu Satu Pintu (PTSP)<br/>
-            <span class="text-[#0B4F82]">BPS Kabupaten Manggarai</span>
+        <!-- Main Headline -->
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#172B4D] tracking-tight leading-[1.2]">
+            Informasi Statistik, <span class="text-[#0B4F82]">Mudah Diakses</span><br/>
+            <span class="text-lg sm:text-2xl font-bold text-slate-600 mt-2 block">Pelayanan Statistik Terpadu (PST) BPS Kabupaten Manggarai</span>
         </h1>
         <p class="mt-4 text-sm sm:text-base text-slate-600 max-w-3xl mx-auto font-normal leading-relaxed">
             {{ $brandDesc }}
@@ -255,7 +249,7 @@
                 <!-- Main Input Field -->
                 <div class="relative flex-1 w-full flex items-center">
                     <svg class="w-5 h-5 text-slate-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <input id="hero-search-query" onkeydown="if(event.key === 'Enter') handleHeroSearch()" class="w-full py-2 px-3 text-sm text-slate-800 placeholder-slate-400 bg-transparent border-0 focus:ring-0" placeholder="Cari indikator: PDRB, inflasi, kemiskinan, sensus, DDA..." type="text"/>
+                    <input id="hero-search-query" onkeydown="if(event.key === 'Enter') handleHeroSearch()" class="w-full py-2 px-3 text-sm text-slate-800 placeholder-slate-400 bg-transparent border-0 focus:ring-0" placeholder="Cari di SAPA BPS: PDRB, inflasi, kemiskinan, sensus, DDA..." type="text"/>
                 </div>
                 <!-- Submit Button -->
                 <button onclick="handleHeroSearch()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#0B4F82] hover:bg-[#083E67] text-white font-medium text-sm transition-colors shadow-xs shrink-0 flex items-center justify-center gap-2">
