@@ -198,16 +198,24 @@
                                 </span>
                             </div>
                             
-                            <!-- Progress Bar -->
+                            <!-- Progress Bar Alokasi Pekerjaan -->
                             <div class="flex items-center gap-2.5 pt-1">
                                 <div class="flex-1 h-2 bg-slate-200/70 dark:bg-slate-700 rounded-full overflow-hidden">
                                     @php
-                                        $progPercent = $p['total_target'] > 0 ? round(($p['total_realisasi'] / $p['total_target']) * 100) : 0;
-                                        $progPercent = $progPercent > 100 ? 100 : $progPercent;
+                                        $selesaiCount = $p['items']->filter(function($i) {
+                                            return $i->status === 'selesai'
+                                                || $i->status_waktu === 'selesai'
+                                                || ($i->target_kuantitas > 0 && $i->realisasi_kuantitas >= $i->target_kuantitas);
+                                        })->count();
+                                        $totalPekerjaan = $p['total_pekerjaan'];
+                                        $progPercent = $totalPekerjaan > 0 ? round(($selesaiCount / $totalPekerjaan) * 100) : 0;
+                                        $progPercent = min(100, $progPercent);
                                     @endphp
                                     <div class="h-full bg-bps-blue rounded-full" style="width: {{ $progPercent }}%"></div>
                                 </div>
-                                <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 w-12 text-right">{{ $p['total_realisasi'] }}/{{ $p['total_target'] }}</span>
+                                <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 shrink-0 text-right" title="{{ $selesaiCount }} dari {{ $totalPekerjaan }} alokasi pekerjaan selesai">
+                                    {{ $selesaiCount }}/{{ $totalPekerjaan }}
+                                </span>
                             </div>
                         </div>
                     @endif
