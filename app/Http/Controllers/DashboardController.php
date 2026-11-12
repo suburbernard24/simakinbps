@@ -95,8 +95,17 @@ class DashboardController extends Controller
             })->get();
 
             $totalPekerjaan = $allTasks->count();
-            $pekerjaanSelesai = $allTasks->filter(fn($t) => $t->status_waktu === 'selesai')->count();
-            $pekerjaanBerjalan = $allTasks->filter(fn($t) => $t->status_waktu === 'berjalan')->count();
+            $pekerjaanSelesai = $allTasks->filter(function ($t) {
+                return $t->status === 'selesai'
+                    || $t->status_waktu === 'selesai'
+                    || ($t->target_kuantitas > 0 && $t->realisasi_kuantitas >= $t->target_kuantitas);
+            })->count();
+            $pekerjaanBerjalan = $allTasks->filter(function ($t) {
+                $isSelesai = $t->status === 'selesai'
+                    || $t->status_waktu === 'selesai'
+                    || ($t->target_kuantitas > 0 && $t->realisasi_kuantitas >= $t->target_kuantitas);
+                return ! $isSelesai && ($t->status === 'berjalan' || $t->status_waktu === 'berjalan');
+            })->count();
 
             // Rekap kinerja seluruh pegawai
             $rekapPegawai = KinerjaService::rekapKinerjaSemuaPegawai($currentYear, $currentMonth);
@@ -181,8 +190,17 @@ class DashboardController extends Controller
 
             $totalUtama = $teamTasks->where('jenis_pekerjaan', 'utama')->count();
             $totalTambahan = $teamTasks->where('jenis_pekerjaan', 'tambahan')->count();
-            $pekerjaanBerjalan = $teamTasks->filter(fn($t) => $t->status_waktu === 'berjalan')->count();
-            $pekerjaanSelesai = $teamTasks->filter(fn($t) => $t->status_waktu === 'selesai')->count();
+            $pekerjaanSelesai = $teamTasks->filter(function ($t) {
+                return $t->status === 'selesai'
+                    || $t->status_waktu === 'selesai'
+                    || ($t->target_kuantitas > 0 && $t->realisasi_kuantitas >= $t->target_kuantitas);
+            })->count();
+            $pekerjaanBerjalan = $teamTasks->filter(function ($t) {
+                $isSelesai = $t->status === 'selesai'
+                    || $t->status_waktu === 'selesai'
+                    || ($t->target_kuantitas > 0 && $t->realisasi_kuantitas >= $t->target_kuantitas);
+                return ! $isSelesai && ($t->status === 'berjalan' || $t->status_waktu === 'berjalan');
+            })->count();
             $totalTarget = (float) $teamTasks->sum('target_kuantitas');
             $totalRealisasi = (float) $teamTasks->sum('realisasi_kuantitas');
 

@@ -67,10 +67,21 @@ class KinerjaService
             $nilaiCkp = round(($avgKuantitas + $avgKualitas) / 2, 2);
         }
 
-        $berjalan = $items->filter(fn($i) => $i->status_waktu === 'berjalan')->count();
-        $selesai  = $items->filter(fn($i) => $i->status_waktu === 'selesai')->count();
-        $terjadwal = $items->filter(fn($i) => $i->status_waktu === 'terjadwal')->count();
-        $terlambat = 0; // tidak digunakan lagi (digantikan oleh status_waktu)
+        $selesai = $items->filter(function ($i) {
+            return $i->status === 'selesai'
+                || $i->status_waktu === 'selesai'
+                || ($i->target_kuantitas > 0 && $i->realisasi_kuantitas >= $i->target_kuantitas);
+        })->count();
+
+        $berjalan = $items->filter(function ($i) {
+            $isSelesai = $i->status === 'selesai'
+                || $i->status_waktu === 'selesai'
+                || ($i->target_kuantitas > 0 && $i->realisasi_kuantitas >= $i->target_kuantitas);
+            return ! $isSelesai && ($i->status === 'berjalan' || $i->status_waktu === 'berjalan');
+        })->count();
+
+        $terjadwal = max(0, $items->count() - $selesai - $berjalan);
+        $terlambat = 0;
 
         return [
             'pegawai'             => $pegawai,
@@ -196,8 +207,17 @@ class KinerjaService
                 'total_jam'         => $totalJam,
                 'skor_kinerja'      => $skorKinerjaTim,
                 'avg_ckp'           => $avgCkp,
-                'selesai'           => $items->filter(fn($i) => $i->status_waktu === 'selesai')->count(),
-                'berjalan'          => $items->filter(fn($i) => $i->status_waktu === 'berjalan')->count(),
+                'selesai'           => $items->filter(function ($i) {
+                    return $i->status === 'selesai'
+                        || $i->status_waktu === 'selesai'
+                        || ($i->target_kuantitas > 0 && $i->realisasi_kuantitas >= $i->target_kuantitas);
+                })->count(),
+                'berjalan'          => $items->filter(function ($i) {
+                    $isSelesai = $i->status === 'selesai'
+                        || $i->status_waktu === 'selesai'
+                        || ($i->target_kuantitas > 0 && $i->realisasi_kuantitas >= $i->target_kuantitas);
+                    return ! $isSelesai && ($i->status === 'berjalan' || $i->status_waktu === 'berjalan');
+                })->count(),
             ];
         }
 
