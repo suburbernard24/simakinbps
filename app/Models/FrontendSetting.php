@@ -48,7 +48,6 @@ class FrontendSetting extends Model
             ['label' => 'Data Pokok', 'url' => '#datapokok', 'target' => '_self', 'is_active' => true],
             ['label' => 'Infografis', 'url' => '#infografis', 'target' => '_self', 'is_active' => true],
             ['label' => 'Kegiatan', 'url' => '#kegiatan', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Layanan PST', 'url' => '#pst', 'target' => '_self', 'is_active' => true],
         ];
     }
 

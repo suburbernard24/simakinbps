@@ -472,7 +472,7 @@
                                     <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.frontend.*') ? 'text-bps-blue dark:text-blue-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
                                         <i class="fa-solid fa-sliders text-xs"></i>
                                     </div>
-                                    <span>Tampilan Frontend</span>
+                                    <span>Front Office (NATAS)</span>
                                 </div>
                                 <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 text-slate-400" :class="frontendAdminOpen ? 'rotate-180 text-bps-blue' : ''"></i>
                             </button>

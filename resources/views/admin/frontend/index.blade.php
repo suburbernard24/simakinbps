@@ -28,15 +28,15 @@
     <div class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-blue-50 text-bps-blue border border-blue-200">Portal SIMAKIN & PST</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-blue-50 text-bps-blue border border-blue-200">Front Office: NATAS BPS MANGGARAI</span>
                 <span class="text-xs text-slate-400">• BPS Kab. Manggarai</span>
             </div>
-            <h2 class="text-lg font-black text-slate-900 mt-1">Manajemen Konten & Tampilan Halaman Depan</h2>
-            <p class="text-xs text-slate-500 mt-0.5">Kelola konten yang ditampilkan di beranda publik melalui sub-menu di bawah ini.</p>
+            <h2 class="text-lg font-black text-slate-900 mt-1">Manajemen Tampilan Web Front Office (NATAS)</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Kelola identitas, konten, dan publikasi portal NATAS (Navigasi Akses Terpadu Layanan Statistik) melalui sub-menu di bawah ini.</p>
         </div>
         <a href="/?preview=1" target="_blank" class="px-4 py-2.5 rounded-xl bg-bps-blue hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-2 shrink-0 shadow-sm shadow-blue-500/20">
             <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            <span>Preview Beranda (Home)</span>
+            <span>Preview Web Front Office</span>
         </a>
     </div>
 
@@ -130,8 +130,7 @@
                             <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#publikasi</code> (Katalog Publikasi & Tabel),
                             <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#datapokok</code> (8 Data Pokok Strategis),
                             <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#infografis</code> (Galeri Infografis),
-                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#kegiatan</code> (Kegiatan Statistik),
-                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#pst</code> (Layanan PST & Pengaduan).
+                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#kegiatan</code> (Kegiatan Statistik).
                         </span>
                         <div class="text-[11px] text-blue-800 mt-1">Anda juga dapat mengarahkan menu ke tautan eksternal (contoh: <code>https://manggaraikab.bps.go.id</code>).</div>
                     </div>
@@ -205,43 +204,48 @@
                         <i class="fa-solid fa-font text-base"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-extrabold text-slate-900">Judul & Teks Utama (Hero Section)</h3>
-                        <p class="text-xs text-slate-500">Sesuaikan nama lembaga, judul hero banner, dan deskripsi pengantar portal</p>
+                        <h3 class="text-sm font-extrabold text-slate-900">Identitas Front Office & Hero Section</h3>
+                        <p class="text-xs text-slate-500">Sesuaikan nama web front office, kepanjangan, tagline, dan deskripsi portal</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Instansi (Header)</label>
-                        <input type="text" name="header_nama" value="{{ $settings['header_nama']['value'] ?? 'Badan Pusat Statistik' }}"
-                            class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Web Front Office</label>
+                        <input type="text" name="brand_name" value="{{ $settings['brand_name']['value'] ?? 'NATAS BPS MANGGARAI' }}"
+                            class="w-full text-sm font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Lokasi Lembaga</label>
-                        <input type="text" name="header_lokasi" value="{{ $settings['header_lokasi']['value'] ?? 'Kabupaten Manggarai' }}"
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Kepanjangan / Sub-Judul</label>
+                        <input type="text" name="brand_sub" value="{{ $settings['brand_sub']['value'] ?? 'Navigasi Akses Terpadu Layanan Statistik BPS Manggarai' }}"
                             class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tagline Hero Banner</label>
-                        <input type="text" name="brand_tagline" value="{{ $settings['brand_tagline']['value'] ?? 'Sistem Informasi Manajemen Kinerja' }}"
-                            class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
+                        <input type="text" name="brand_tagline" value="{{ $settings['brand_tagline']['value'] ?? 'Satu Ruang, Beragam Layanan Statistik.' }}"
+                            class="w-full text-sm font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Sub Judul Brand</label>
-                        <input type="text" name="brand_sub" value="{{ $settings['brand_sub']['value'] ?? 'BPS Kabupaten Manggarai' }}"
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Label Tombol Masuk SIMAKIN</label>
+                        <input type="text" name="btn_masuk_label" value="{{ $settings['btn_masuk_label']['value'] ?? 'Masuk' }}"
                             class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
                     </div>
 
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Deskripsi Singkat Portal (Hero Subtitle)</label>
                         <textarea name="brand_desc" rows="3"
-                            class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none leading-relaxed">{{ $settings['brand_desc']['value'] ?? '' }}</textarea>
+                            class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none leading-relaxed">{{ $settings['brand_desc']['value'] ?? 'NATAS (Navigasi Akses Terpadu Layanan Statistik) BPS Kabupaten Manggarai adalah portal satu ruang untuk beragam layanan statistik terpadu, publikasi resmi, data indikator makro, rekomendasi kegiatan, dan konsultasi interaktif secara terintegrasi, transparan, dan terpercaya.' }}</textarea>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Label Tombol Masuk SIMAKIN</label>
-                        <input type="text" name="btn_masuk_label" value="{{ $settings['btn_masuk_label']['value'] ?? 'Masuk SIMAKIN' }}"
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Instansi (Header)</label>
+                        <input type="text" name="header_nama" value="{{ $settings['header_nama']['value'] ?? 'BPS KABUPATEN' }}"
+                            class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Lokasi Lembaga (Header)</label>
+                        <input type="text" name="header_lokasi" value="{{ $settings['header_lokasi']['value'] ?? 'MANGGARAI' }}"
                             class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
                     </div>
                 </div>
@@ -445,15 +449,32 @@
                             <i class="fa-solid fa-cloud-arrow-up text-base"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-extrabold text-slate-900">Upload Logo & Favicon</h3>
-                            <p class="text-xs text-slate-500">Pilih berkas gambar format PNG/WEBP untuk logo portal SIMAKIN BPS</p>
+                            <h3 class="text-sm font-extrabold text-slate-900">Upload Logo & Identitas Visual</h3>
+                            <p class="text-xs text-slate-500">Pilih berkas gambar format PNG/WEBP/SVG untuk logo portal NATAS dan SIMAKIN</p>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Logo Resmi SIMAKIN / BPS</label>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Logo Web Front Office (NATAS)</label>
+                            @if(!empty($settings['img_logo_natas']['value']))
+                                <div class="mb-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200 inline-block">
+                                    <img src="{{ asset('storage/' . $settings['img_logo_natas']['value']) }}" alt="Logo NATAS" class="h-10 w-auto object-contain">
+                                </div>
+                            @endif
+                            <input type="file" name="img_logo_natas" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                            <p class="text-[11px] text-slate-400 mt-1">Logo utama portal NATAS. Jika dikosongkan, menggunakan logo standar BPS + teks NATAS BPS MANGGARAI.</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Logo Resmi SIMAKIN (Internal)</label>
+                            @if(!empty($settings['img_logo_simakin']['value']))
+                                <div class="mb-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200 inline-block">
+                                    <img src="{{ asset('storage/' . $settings['img_logo_simakin']['value']) }}" alt="Logo SIMAKIN" class="h-10 w-auto object-contain">
+                                </div>
+                            @endif
                             <input type="file" name="img_logo_simakin" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                            <p class="text-[11px] text-slate-400 mt-1">Logo untuk panel login dan aplikasi internal SIMAKIN BPS.</p>
                         </div>
                     </div>
                 </div>

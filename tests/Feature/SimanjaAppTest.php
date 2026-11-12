@@ -30,7 +30,7 @@ class SimanjaAppTest extends TestCase
     {
         $response = $this->get('/');
         $response->assertStatus(200);
-        $response->assertSee('SIMAKINBPS');
+        $response->assertSee('NATAS');
     }
 
     public function test_guest_redirected_to_login_from_dashboard(): void

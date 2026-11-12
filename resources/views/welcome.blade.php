@@ -4,8 +4,8 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>SAPA BPS — Informasi Statistik, Mudah Diakses | BPS Kabupaten Manggarai</title>
-    <meta name="description" content="SAPA BPS Kabupaten Manggarai: Portal Pelayanan Statistik Terpadu (PST), Informasi Statistik, dan Publikasi Resmi BPS Kabupaten Manggarai yang Mudah Diakses.">
+    <title>{{ $brandName ?? 'NATAS BPS MANGGARAI' }} — {{ $brandTagline ?? 'Satu Ruang, Beragam Layanan Statistik.' }} | {{ $headerNama ?? 'BPS Kabupaten Manggarai' }}</title>
+    <meta name="description" content="{{ $brandName ?? 'NATAS BPS MANGGARAI' }} ({{ $brandSub ?? 'Navigasi Akses Terpadu Layanan Statistik BPS Manggarai' }}): {{ $brandTagline ?? 'Satu Ruang, Beragam Layanan Statistik.' }} Portal Pelayanan Statistik Terpadu (PST), Informasi Indikator Makro, dan Publikasi Resmi BPS Kabupaten Manggarai.">
 
     <!-- Plus Jakarta Sans & JetBrains Mono Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -74,28 +74,29 @@
         $bpsService = app(BpsApiService::class);
 
         // Teks & Branding dari Pengaturan Admin
-        $brandTagline  = $fs['brand_tagline']   ?? 'Informasi Statistik, Mudah Diakses';
-        $brandSub      = $fs['brand_sub']        ?? 'BPS Kabupaten Manggarai';
-        $brandDesc     = $fs['brand_desc']       ?? 'SAPA BPS adalah portal pelayanan statistik terpadu dan keterbukaan informasi publik BPS Kabupaten Manggarai yang dirancang untuk memudahkan akses data, publikasi, dan konsultasi statistik secara terintegrasi, transparan, dan terpercaya.';
-        $btnLabel      = $fs['btn_masuk_label']  ?? 'Masuk';
-        $headerNama    = $fs['header_nama']      ?? 'BPS Kabupaten Manggarai';
-        $headerLokasi  = $fs['header_lokasi']    ?? 'Kabupaten Manggarai';
+        $brandName     = $fs['brand_name']      ?? 'NATAS BPS MANGGARAI';
+        $brandSub      = $fs['brand_sub']       ?? 'Navigasi Akses Terpadu Layanan Statistik BPS Manggarai';
+        $brandTagline  = $fs['brand_tagline']   ?? 'Satu Ruang, Beragam Layanan Statistik.';
+        $brandDesc     = $fs['brand_desc']      ?? 'NATAS (Navigasi Akses Terpadu Layanan Statistik) BPS Kabupaten Manggarai adalah portal satu ruang untuk beragam layanan statistik terpadu, publikasi resmi, data indikator makro, rekomendasi kegiatan, dan konsultasi interaktif secara terintegrasi, transparan, dan terpercaya.';
+        $btnLabel      = $fs['btn_masuk_label'] ?? 'Masuk';
+        $headerNama    = $fs['header_nama']     ?? 'BPS Kabupaten Manggarai';
+        $headerLokasi  = $fs['header_lokasi']   ?? 'Kabupaten Manggarai';
 
         // Kontak & Layanan
-        $pstWa         = $fs['pst_whatsapp']     ?? '08113904990';
+        $pstWa         = $fs['pst_whatsapp']    ?? '08113904990';
         $pstWaClean    = preg_replace('/[^0-9]/', '', $pstWa);
         if (str_starts_with($pstWaClean, '0')) {
             $pstWaClean = '62' . substr($pstWaClean, 1);
         }
-        $pengaduanMail = $fs['pengaduan_email']  ?? 'bps5310@bps.go.id';
-        $bpsDomain     = $fs['bps_domain']       ?? '5310';
-        $bpsApiKey     = $fs['bps_api_key']      ?? '';
+        $pengaduanMail = $fs['pengaduan_email'] ?? 'bps5310@bps.go.id';
+        $bpsDomain     = $fs['bps_domain']      ?? '5310';
+        $bpsApiKey     = $fs['bps_api_key']     ?? '';
 
         // Favicon & Gambar
-        $logoFavicon   = !empty($fs['img_logo_sapa']) ? asset('storage/' . $fs['img_logo_sapa']) : asset('images/sapa_bps.png');
+        $logoFavicon   = !empty($fs['img_logo_natas']) ? asset('storage/' . $fs['img_logo_natas']) : (!empty($fs['img_logo_sapa']) ? asset('storage/' . $fs['img_logo_sapa']) : asset('images/natas_bps.svg'));
         $logoBps       = !empty($fs['img_logo_bps']) ? asset('storage/' . $fs['img_logo_bps']) : asset('images/logo_bps.png');
         $logoSimakin   = !empty($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin.png');
-        $logoSapa      = !empty($fs['img_logo_sapa']) ? asset('storage/' . $fs['img_logo_sapa']) : asset('images/sapa_bps.png');
+        $logoNatas     = !empty($fs['img_logo_natas']) ? asset('storage/' . $fs['img_logo_natas']) : (!empty($fs['img_logo_sapa']) ? asset('storage/' . $fs['img_logo_sapa']) : asset('images/natas_bps.svg'));
 
         // Navigasi Menu Halaman Utama
         $navMenus       = FrontendSetting::getNavMenu();
@@ -136,17 +137,17 @@
 <body class="bg-[#F4F7FB] text-slate-800 antialiased selection:bg-[#0B4F82] selection:text-white">
 
 <!-- BEGIN: AnnouncementBar -->
-<div class="bg-[#172B4D] text-white text-xs py-2.5 px-4 relative z-50 border-b border-slate-700/60" data-purpose="announcement-banner">
+<div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 relative z-50 border-b border-slate-800" data-purpose="announcement-banner">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-        <div class="flex items-center gap-2.5 truncate">
-            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#0B4F82]/40 text-sky-200 font-semibold text-[10px] uppercase tracking-wider border border-sky-400/30">
+        <div class="flex items-center gap-2.5 truncate text-[11px] sm:text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold text-[10px] uppercase tracking-wider border border-emerald-500/20">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Pengumuman
+                Front Office
             </span>
-            <span class="truncate text-slate-300">Selamat datang di <strong class="text-white font-semibold">SAPA BPS</strong> — Informasi Statistik, Mudah Diakses. Layanan PST &amp; konsultasi data gratis (Rp 0,-).</span>
+            <span class="truncate text-slate-300">Selamat datang di <strong class="text-white font-medium">{{ $brandName }}</strong> — {{ $brandTagline }}</span>
         </div>
-        <a class="inline-flex items-center gap-1 text-sky-300 hover:text-white font-medium transition-colors shrink-0 group" href="#hubungi-pst">
-            <span>PST BPS Manggarai</span>
+        <a class="inline-flex items-center gap-1 text-slate-300 hover:text-white font-medium text-[11px] sm:text-xs transition-colors shrink-0 group" href="https://wa.me/{{ $pstWaClean }}" target="_blank" rel="noopener noreferrer">
+            <span>Konsultasi Online</span>
             <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
         </a>
     </div>
@@ -154,18 +155,34 @@
 <!-- END: AnnouncementBar -->
 
 <!-- BEGIN: MainNavbar -->
-<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-all">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6">
-        <!-- Brand & Identity (SAPA BPS) -->
-        <a class="flex items-center gap-3.5 group" href="{{ url('/') }}" title="SAPA BPS - Informasi Statistik, Mudah Diakses">
-            <img src="{{ $logoSapa }}" alt="SAPA BPS - Informasi Statistik, Mudah Diakses" class="h-11 sm:h-12 w-auto max-w-[220px] sm:max-w-none object-contain transition-transform duration-200 group-hover:scale-[1.03]">
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/60 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-6">
+        <!-- Brand & Identity (NATAS BPS MANGGARAI) -->
+        <a class="flex items-center gap-3 group" href="{{ url('/') }}" title="{{ $brandName }} — {{ $brandTagline }}">
+            @if(!empty($fs['img_logo_natas']))
+                <img src="{{ asset('storage/' . $fs['img_logo_natas']) }}" alt="{{ $brandName }}" class="h-9 sm:h-10 w-auto max-w-[220px] object-contain transition-transform duration-200 group-hover:opacity-90">
+            @else
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-blue-50 to-sky-100/80 border border-blue-200/80 p-1 flex items-center justify-center shrink-0 shadow-2xs group-hover:shadow-xs transition">
+                        <img src="{{ $logoBps }}" alt="Logo BPS" class="w-full h-full object-contain">
+                    </div>
+                    <div class="flex flex-col justify-center text-left">
+                        <div class="flex items-center gap-1.5 leading-none">
+                            <span class="text-base sm:text-lg font-black text-[#0B4F82] tracking-tight group-hover:text-[#083E67] transition-colors">NATAS</span>
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-[#0B4F82] text-white tracking-wider">BPS</span>
+                            <span class="text-xs sm:text-sm font-bold text-slate-800 tracking-tight">MANGGARAI</span>
+                        </div>
+                        <span class="text-[9px] text-slate-500 font-medium tracking-tight hidden sm:block leading-none mt-1">Navigasi Akses Terpadu Layanan Statistik</span>
+                    </div>
+                </div>
+            @endif
         </a>
 
         <!-- Primary Navigation Links (Dynamic dari Dashboard Admin) -->
-        <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-slate-600">
+        <nav class="hidden lg:flex items-center gap-1 text-[13px] font-medium text-slate-600">
             @foreach($navMenus as $nav)
                 @if(!empty($nav['is_active']))
-                    <a class="px-3.5 py-2 {{ $loop->first ? 'text-[#0B4F82] font-semibold rounded-lg bg-[#F0F6FA]' : 'hover:text-[#0B4F82] hover:bg-slate-50 rounded-lg transition-colors' }}"
+                    <a class="px-3 py-1.5 rounded-lg transition-colors {{ $loop->first ? 'text-[#0B4F82] font-semibold bg-slate-100/80' : 'hover:text-[#0B4F82] hover:bg-slate-50' }}"
                        href="{{ $nav['url'] }}"
                        target="{{ $nav['target'] ?? '_self' }}">
                         {{ $nav['label'] }}
@@ -177,20 +194,20 @@
         <!-- User Action / Portal Access -->
         <div class="flex items-center gap-3">
             @if(auth()->check())
-                <a class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition-all shadow-sm hover:shadow active:scale-[0.98]" href="{{ route('dashboard') }}">
-                    <span>Buka Dashboard</span>
-                    <svg class="w-4 h-4 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                <a class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition-all shadow-xs active:scale-[0.98]" href="{{ route('dashboard') }}">
+                    <span>Dashboard</span>
+                    <svg class="w-3.5 h-3.5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                 </a>
             @else
-                <a class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-[#0B4F82] text-white hover:bg-[#083E67] transition-all shadow-sm hover:shadow active:scale-[0.98]" href="{{ route('login') }}">
+                <a class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-[#0B4F82] text-white hover:bg-[#083E67] transition-all shadow-xs active:scale-[0.98]" href="{{ route('login') }}">
                     <span>{{ $btnLabel }}</span>
-                    <svg class="w-4 h-4 text-sky-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <svg class="w-3.5 h-3.5 text-sky-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                 </a>
             @endif
 
             <!-- Mobile Menu Toggle Button -->
             <button type="button" onclick="document.getElementById('mobile-nav-menu').classList.toggle('hidden')" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition focus:outline-none" aria-label="Buka Menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
             </button>
         </div>
     </div>
@@ -199,7 +216,7 @@
     <div id="mobile-nav-menu" class="hidden lg:hidden border-t border-slate-100 bg-white/95 backdrop-blur-md px-4 pt-2 pb-4 space-y-1 shadow-lg">
         @foreach($navMenus as $nav)
             @if(!empty($nav['is_active']))
-                <a class="block px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#0B4F82] hover:bg-slate-50 rounded-lg transition-colors"
+                <a class="block px-3 py-2 text-xs font-medium text-slate-700 hover:text-[#0B4F82] hover:bg-slate-50 rounded-lg transition-colors"
                    href="{{ $nav['url'] }}"
                    target="{{ $nav['target'] ?? '_self' }}"
                    onclick="document.getElementById('mobile-nav-menu').classList.add('hidden')">
@@ -212,33 +229,39 @@
 <!-- END: MainNavbar -->
 
 <!-- BEGIN: HeroSection -->
-<section class="relative pt-12 pb-16 overflow-hidden bg-[#F4F7FB] border-b border-slate-200/60" data-purpose="hero-section" id="beranda">
-    <!-- Subtle Background Glow Ornaments -->
-    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-[#0B4F82]/10 via-sky-100/10 to-transparent blur-3xl pointer-events-none -z-10"></div>
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <!-- Micro Breadcrumb Badge -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs mb-6 text-xs text-slate-600 font-medium">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Portal Layanan &amp; Data Statistik</span>
+<section class="relative pt-16 pb-20 overflow-hidden bg-gradient-to-b from-white via-slate-50/70 to-[#F4F7FB] border-b border-slate-200/60" data-purpose="hero-section" id="beranda">
+    <!-- Subtle Dot Grid Blueprint Background -->
+    <div class="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px] opacity-40 pointer-events-none -z-10 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_15%,#000_70%,transparent_100%)]"></div>
+    
+    <!-- Soft Ambient Light Glows -->
+    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[320px] bg-gradient-to-b from-sky-200/30 via-indigo-100/20 to-transparent blur-3xl pointer-events-none -z-10"></div>
+    
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <!-- Floating Micro Breadcrumb Badge with Pulsing Beacon -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-2xs mb-6 text-xs text-slate-700 font-medium transition-all hover:border-[#0B4F82]/30">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span class="text-slate-800 font-bold tracking-tight">{{ $brandName }}</span>
             <span class="text-slate-300">•</span>
-            <span class="text-[#0B4F82] font-semibold">SAPA BPS Manggarai</span>
+            <span class="text-[#0B4F82] font-semibold tracking-tight">{{ $brandSub }}</span>
         </div>
 
-        <!-- Main Headline -->
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#172B4D] tracking-tight leading-[1.2]">
-            Informasi Statistik, <span class="text-[#0B4F82]">Mudah Diakses</span><br/>
-            <span class="text-lg sm:text-2xl font-bold text-slate-600 mt-2 block">Pelayanan Statistik Terpadu (PST) BPS Kabupaten Manggarai</span>
+        <!-- Main Headline with Gradient Text -->
+        <h1 class="text-3xl sm:text-5xl lg:text-[50px] font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+            Satu Ruang, <span class="bg-gradient-to-r from-[#0B4F82] via-sky-600 to-[#062E4D] bg-clip-text text-transparent">Beragam Layanan Statistik.</span>
         </h1>
-        <p class="mt-4 text-sm sm:text-base text-slate-600 max-w-3xl mx-auto font-normal leading-relaxed">
+        <p class="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
             {{ $brandDesc }}
         </p>
 
-        <!-- Unified Modern Search Bar -->
-        <div class="mt-8 max-w-3xl mx-auto">
-            <div class="p-2 bg-white rounded-2xl shadow-sm border border-slate-200/90 flex flex-col sm:flex-row items-center gap-2 transition-all focus-within:border-[#0B4F82] focus-within:ring-2 focus-within:ring-[#0B4F82]/20">
+        <!-- Floating Glassmorphic Modern Search Bar -->
+        <div class="mt-8 max-w-2xl mx-auto">
+            <div class="p-2 bg-white rounded-2xl shadow-lg shadow-sky-950/5 border border-slate-200/90 flex flex-col sm:flex-row items-center gap-1.5 transition-all focus-within:border-[#0B4F82] focus-within:ring-4 focus-within:ring-[#0B4F82]/10 hover:border-slate-300">
                 <!-- Category Selector Dropdown -->
-                <div class="relative w-full sm:w-auto shrink-0 border-b sm:border-b-0 sm:border-r border-slate-200">
-                    <select id="hero-search-category" aria-label="Pilih Kategori Pencarian" class="w-full sm:w-44 py-2.5 pl-3 pr-8 text-xs font-semibold text-slate-700 bg-transparent border-0 focus:ring-0 cursor-pointer">
+                <div class="relative w-full sm:w-auto shrink-0 border-b sm:border-b-0 sm:border-r border-slate-100">
+                    <select id="hero-search-category" aria-label="Pilih Kategori Pencarian" class="w-full sm:w-40 py-2.5 pl-3 pr-8 text-xs font-semibold text-slate-600 bg-transparent border-0 focus:ring-0 cursor-pointer">
                         <option value="all">Semua Kategori</option>
                         <option value="indikator">Indikator Strategis</option>
                         <option value="publikasi">Publikasi Resmi</option>
@@ -248,42 +271,36 @@
                 </div>
                 <!-- Main Input Field -->
                 <div class="relative flex-1 w-full flex items-center">
-                    <svg class="w-5 h-5 text-slate-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <input id="hero-search-query" onkeydown="if(event.key === 'Enter') handleHeroSearch()" class="w-full py-2 px-3 text-sm text-slate-800 placeholder-slate-400 bg-transparent border-0 focus:ring-0" placeholder="Cari di SAPA BPS: PDRB, inflasi, kemiskinan, sensus, DDA..." type="text"/>
+                    <svg class="w-4 h-4 text-slate-400 ml-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <input id="hero-search-query" onkeydown="if(event.key === 'Enter') handleHeroSearch()" class="w-full py-2 px-3 text-xs sm:text-sm text-slate-800 placeholder-slate-400 bg-transparent border-0 focus:ring-0" placeholder="Ketik kata kunci: PDRB, inflasi, kemiskinan, sensus, DDA..." type="text"/>
                 </div>
                 <!-- Submit Button -->
-                <button onclick="handleHeroSearch()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#0B4F82] hover:bg-[#083E67] text-white font-medium text-sm transition-colors shadow-xs shrink-0 flex items-center justify-center gap-2">
+                <button onclick="handleHeroSearch()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0B4F82] to-[#083E67] hover:from-[#083E67] hover:to-[#062E4D] text-white font-semibold text-xs sm:text-sm transition-all shadow-md shadow-sky-900/15 active:scale-95 shrink-0 flex items-center justify-center gap-2 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                     <span>Cari Data</span>
                 </button>
             </div>
 
-            <!-- Trending Keywords -->
-            <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
-                <span class="inline-flex items-center gap-1 font-medium text-slate-600">
-                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    Pencarian Populer:
+            <!-- Trending Keywords & Navigation Shortcuts -->
+            <div class="mt-4 flex flex-wrap items-center justify-center gap-1.5 text-xs text-slate-500">
+                <span class="text-[11px] font-medium text-slate-400 mr-1 flex items-center gap-1">
+                    <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    Populer:
                 </span>
-                <a class="px-2.5 py-1 bg-white hover:bg-slate-100 hover:text-[#0B4F82] rounded-full border border-slate-200 transition-colors" href="#data-pokok">PDRB 2024</a>
-                <a class="px-2.5 py-1 bg-white hover:bg-slate-100 hover:text-[#0B4F82] rounded-full border border-slate-200 transition-colors" href="#data-pokok">Kemiskinan</a>
-                <a class="px-2.5 py-1 bg-white hover:bg-slate-100 hover:text-[#0B4F82] rounded-full border border-slate-200 transition-colors" href="#data-pokok">Inflasi Manggarai</a>
-                <a class="px-2.5 py-1 bg-white hover:bg-slate-100 hover:text-[#0B4F82] rounded-full border border-slate-200 transition-colors" href="#infografis">Sensus Pertanian ST2023</a>
-                <a class="px-2.5 py-1 bg-white hover:bg-slate-100 hover:text-[#0B4F82] rounded-full border border-slate-200 transition-colors" href="#publikasi">DDA 2024</a>
-            </div>
-
-            <!-- Quick Access Shortcuts -->
-            <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-                <a class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 hover:border-[#0B4F82] hover:text-[#0B4F82] text-slate-700 text-xs font-semibold transition-all shadow-xs" href="#indikator-terkini">
-                    <svg class="w-4 h-4 text-[#0B4F82]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                <a class="px-2.5 py-0.5 bg-white/90 hover:bg-white hover:text-[#0B4F82] hover:border-[#0B4F82]/30 rounded-md border border-slate-200/80 text-[11px] text-slate-600 transition-all shadow-2xs" href="#data-pokok">PDRB 2024</a>
+                <a class="px-2.5 py-0.5 bg-white/90 hover:bg-white hover:text-[#0B4F82] hover:border-[#0B4F82]/30 rounded-md border border-slate-200/80 text-[11px] text-slate-600 transition-all shadow-2xs" href="#data-pokok">Kemiskinan</a>
+                <a class="px-2.5 py-0.5 bg-white/90 hover:bg-white hover:text-[#0B4F82] hover:border-[#0B4F82]/30 rounded-md border border-slate-200/80 text-[11px] text-slate-600 transition-all shadow-2xs" href="#data-pokok">Inflasi Manggarai</a>
+                <a class="px-2.5 py-0.5 bg-white/90 hover:bg-white hover:text-[#0B4F82] hover:border-[#0B4F82]/30 rounded-md border border-slate-200/80 text-[11px] text-slate-600 transition-all shadow-2xs" href="#publikasi">DDA 2024</a>
+                <span class="text-slate-300 mx-1 hidden sm:inline">•</span>
+                <a class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0B4F82] hover:underline" href="#indikator-terkini">
                     <span>Indikator Makro</span>
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                 </a>
-                <a class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 hover:border-[#0B4F82] hover:text-[#0B4F82] text-slate-700 text-xs font-semibold transition-all shadow-xs" href="#publikasi">
-                    <svg class="w-4 h-4 text-[#0B4F82]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Publikasi DDA</span>
-                </a>
-                <a class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 hover:border-[#0B4F82] hover:text-[#0B4F82] text-slate-700 text-xs font-semibold transition-all shadow-xs" href="#buku-tamu">
-                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Buku Tamu Digital</span>
-                </a>
+                <span class="text-slate-300 mx-1 hidden sm:inline">•</span>
+                <button type="button" onclick="bukaModalBukuTamu()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:underline cursor-pointer">
+                    <span>Buku Tamu</span>
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                </button>
             </div>
         </div>
     </div>
@@ -316,8 +333,6 @@
 {{-- 7. Dokumentasi & Warta Kegiatan --}}
 @include('frontend.partials.kegiatan')
 
-{{-- 8. Pelayanan Statistik Terpadu (PST) & Maklumat Pengaduan --}}
-@include('frontend.partials.pst-service')
 
 {{-- 9. Footer --}}
 @include('frontend.partials.footer')

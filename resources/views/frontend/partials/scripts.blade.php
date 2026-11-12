@@ -113,7 +113,7 @@ function tutupModalBukuTamu() {
 function simpanBukuTamu() {
   const nama = document.getElementById('tamu-nama')?.value || 'Pengunjung';
   tutupModalBukuTamu();
-  showToast('Terima Kasih!', `Kunjungan ${nama} telah tercatat di Buku Tamu Digital SAPA BPS.`);
+  showToast('Terima Kasih!', `Kunjungan ${nama} telah tercatat di Buku Tamu Digital NATAS BPS.`);
 }
 
 function bukaModalApi() {

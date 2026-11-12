@@ -9,13 +9,13 @@
                 <div class="lg:col-span-7">
                     <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-sky-200 text-xs font-semibold mb-4 border border-white/10">
                         <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        Pelayanan Statistik Terpadu (PST) — SAPA BPS
+                        Pelayanan Statistik Terpadu (PST) — NATAS BPS
                     </div>
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-                        Konsultasi Data &amp; Layanan SAPA BPS
+                        Konsultasi Data &amp; Layanan NATAS BPS
                     </h2>
                     <p class="text-sm text-slate-300 mt-3 leading-relaxed">
-                        SAPA BPS Kabupaten Manggarai siap melayani permohonan data mikro, konsultasi statistik, rekomendasi kegiatan statistik sektoral (Romantik), serta verifikasi metadata secara transparan, mudah diakses, dan tanpa dipungut biaya (Rp 0,-).
+                        NATAS (Navigasi Akses Terpadu Layanan Statistik) BPS Kabupaten Manggarai siap melayani permohonan data mikro, konsultasi statistik, rekomendasi kegiatan statistik sektoral (Romantik), serta verifikasi metadata secara transparan, mudah diakses, dan tanpa dipungut biaya (Rp 0,-).
                     </p>
                     <div class="mt-6 space-y-3 text-xs text-slate-300">
                         <div class="flex items-start gap-3">

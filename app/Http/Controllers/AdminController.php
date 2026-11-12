@@ -946,28 +946,30 @@ class AdminController extends Controller
     private function frontendFields(): array
     {
         return [
-            // ── PANEL KIRI: Teks Branding ──────────────────────────────────────
-            ['key' => 'brand_tagline',   'label' => 'Judul / Tagline Utama',          'type' => 'text',     'group' => 'teks',   'default' => 'Sistem Informasi Manajemen Kinerja'],
-            ['key' => 'brand_sub',       'label' => 'Sub-Judul (Nama Instansi)',       'type' => 'text',     'group' => 'teks',   'default' => 'BPS Kabupaten Manggarai'],
-            ['key' => 'brand_desc',      'label' => 'Deskripsi Aplikasi',             'type' => 'textarea', 'group' => 'teks',   'default' => 'SIMAKINBPS adalah platform digital manajemen kinerja pegawai di BPS Kabupaten Manggarai yang dirancang untuk mendukung perencanaan, pemantauan, dan evaluasi kinerja secara terintegrasi, transparan, dan efektif.'],
+            // ── FRONT OFFICE & BRANDING ──────────────────────────────────────────
+            ['key' => 'brand_name',      'label' => 'Nama Web Front Office',          'type' => 'text',     'group' => 'teks',   'default' => 'NATAS BPS MANGGARAI'],
+            ['key' => 'brand_sub',       'label' => 'Kepanjangan / Sub-Judul',        'type' => 'text',     'group' => 'teks',   'default' => 'Navigasi Akses Terpadu Layanan Statistik BPS Manggarai'],
+            ['key' => 'brand_tagline',   'label' => 'Tagline Utama',                  'type' => 'text',     'group' => 'teks',   'default' => 'Satu Ruang, Beragam Layanan Statistik.'],
+            ['key' => 'brand_desc',      'label' => 'Deskripsi Singkat Portal',       'type' => 'textarea', 'group' => 'teks',   'default' => 'NATAS (Navigasi Akses Terpadu Layanan Statistik) BPS Kabupaten Manggarai adalah portal satu ruang untuk beragam layanan statistik terpadu, publikasi resmi, data indikator makro, rekomendasi kegiatan, dan konsultasi interaktif secara terintegrasi, transparan, dan terpercaya.'],
             ['key' => 'btn_masuk_label', 'label' => 'Label Tombol Masuk',             'type' => 'text',     'group' => 'teks',   'default' => 'Masuk'],
 
             // ── PANEL KANAN: Teks Header ────────────────────────────────────────
-            ['key' => 'header_nama',     'label' => 'Nama Instansi (Panel Kanan)',    'type' => 'text',     'group' => 'teks',   'default' => 'BPS KABUPATEN'],
-            ['key' => 'header_lokasi',   'label' => 'Lokasi Instansi (Panel Kanan)', 'type' => 'text',     'group' => 'teks',   'default' => 'MANGGARAI'],
+            ['key' => 'header_nama',     'label' => 'Nama Lembaga (Header)',          'type' => 'text',     'group' => 'teks',   'default' => 'BPS KABUPATEN'],
+            ['key' => 'header_lokasi',   'label' => 'Lokasi Lembaga (Header)',        'type' => 'text',     'group' => 'teks',   'default' => 'MANGGARAI'],
 
             // ── WARNA ────────────────────────────────────────────────────────────
             ['key' => 'bg_left_color',   'label' => 'Warna Latar Panel Kiri',         'type' => 'color',    'group' => 'warna',  'default' => '#BEDAF0'],
             ['key' => 'btn_color',       'label' => 'Warna Tombol Masuk',             'type' => 'color',    'group' => 'warna',  'default' => '#1565C0'],
 
             // ── GAMBAR ───────────────────────────────────────────────────────────
+            ['key' => 'img_logo_natas',   'label' => 'Logo Front Office (NATAS)',      'type' => 'image',    'group' => 'gambar', 'default' => null],
             ['key' => 'img_logo_simakin', 'label' => 'Logo SIMAKIN (Panel Kiri)',      'type' => 'image',    'group' => 'gambar', 'default' => null],
             ['key' => 'img_logo_bps',     'label' => 'Logo BPS (Panel Kanan Atas)',    'type' => 'image',    'group' => 'gambar', 'default' => null],
             ['key' => 'img_kantor',       'label' => 'Gambar Gedung / Kantor',         'type' => 'image',    'group' => 'gambar', 'default' => null],
             ['key' => 'img_quote_avatar', 'label' => 'Foto Kepala BPS (Quotes)',       'type' => 'image',    'group' => 'gambar', 'default' => null],
 
             // ── PENGUMUMAN TICKER ────────────────────────────────────────────────
-            ['key' => 'ticker_text',      'label' => 'Teks Pengumuman Berjalan',       'type' => 'textarea', 'group' => 'pengumuman', 'default' => 'Selamat datang di Website Resmi Pelayanan Statistik Terpadu BPS Kabupaten Manggarai — Hubungi PST Online melalui WhatsApp untuk permohonan data dan konsultasi statistik sektoral.'],
+            ['key' => 'ticker_text',      'label' => 'Teks Pengumuman Berjalan',       'type' => 'textarea', 'group' => 'pengumuman', 'default' => 'Selamat datang di NATAS BPS MANGGARAI (Navigasi Akses Terpadu Layanan Statistik BPS Kabupaten Manggarai) — Satu Ruang, Beragam Layanan Statistik. Hubungi Halo PST melalui WhatsApp untuk konsultasi dan permohonan data.'],
 
             // ── 8 INDIKATOR STRATEGIS (DATA POKOK) ────────────────────────────────
             ['key' => 'stat_penduduk',             'label' => 'Jumlah Penduduk (Jiwa)',             'type' => 'text', 'group' => 'data', 'default' => '338.414'],

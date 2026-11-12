@@ -9,8 +9,8 @@
                 <i class="fa-solid fa-book-bookmark"></i>
             </div>
             <div>
-                <h3 class="text-base font-extrabold text-slate-900">Buku Tamu Digital SAPA BPS</h3>
-                <p class="text-xs text-slate-500">Registrasi Kunjungan Konsultasi &amp; Pelayanan Statistik Terpadu (PST)</p>
+                <h3 class="text-base font-extrabold text-slate-900">Buku Tamu Digital NATAS BPS</h3>
+                <p class="text-xs text-slate-500">Navigasi Akses Terpadu Layanan Statistik — BPS Kabupaten Manggarai</p>
             </div>
         </div>
         <form onsubmit="event.preventDefault(); simpanBukuTamu();" class="space-y-4">
