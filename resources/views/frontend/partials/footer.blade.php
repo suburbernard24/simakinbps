@@ -78,7 +78,7 @@
                     </li>
                     <li>
                         <a href="https://wa.me/{{ $pstWaClean }}" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors inline-block py-0.5">
-                            Konsultasi Online WhatsApp
+                            Konsultasi Online WhatsAppppp
                         </a>
                     </li>
                 </ul>
