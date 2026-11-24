@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Dashboard Administrator')
-@section('page_title', 'Dashboard Administrator SIMAKINBPS')
+@section('page_title', 'Dashboard Administrator Sistem')
 
 @section('content')
 <div class="space-y-6">
