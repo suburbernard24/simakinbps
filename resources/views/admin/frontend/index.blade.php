@@ -457,13 +457,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Logo Web Front Office (NATAS)</label>
-                            @if(!empty($settings['img_logo_natas']['value']))
-                                <div class="mb-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200 inline-block">
-                                    <img src="{{ asset('storage/' . $settings['img_logo_natas']['value']) }}" alt="Logo NATAS" class="h-10 w-auto object-contain">
-                                </div>
-                            @endif
+                            <div class="mb-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200 inline-block">
+                                <img src="{{ !empty($settings['img_logo_natas']['value']) ? asset('storage/' . $settings['img_logo_natas']['value']) : asset('images/LogoFE_natas.webp') }}" alt="Logo NATAS" class="h-10 w-auto object-contain">
+                            </div>
                             <input type="file" name="img_logo_natas" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
-                            <p class="text-[11px] text-slate-400 mt-1">Logo utama portal NATAS. Jika dikosongkan, menggunakan logo standar BPS + teks NATAS BPS MANGGARAI.</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Logo utama portal NATAS. Standar default: <code>LogoFE_natas.webp</code>.</p>
                         </div>
 
                         <div>

@@ -93,10 +93,10 @@
         $bpsApiKey     = $fs['bps_api_key']     ?? '';
 
         // Favicon & Gambar
-        $logoFavicon   = !empty($fs['img_logo_natas']) ? asset('storage/' . $fs['img_logo_natas']) : (!empty($fs['img_logo_sapa']) ? asset('storage/' . $fs['img_logo_sapa']) : asset('images/natas_bps.svg'));
+        $logoFavicon   = !empty($fs['img_logo_natas']) ? asset('storage/' . $fs['img_logo_natas']) : asset('images/LogoFE_natas.webp');
         $logoBps       = !empty($fs['img_logo_bps']) ? asset('storage/' . $fs['img_logo_bps']) : asset('images/logo_bps.png');
         $logoSimakin   = !empty($fs['img_logo_simakin']) ? asset('storage/' . $fs['img_logo_simakin']) : asset('images/simakin.png');
-        $logoNatas     = !empty($fs['img_logo_natas']) ? asset('storage/' . $fs['img_logo_natas']) : (!empty($fs['img_logo_sapa']) ? asset('storage/' . $fs['img_logo_sapa']) : asset('images/natas_bps.svg'));
+        $logoNatas     = !empty($fs['img_logo_natas']) ? asset('storage/' . $fs['img_logo_natas']) : asset('images/LogoFE_natas.webp');
 
         // Navigasi Menu Halaman Utama
         $navMenus       = FrontendSetting::getNavMenu();
@@ -159,23 +159,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-6">
         <!-- Brand & Identity (NATAS BPS MANGGARAI) -->
         <a class="flex items-center gap-3 group" href="{{ url('/') }}" title="{{ $brandName }} — {{ $brandTagline }}">
-            @if(!empty($fs['img_logo_natas']))
-                <img src="{{ asset('storage/' . $fs['img_logo_natas']) }}" alt="{{ $brandName }}" class="h-9 sm:h-10 w-auto max-w-[220px] object-contain transition-transform duration-200 group-hover:opacity-90">
-            @else
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-blue-50 to-sky-100/80 border border-blue-200/80 p-1 flex items-center justify-center shrink-0 shadow-2xs group-hover:shadow-xs transition">
-                        <img src="{{ $logoBps }}" alt="Logo BPS" class="w-full h-full object-contain">
-                    </div>
-                    <div class="flex flex-col justify-center text-left">
-                        <div class="flex items-center gap-1.5 leading-none">
-                            <span class="text-base sm:text-lg font-black text-[#0B4F82] tracking-tight group-hover:text-[#083E67] transition-colors">NATAS</span>
-                            <span class="px-1.5 py-0.5 rounded text-[9px] font-extrabold bg-[#0B4F82] text-white tracking-wider">BPS</span>
-                            <span class="text-xs sm:text-sm font-bold text-slate-800 tracking-tight">MANGGARAI</span>
-                        </div>
-                        <span class="text-[9px] text-slate-500 font-medium tracking-tight hidden sm:block leading-none mt-1">Navigasi Akses Terpadu Layanan Statistik</span>
-                    </div>
-                </div>
-            @endif
+            <img src="{{ $logoNatas }}" alt="{{ $brandName }}" class="h-9 sm:h-11 w-auto max-w-[240px] object-contain transition-transform duration-200 group-hover:opacity-90">
         </a>
 
         <!-- Primary Navigation Links (Dynamic dari Dashboard Admin) -->

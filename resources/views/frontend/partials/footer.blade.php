@@ -6,18 +6,8 @@
             <!-- Col 1: Identity & Office Address (4 cols) -->
             <div class="lg:col-span-4 space-y-3.5">
                 <div>
-                    <a href="{{ url('/') }}" class="inline-flex items-center gap-3 bg-white px-3.5 py-2 rounded-xl shadow-2xs hover:opacity-95 transition-opacity border border-slate-200">
-                        @if(!empty($fs['img_logo_natas']))
-                            <img src="{{ asset('storage/' . $fs['img_logo_natas']) }}" alt="{{ $brandName ?? 'NATAS BPS MANGGARAI' }}" class="h-8 w-auto object-contain">
-                        @else
-                            <div class="w-8 h-8 rounded-lg bg-blue-50 p-1 flex items-center justify-center shrink-0 border border-blue-100">
-                                <img src="{{ $logoBps ?? asset('images/logo_bps.png') }}" alt="Logo BPS" class="w-full h-full object-contain">
-                            </div>
-                            <div class="text-left">
-                                <div class="font-black text-xs sm:text-sm text-[#0B4F82] leading-tight">{{ $brandName ?? 'NATAS BPS MANGGARAI' }}</div>
-                                <div class="text-[9px] sm:text-[10px] text-slate-500 font-medium leading-tight">{{ $brandTagline ?? 'Satu Ruang, Beragam Layanan Statistik.' }}</div>
-                            </div>
-                        @endif
+                    <a href="{{ url('/') }}" class="inline-block bg-white px-3.5 py-2 rounded-xl shadow-2xs hover:opacity-95 transition-opacity border border-slate-200">
+                        <img src="{{ $logoNatas ?? asset('images/LogoFE_natas.webp') }}" alt="{{ $brandName ?? 'NATAS BPS MANGGARAI' }}" class="h-8 sm:h-9 w-auto max-w-[200px] object-contain">
                     </a>
                     <p class="text-xs text-slate-400 mt-2.5 leading-relaxed max-w-sm">
                         <strong>{{ $brandName ?? 'NATAS BPS MANGGARAI' }}</strong> ({{ $brandSub ?? 'Navigasi Akses Terpadu Layanan Statistik BPS Manggarai' }}) — Portal resmi penyebarluasan data statistik, publikasi, dan keterbukaan informasi publik BPS Kabupaten Manggarai.
