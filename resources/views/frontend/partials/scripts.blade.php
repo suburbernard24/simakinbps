@@ -6,6 +6,9 @@
 
 <!-- JavaScript Functions -->
 <script>
+// =========================================================================
+// TOAST NOTIFICATIONS & CLIPBOARD
+// =========================================================================
 function showToast(title, body) {
   const toast = document.getElementById('toast-notif');
   if (!toast) return;
@@ -14,15 +17,7 @@ function showToast(title, body) {
   toast.classList.remove('hidden');
   setTimeout(() => {
     toast.classList.add('hidden');
-  }, 2800);
-}
-
-function salinLinkTabel(url, judul) {
-  navigator.clipboard.writeText(url).then(() => {
-    showToast('Tautan Disalin!', judul);
-  }).catch(() => {
-    showToast('Tautan Disalin!', url);
-  });
+  }, 3200);
 }
 
 function salinTeksData(teks) {
@@ -33,26 +28,26 @@ function salinTeksData(teks) {
   });
 }
 
-function handleHeroSearch() {
-  const query = document.getElementById('hero-search-query').value.trim();
-  const category = document.getElementById('hero-search-category').value;
-  if (!query) {
-    document.getElementById('publikasi').scrollIntoView({ behavior: 'smooth' });
-    return;
-  }
-  showToast('Mencari Data...', `Kata kunci: "${query}" (${category})`);
-  document.getElementById('publikasi').scrollIntoView({ behavior: 'smooth' });
+function salinLinkTabel(url, judul) {
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('Tautan Disalin!', judul);
+  }).catch(() => {
+    showToast('Tautan Disalin!', url);
+  });
 }
 
-function filterPubCategory(cat, btn) {
-  document.querySelectorAll('.pub-filter-btn').forEach(b => {
-    b.className = 'pub-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all';
+// =========================================================================
+// DATA STRATEGIS FILTER (NTT BPS STYLE)
+// =========================================================================
+function filterDataStrategis(cat, btn) {
+  document.querySelectorAll('.data-filter-btn').forEach(b => {
+    b.className = 'data-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all';
   });
-  btn.className = 'pub-filter-btn px-5 py-2 rounded-full text-xs font-bold bg-[#0B4F82] text-white shadow-xs cursor-pointer transition-all';
+  btn.className = 'data-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0B4F82] text-white shadow-xs cursor-pointer transition-all';
 
-  const cards = document.querySelectorAll('.pub-card-item');
+  const cards = document.querySelectorAll('.data-card-item');
   cards.forEach(card => {
-    if (cat === 'semua' || card.classList.contains('pub-cat-' + cat)) {
+    if (cat === 'semua' || card.classList.contains('data-cat-' + cat)) {
       card.style.display = 'flex';
     } else {
       card.style.display = 'none';
@@ -60,11 +55,14 @@ function filterPubCategory(cat, btn) {
   });
 }
 
+// =========================================================================
+// INFOGRAFIS FILTER
+// =========================================================================
 function filterInfografis(cat, btn) {
   document.querySelectorAll('.info-filter-btn').forEach(b => {
-    b.className = 'info-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all';
+    b.className = 'info-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all';
   });
-  btn.className = 'info-filter-btn px-5 py-2 rounded-full text-xs font-bold bg-[#0B4F82] text-white shadow-xs cursor-pointer transition-all';
+  btn.className = 'info-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0B4F82] text-white shadow-xs cursor-pointer transition-all';
 
   const cards = document.querySelectorAll('.info-card-item');
   cards.forEach(card => {
@@ -76,13 +74,21 @@ function filterInfografis(cat, btn) {
   });
 }
 
+// =========================================================================
+// INDIKATOR CAROUSEL SCROLLER (> UNTUK GESER KE SAMPING)
+// =========================================================================
 function scrollIndicatorCarousel(direction) {
   const container = document.getElementById('indicator-carousel');
   if (container) {
-    container.scrollBy({ left: direction * 280, behavior: 'smooth' });
+    const card = container.querySelector('.indicator-card-item');
+    const scrollAmount = card ? (card.offsetWidth + 20) : 320;
+    container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
   }
 }
 
+// =========================================================================
+// QUOTES SLIDER
+// =========================================================================
 function switchQuoteSlide(index) {
   document.querySelectorAll('.quote-slide').forEach((slide, idx) => {
     if (idx === index) {
@@ -100,6 +106,89 @@ function switchQuoteSlide(index) {
   });
 }
 
+// =========================================================================
+// BOOKING KONSULTASI 24/7 (LOGIC JAM LAYANAN VS LUAR JAM LAYANAN)
+// =========================================================================
+function cekJamLayananWITA() {
+  // Ambil waktu WITA (UTC+8)
+  const now = new Date();
+  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+  const witaTime = new Date(utc + (3600000 * 8));
+  
+  const day = witaTime.getDay(); // 0: Minggu, 6: Sabtu, 1-5: Senin-Jumat
+  const hours = witaTime.getHours();
+  const minutes = witaTime.getMinutes();
+  const currentMinutes = hours * 60 + minutes;
+
+  // Jam operasional PST BPS Manggarai: Senin-Jumat, 08:00 - 15:30 WITA
+  const openMinutes = 8 * 60;
+  const closeMinutes = 15 * 60 + 30;
+
+  const isWeekday = (day >= 1 && day <= 5);
+  const isOfficeHours = isWeekday && (currentMinutes >= openMinutes && currentMinutes <= closeMinutes);
+
+  const clockEl = document.getElementById('label-live-clock');
+  if (clockEl) {
+    const pad = n => n < 10 ? '0' + n : n;
+    const timeStr = `${pad(hours)}:${pad(minutes)} WITA`;
+    clockEl.textContent = `${timeStr} — ${isOfficeHours ? 'Dalam Jam Kerja' : 'Luar Jam Kerja (Siaga 24/7)'}`;
+  }
+
+  const radioDalam = document.getElementById('radio-jam-dalam');
+  const radioLuar = document.getElementById('radio-jam-luar');
+
+  if (radioDalam && radioLuar) {
+    if (isOfficeHours) {
+      radioDalam.checked = true;
+    } else {
+      radioLuar.checked = true;
+    }
+  }
+  updateInfoJamLayanan();
+}
+
+function updateInfoJamLayanan() {
+  const radioLuar = document.getElementById('radio-jam-luar');
+  const bannerLuar = document.getElementById('banner-luar-jam');
+  if (bannerLuar && radioLuar) {
+    if (radioLuar.checked) {
+      bannerLuar.classList.remove('hidden');
+    } else {
+      bannerLuar.classList.add('hidden');
+    }
+  }
+}
+
+function bukaModalKonsultasi() {
+  const modal = document.getElementById('modal-booking-konsultasi');
+  if (modal) {
+    modal.classList.remove('hidden');
+    cekJamLayananWITA();
+  }
+}
+
+function tutupModalKonsultasi() {
+  const modal = document.getElementById('modal-booking-konsultasi');
+  if (modal) modal.classList.add('hidden');
+}
+
+function simpanBookingKonsultasi() {
+  const nama = document.getElementById('konsul-nama')?.value || 'Pemohon';
+  const waktu = document.querySelector('input[name="waktu_layanan"]:checked')?.value;
+  const kode = 'BK-' + Date.now().toString().slice(-6);
+
+  tutupModalKonsultasi();
+
+  const pesan = (waktu === 'luar')
+    ? `Booking siaga 24/7 #${kode} atas nama ${nama} tercatat! Petugas PST akan menghubungi via WA pada hari kerja berikutnya.`
+    : `Booking konsultasi #${kode} atas nama ${nama} berhasil dibuat! Petugas PST akan segera merespons.`;
+
+  showToast('Booking Berhasil Terkirim!', pesan);
+}
+
+// =========================================================================
+// BUKU TAMU DIGITAL (INLINE & MODAL)
+// =========================================================================
 function bukaModalBukuTamu() {
   const modal = document.getElementById('modal-buku-tamu');
   if (modal) modal.classList.remove('hidden');
@@ -110,12 +199,56 @@ function tutupModalBukuTamu() {
   if (modal) modal.classList.add('hidden');
 }
 
+function setTamuRating(val) {
+  document.getElementById('tamu-rating-val').value = val;
+  const stars = document.querySelectorAll('.rating-star');
+  const textEl = document.getElementById('rating-text');
+  
+  const labels = {
+    1: 'Sangat Tidak Puas (1/5)',
+    2: 'Kurang Puas (2/5)',
+    3: 'Cukup Puas (3/5)',
+    4: 'Puas (4/5)',
+    5: 'Sangat Puas (5/5)'
+  };
+
+  stars.forEach((star, idx) => {
+    const starVal = idx + 1;
+    if (starVal <= val) {
+      star.className = 'text-amber-400 text-lg transition rating-star';
+    } else {
+      star.className = 'text-slate-300 hover:text-amber-400 text-lg transition rating-star';
+    }
+  });
+
+  if (textEl && labels[val]) {
+    textEl.textContent = labels[val];
+  }
+}
+
+function simpanBukuTamuLengkap() {
+  const nama = document.getElementById('tamu-nama-lengkap')?.value || 'Pengunjung';
+  const instansi = document.getElementById('tamu-instansi-lengkap')?.value || '';
+  tutupModalBukuTamu();
+  showToast('Terima Kasih!', `Kunjungan ${nama} (${instansi}) telah tercatat di Buku Tamu Digital PST BPS Manggarai.`);
+}
+
+function simpanBukuTamuInline() {
+  const nama = document.getElementById('inline-tamu-nama')?.value || 'Pengunjung';
+  const instansi = document.getElementById('inline-tamu-instansi')?.value || '';
+  showToast('Buku Tamu Tercatat!', `Terima kasih ${nama} (${instansi}). Kehadiran Anda resmi tercatat di NATAS BPS.`);
+  document.getElementById('form-inline-buku-tamu')?.reset();
+}
+
 function simpanBukuTamu() {
   const nama = document.getElementById('tamu-nama')?.value || 'Pengunjung';
   tutupModalBukuTamu();
   showToast('Terima Kasih!', `Kunjungan ${nama} telah tercatat di Buku Tamu Digital NATAS BPS.`);
 }
 
+// =========================================================================
+// API TOKEN MODAL
+// =========================================================================
 function bukaModalApi() {
   const modal = document.getElementById('modal-api-token');
   if (modal) modal.classList.remove('hidden');
@@ -129,4 +262,13 @@ function tutupModalApiToken() {
   const modal = document.getElementById('modal-api-token');
   if (modal) modal.classList.add('hidden');
 }
+
+// Inisialisasi awal saat DOM siap
+document.addEventListener('DOMContentLoaded', function() {
+  // Setup filter awal
+  const firstDataFilter = document.querySelector('.data-filter-btn');
+  if (firstDataFilter) {
+    // Already has active styling
+  }
+});
 </script>

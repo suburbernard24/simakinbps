@@ -1,141 +1,382 @@
 <!-- BEGIN: StrategicDataSection -->
-<section class="py-16 sm:py-20 bg-white border-b border-slate-200/70 relative" data-purpose="strategic-data" id="data-pokok">
-    <!-- Anchor alias for older links -->
+<section class="py-16 sm:py-20 bg-slate-50/70 border-b border-slate-200/70 relative" data-purpose="strategic-data" id="data-strategis">
+    <!-- Anchor aliases for older links & test suites -->
     <div id="datapokok" class="absolute -top-20"></div>
+    <div id="data-pokok" class="absolute -top-20"></div>
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Section Header -->
-        <div class="text-center max-w-2xl mx-auto mb-12">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#0B4F82]/10 text-[#0B4F82] tracking-wide uppercase">
-                Kompilasi Utama
-            </span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#172B4D] tracking-tight mt-2">
-                Data Strategis Kabupaten Manggarai
-            </h2>
-            <p class="text-slate-600 text-sm sm:text-base mt-2 leading-relaxed">
-                8 Indikator Pembangunan & Statistik Kunci untuk Perencanaan, Evaluasi, dan Riset Daerah
-            </p>
+        <!-- Section Header (NTT BPS Portal Style) -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#0B4F82]/10 text-[#0B4F82] tracking-wide uppercase mb-3">
+                    <span class="w-2 h-2 rounded-full bg-[#0B4F82]"></span>
+                    Data Strategis BPS
+                </div>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#172B4D] tracking-tight">
+                    Data Strategis Kabupaten Manggarai
+                </h2>
+                <p class="text-slate-600 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
+                    Indikator makro dan statistik kunci pembangunan daerah merujuk pada publikasi resmi <strong class="text-slate-800">Booklet Statistik Kabupaten Manggarai 2021</strong>.
+                </p>
+            </div>
+
+            <!-- Booklet Link Button -->
+            <div class="shrink-0 flex items-center gap-2">
+                <a href="https://manggaraikab.bps.go.id/id/publication/2021/10/26/0953c00ae1dee07d294825e8/booklet-statistik-kabupaten-manggarai-2021.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-[#0B4F82] hover:text-[#083E67] font-semibold text-xs border border-slate-200 shadow-2xs transition-all duration-150">
+                    <i class="fa-solid fa-book text-sky-600"></i>
+                    <span>Unduh Booklet Statistik 2021</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                </a>
+            </div>
         </div>
 
-        <!-- 8 Indicator Cards Grid -->
+        <!-- Category Filter Tabs (Sesuai Tampilan ntt.bps.go.id) -->
+        <div class="flex flex-wrap items-center gap-2 mb-8 pb-2 border-b border-slate-200/80">
+            <button type="button" onclick="filterDataStrategis('semua', this)" class="data-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0B4F82] text-white shadow-xs cursor-pointer transition-all">
+                Semua Indikator (8)
+            </button>
+            <button type="button" onclick="filterDataStrategis('sosial', this)" class="data-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all">
+                Sosial &amp; Kependudukan
+            </button>
+            <button type="button" onclick="filterDataStrategis('ekonomi', this)" class="data-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all">
+                Ekonomi &amp; PDRB
+            </button>
+            <button type="button" onclick="filterDataStrategis('kesejahteraan', this)" class="data-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all">
+                Ketenagakerjaan &amp; Kesejahteraan
+            </button>
+        </div>
+
+        <!-- 8 Strategic Indicator Cards Grid (NTT BPS Card Style) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <!-- Metric 1: Jumlah Penduduk -->
-            <div class="bg-[#F4F7FB] hover:bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#0B4F82]/40 shadow-xs hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between group">
+            <!-- 1. Jumlah Penduduk (Sosial) -->
+            <div class="data-card-item data-cat-sosial bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B4F82]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 to-blue-600"></div>
                 <div>
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#0B4F82]/10 group-hover:bg-[#0B4F82] text-[#0B4F82] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-100">
+                            Sosial &amp; Kependudukan
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            SP2020 / Booklet 2021
+                        </span>
                     </div>
-                    <div class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">{{ $fs['stat_penduduk'] ?? '338.414' }}</div>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Jumlah Penduduk (Jiwa)</p>
+
+                    <h3 class="text-xs font-semibold text-slate-600 mb-1">Jumlah Penduduk</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">
+                            {{ $fs['stat_penduduk'] ?? '338.414' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-500">Jiwa</span>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div class="flex justify-between">
+                            <span>Laki-laki:</span>
+                            <span class="font-mono font-semibold text-slate-700">169.347 Jiwa</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Perempuan:</span>
+                            <span class="font-mono font-semibold text-slate-700">169.067 Jiwa</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="salinTeksData('Jumlah Penduduk: {{ $fs['stat_penduduk'] ?? '338.414' }} Jiwa')" class="mt-5 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-white group-hover:bg-[#0B4F82] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#0B4F82] text-[11px] font-semibold transition-colors duration-150 cursor-pointer shadow-2xs" data-purpose="copy-action">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Salin Data</span>
-                </button>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button onclick="salinTeksData('Jumlah Penduduk Kabupaten Manggarai: {{ $fs['stat_penduduk'] ?? '338.414' }} Jiwa (Booklet Statistik 2021)')" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-50 hover:bg-[#0B4F82] text-slate-700 hover:text-white border border-slate-200 text-xs font-semibold transition-colors duration-150 cursor-pointer shadow-2xs">
+                        <i class="fa-regular fa-copy text-[11px]"></i>
+                        <span>Salin Data</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Metric 2: Pertumbuhan Ekonomi -->
-            <div class="bg-[#F4F7FB] hover:bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#0B4F82]/40 shadow-xs hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between group">
+            <!-- 2. Laju Pertumbuhan Ekonomi (Ekonomi) -->
+            <div class="data-card-item data-cat-ekonomi bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B4F82]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-600"></div>
                 <div>
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#0B4F82]/10 group-hover:bg-[#0B4F82] text-[#0B4F82] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
+                            Ekonomi &amp; PDRB
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            Booklet 2021
+                        </span>
                     </div>
-                    <div class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">{{ $fs['stat_pertumbuhan_ekonomi'] ?? '5,02%' }}</div>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Pertumbuhan Ekonomi (y-on-y)</p>
+
+                    <h3 class="text-xs font-semibold text-slate-600 mb-1">Pertumbuhan Ekonomi (PDRB)</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">
+                            {{ $fs['stat_pertumbuhan_ekonomi'] ?? '5,02%' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-500">y-on-y</span>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div class="flex justify-between">
+                            <span>Status Tren:</span>
+                            <span class="font-semibold text-emerald-600 inline-flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-trend-up text-[10px]"></i>
+                                Positif
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Basis Hitung:</span>
+                            <span class="text-slate-700">ADHK 2010</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="salinTeksData('Pertumbuhan Ekonomi: {{ $fs['stat_pertumbuhan_ekonomi'] ?? '5,02%' }}')" class="mt-5 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-white group-hover:bg-[#0B4F82] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#0B4F82] text-[11px] font-semibold transition-colors duration-150 cursor-pointer shadow-2xs" data-purpose="copy-action">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Salin Data</span>
-                </button>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button onclick="salinTeksData('Laju Pertumbuhan Ekonomi Manggarai: {{ $fs['stat_pertumbuhan_ekonomi'] ?? '5,02%' }} (Booklet Statistik 2021)')" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-50 hover:bg-[#0B4F82] text-slate-700 hover:text-white border border-slate-200 text-xs font-semibold transition-colors duration-150 cursor-pointer shadow-2xs">
+                        <i class="fa-regular fa-copy text-[11px]"></i>
+                        <span>Salin Data</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Metric 3: Tingkat Inflasi -->
-            <div class="bg-[#F4F7FB] hover:bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#0B4F82]/40 shadow-xs hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between group">
+            <!-- 3. Tingkat Inflasi (Ekonomi) -->
+            <div class="data-card-item data-cat-ekonomi bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B4F82]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-orange-600"></div>
                 <div>
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#0B4F82]/10 group-hover:bg-[#0B4F82] text-[#0B4F82] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-100">
+                            Ekonomi &amp; Harga
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            Booklet 2021
+                        </span>
                     </div>
-                    <div class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">{{ $fs['stat_inflasi'] ?? '2,15%' }}</div>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Tingkat Inflasi (y-on-y)</p>
+
+                    <h3 class="text-xs font-semibold text-slate-600 mb-1">Tingkat Inflasi (IHK)</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">
+                            {{ $fs['stat_inflasi'] ?? '2,15%' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-500">y-on-y</span>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div class="flex justify-between">
+                            <span>Kondisi Harga:</span>
+                            <span class="font-semibold text-amber-700">Terkendali &amp; Stabil</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Kelompok Utama:</span>
+                            <span class="text-slate-700">Makanan &amp; Energi</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="salinTeksData('Tingkat Inflasi: {{ $fs['stat_inflasi'] ?? '2,15%' }}')" class="mt-5 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-white group-hover:bg-[#0B4F82] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#0B4F82] text-[11px] font-semibold transition-colors duration-150 cursor-pointer shadow-2xs" data-purpose="copy-action">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Salin Data</span>
-                </button>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button onclick="salinTeksData('Tingkat Inflasi Manggarai: {{ $fs['stat_inflasi'] ?? '2,15%' }} (Booklet Statistik 2021)')" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-50 hover:bg-[#0B4F82] text-slate-700 hover:text-white border border-slate-200 text-xs font-semibold transition-colors duration-150 cursor-pointer shadow-2xs">
+                        <i class="fa-regular fa-copy text-[11px]"></i>
+                        <span>Salin Data</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Metric 4: Persentase Penduduk Miskin -->
-            <div class="bg-[#F4F7FB] hover:bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#0B4F82]/40 shadow-xs hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between group">
+            <!-- 4. Persentase Penduduk Miskin (Sosial) -->
+            <div class="data-card-item data-cat-sosial bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B4F82]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-red-600"></div>
                 <div>
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#0B4F82]/10 group-hover:bg-[#0B4F82] text-[#0B4F82] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-100">
+                            Sosial &amp; Kemiskinan
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            Susenas / Booklet 2021
+                        </span>
                     </div>
-                    <div class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">{{ $fs['stat_kemiskinan'] ?? '19,84%' }}</div>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Persentase Penduduk Miskin</p>
+
+                    <h3 class="text-xs font-semibold text-slate-600 mb-1">Persentase Penduduk Miskin (P0)</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">
+                            {{ $fs['stat_kemiskinan'] ?? '19,84%' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-500">%</span>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div class="flex justify-between">
+                            <span>Garis Kemiskinan:</span>
+                            <span class="font-mono font-semibold text-slate-700">Rp 397.436/kap/bln</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Kedalaman (P1):</span>
+                            <span class="text-slate-700 font-mono">2,87</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="salinTeksData('Persentase Penduduk Miskin: {{ $fs['stat_kemiskinan'] ?? '19,84%' }}')" class="mt-5 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-white group-hover:bg-[#0B4F82] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#0B4F82] text-[11px] font-semibold transition-colors duration-150 cursor-pointer shadow-2xs" data-purpose="copy-action">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Salin Data</span>
-                </button>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button onclick="salinTeksData('Persentase Penduduk Miskin Manggarai: {{ $fs['stat_kemiskinan'] ?? '19,84%' }} (Booklet Statistik 2021)')" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-50 hover:bg-[#0B4F82] text-slate-700 hover:text-white border border-slate-200 text-xs font-semibold transition-colors duration-150 cursor-pointer shadow-2xs">
+                        <i class="fa-regular fa-copy text-[11px]"></i>
+                        <span>Salin Data</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Metric 5: TPT -->
-            <div class="bg-[#F4F7FB] hover:bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#0B4F82]/40 shadow-xs hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between group">
+            <!-- 5. Tingkat Pengangguran Terbuka (Kesejahteraan) -->
+            <div class="data-card-item data-cat-kesejahteraan bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B4F82]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
                 <div>
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#0B4F82]/10 group-hover:bg-[#0B4F82] text-[#0B4F82] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                            Ketenagakerjaan
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            Sakernas / Booklet 2021
+                        </span>
                     </div>
-                    <div class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">{{ $fs['stat_tpt'] ?? '2,82%' }}</div>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Tingkat Pengangguran Terbuka</p>
+
+                    <h3 class="text-xs font-semibold text-slate-600 mb-1">Tingkat Pengangguran Terbuka (TPT)</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">
+                            {{ $fs['stat_tpt'] ?? '2,82%' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-500">%</span>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div class="flex justify-between">
+                            <span>Partisipasi Kerja (TPAK):</span>
+                            <span class="font-mono font-semibold text-slate-700">74,68%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Sektor Dominan:</span>
+                            <span class="text-slate-700">Pertanian</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="salinTeksData('Tingkat Pengangguran Terbuka (TPT): {{ $fs['stat_tpt'] ?? '2,82%' }}')" class="mt-5 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-white group-hover:bg-[#0B4F82] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#0B4F82] text-[11px] font-semibold transition-colors duration-150 cursor-pointer shadow-2xs" data-purpose="copy-action">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Salin Data</span>
-                </button>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button onclick="salinTeksData('Tingkat Pengangguran Terbuka (TPT) Manggarai: {{ $fs['stat_tpt'] ?? '2,82%' }} (Booklet Statistik 2021)')" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-50 hover:bg-[#0B4F82] text-slate-700 hover:text-white border border-slate-200 text-xs font-semibold transition-colors duration-150 cursor-pointer shadow-2xs">
+                        <i class="fa-regular fa-copy text-[11px]"></i>
+                        <span>Salin Data</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Metric 6: IPM -->
-            <div class="bg-[#F4F7FB] hover:bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#0B4F82]/40 shadow-xs hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between group">
+            <!-- 6. Indeks Pembangunan Manusia (Sosial) -->
+            <div class="data-card-item data-cat-sosial bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B4F82]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-cyan-500"></div>
                 <div>
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#0B4F82]/10 group-hover:bg-[#0B4F82] text-[#0B4F82] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100">
+                            Pembangunan Manusia
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            Booklet 2021
+                        </span>
                     </div>
-                    <div class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">{{ $fs['stat_ipm'] ?? '67,03' }}</div>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Indeks Pembangunan Manusia</p>
+
+                    <h3 class="text-xs font-semibold text-slate-600 mb-1">Indeks Pembangunan Manusia (IPM)</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">
+                            {{ $fs['stat_ipm'] ?? '67,03' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-500">Poin</span>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div class="flex justify-between">
+                            <span>Klasifikasi:</span>
+                            <span class="font-semibold text-blue-700">Status Sedang</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Umur Harapan Hidup:</span>
+                            <span class="font-mono font-semibold text-slate-700">68,96 Tahun</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="salinTeksData('Indeks Pembangunan Manusia (IPM): {{ $fs['stat_ipm'] ?? '67,03' }}')" class="mt-5 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-white group-hover:bg-[#0B4F82] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#0B4F82] text-[11px] font-semibold transition-colors duration-150 cursor-pointer shadow-2xs" data-purpose="copy-action">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Salin Data</span>
-                </button>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button onclick="salinTeksData('Indeks Pembangunan Manusia (IPM) Manggarai: {{ $fs['stat_ipm'] ?? '67,03' }} (Booklet Statistik 2021)')" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-50 hover:bg-[#0B4F82] text-slate-700 hover:text-white border border-slate-200 text-xs font-semibold transition-colors duration-150 cursor-pointer shadow-2xs">
+                        <i class="fa-regular fa-copy text-[11px]"></i>
+                        <span>Salin Data</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Metric 7: Gini Ratio -->
-            <div class="bg-[#F4F7FB] hover:bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#0B4F82]/40 shadow-xs hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between group">
+            <!-- 7. Gini Ratio (Kesejahteraan) -->
+            <div class="data-card-item data-cat-kesejahteraan bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B4F82]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-emerald-600"></div>
                 <div>
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#0B4F82]/10 group-hover:bg-[#0B4F82] text-[#0B4F82] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-teal-700 border border-teal-100">
+                            Ketimpangan
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            Booklet 2021
+                        </span>
                     </div>
-                    <div class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">{{ $fs['stat_gini'] ?? '0,312' }}</div>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">Gini Ratio (Ketimpangan)</p>
+
+                    <h3 class="text-xs font-semibold text-slate-600 mb-1">Gini Ratio (Ketimpangan)</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">
+                            {{ $fs['stat_gini'] ?? '0,312' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-500">Indeks</span>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div class="flex justify-between">
+                            <span>Taraf Ketimpangan:</span>
+                            <span class="font-semibold text-teal-700">Rendah (&lt; 0,4)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Distribusi:</span>
+                            <span class="text-slate-700">Merata</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="salinTeksData('Gini Ratio: {{ $fs['stat_gini'] ?? '0,312' }}')" class="mt-5 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-white group-hover:bg-[#0B4F82] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#0B4F82] text-[11px] font-semibold transition-colors duration-150 cursor-pointer shadow-2xs" data-purpose="copy-action">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Salin Data</span>
-                </button>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button onclick="salinTeksData('Gini Ratio Manggarai: {{ $fs['stat_gini'] ?? '0,312' }} (Booklet Statistik 2021)')" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-50 hover:bg-[#0B4F82] text-slate-700 hover:text-white border border-slate-200 text-xs font-semibold transition-colors duration-150 cursor-pointer shadow-2xs">
+                        <i class="fa-regular fa-copy text-[11px]"></i>
+                        <span>Salin Data</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Metric 8: PDRB Per Kapita -->
-            <div class="bg-[#F4F7FB] hover:bg-white p-6 rounded-2xl border border-slate-200/80 hover:border-[#0B4F82]/40 shadow-xs hover:shadow-md transition-all duration-200 text-center flex flex-col justify-between group">
+            <!-- 8. PDRB Per Kapita (Ekonomi) -->
+            <div class="data-card-item data-cat-ekonomi bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B4F82]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-500 to-purple-600"></div>
                 <div>
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-[#0B4F82]/10 group-hover:bg-[#0B4F82] text-[#0B4F82] group-hover:text-white flex items-center justify-center mb-3 transition-colors duration-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-violet-50 text-violet-700 border border-violet-100">
+                            Pendapatan Daerah
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                            Booklet 2021
+                        </span>
                     </div>
-                    <div class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">{{ $fs['stat_pdrb_kapita'] ?? 'Rp 27,64 Jt' }}</div>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-1 font-medium">PDRB Per Kapita ADHB</p>
+
+                    <h3 class="text-xs font-semibold text-slate-600 mb-1">PDRB Per Kapita (ADHB)</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-3xl sm:text-4xl font-extrabold font-mono text-[#172B4D] tracking-tight">
+                            {{ $fs['stat_pdrb_kapita'] ?? 'Rp 27,64 Jt' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-500">/Tahun</span>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div class="flex justify-between">
+                            <span>Total PDRB ADHB:</span>
+                            <span class="font-mono font-semibold text-slate-700">Rp 9,35 Triliun</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>PDRB ADHK:</span>
+                            <span class="font-mono text-slate-700">Rp 6,48 Triliun</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="salinTeksData('PDRB Per Kapita ADHB: {{ $fs['stat_pdrb_kapita'] ?? 'Rp 27,64 Jt' }}')" class="mt-5 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-white group-hover:bg-[#0B4F82] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#0B4F82] text-[11px] font-semibold transition-colors duration-150 cursor-pointer shadow-2xs" data-purpose="copy-action">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Salin Data</span>
-                </button>
+
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <button onclick="salinTeksData('PDRB Per Kapita ADHB Manggarai: {{ $fs['stat_pdrb_kapita'] ?? 'Rp 27,64 Jt' }} (Booklet Statistik 2021)')" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-50 hover:bg-[#0B4F82] text-slate-700 hover:text-white border border-slate-200 text-xs font-semibold transition-colors duration-150 cursor-pointer shadow-2xs">
+                        <i class="fa-regular fa-copy text-[11px]"></i>
+                        <span>Salin Data</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

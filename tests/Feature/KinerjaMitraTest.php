@@ -35,6 +35,9 @@ class KinerjaMitraTest extends TestCase
         $this->anggota = User::where('username', 'anggota')->first();
         $this->tim     = Team::first();
         $this->mitra   = Mitra::first();
+
+        // Clear pre-existing seeded allocations for clean quota assertions in test suite
+        AlokasiMitra::where('mitra_id', $this->mitra->id)->delete();
     }
 
     // =========================================================================

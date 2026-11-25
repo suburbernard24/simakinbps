@@ -104,7 +104,6 @@
         // Konten Dinamis dari Database
         $infografisList = \App\Models\FrontendInfografis::where('is_active', true)->orderBy('urutan')->get();
         $quotesList     = \App\Models\FrontendQuote::where('is_active', true)->orderBy('urutan')->get();
-        $kegiatansList  = \App\Models\FrontendKegiatan::where('is_active', true)->orderBy('urutan')->get();
         $indikatorsList = \App\Models\FrontendIndikator::where('is_active', true)->orderBy('urutan')->get();
     @endphp
 
@@ -239,92 +238,40 @@
         <p class="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
             {{ $brandDesc }}
         </p>
-
-        <!-- Floating Glassmorphic Modern Search Bar -->
-        <div class="mt-8 max-w-2xl mx-auto">
-            <div class="p-2 bg-white rounded-2xl shadow-lg shadow-sky-950/5 border border-slate-200/90 flex flex-col sm:flex-row items-center gap-1.5 transition-all focus-within:border-[#0B4F82] focus-within:ring-4 focus-within:ring-[#0B4F82]/10 hover:border-slate-300">
-                <!-- Category Selector Dropdown -->
-                <div class="relative w-full sm:w-auto shrink-0 border-b sm:border-b-0 sm:border-r border-slate-100">
-                    <select id="hero-search-category" aria-label="Pilih Kategori Pencarian" class="w-full sm:w-40 py-2.5 pl-3 pr-8 text-xs font-semibold text-slate-600 bg-transparent border-0 focus:ring-0 cursor-pointer">
-                        <option value="all">Semua Kategori</option>
-                        <option value="indikator">Indikator Strategis</option>
-                        <option value="publikasi">Publikasi Resmi</option>
-                        <option value="tabel">Tabel Dinamis</option>
-                        <option value="infografis">Infografis</option>
-                    </select>
-                </div>
-                <!-- Main Input Field -->
-                <div class="relative flex-1 w-full flex items-center">
-                    <svg class="w-4 h-4 text-slate-400 ml-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <input id="hero-search-query" onkeydown="if(event.key === 'Enter') handleHeroSearch()" class="w-full py-2 px-3 text-xs sm:text-sm text-slate-800 placeholder-slate-400 bg-transparent border-0 focus:ring-0" placeholder="Ketik kata kunci: PDRB, inflasi, kemiskinan, sensus, DDA..." type="text"/>
-                </div>
-                <!-- Submit Button -->
-                <button onclick="handleHeroSearch()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#0B4F82] to-[#083E67] hover:from-[#083E67] hover:to-[#062E4D] text-white font-semibold text-xs sm:text-sm transition-all shadow-md shadow-sky-900/15 active:scale-95 shrink-0 flex items-center justify-center gap-2 cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    <span>Cari Data</span>
-                </button>
-            </div>
-
-            <!-- Trending Keywords & Navigation Shortcuts -->
-            <div class="mt-4 flex flex-wrap items-center justify-center gap-1.5 text-xs text-slate-500">
-                <span class="text-[11px] font-medium text-slate-400 mr-1 flex items-center gap-1">
-                    <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                    Populer:
-                </span>
-                <a class="px-2.5 py-0.5 bg-white/90 hover:bg-white hover:text-[#0B4F82] hover:border-[#0B4F82]/30 rounded-md border border-slate-200/80 text-[11px] text-slate-600 transition-all shadow-2xs" href="#data-pokok">PDRB 2024</a>
-                <a class="px-2.5 py-0.5 bg-white/90 hover:bg-white hover:text-[#0B4F82] hover:border-[#0B4F82]/30 rounded-md border border-slate-200/80 text-[11px] text-slate-600 transition-all shadow-2xs" href="#data-pokok">Kemiskinan</a>
-                <a class="px-2.5 py-0.5 bg-white/90 hover:bg-white hover:text-[#0B4F82] hover:border-[#0B4F82]/30 rounded-md border border-slate-200/80 text-[11px] text-slate-600 transition-all shadow-2xs" href="#data-pokok">Inflasi Manggarai</a>
-                <a class="px-2.5 py-0.5 bg-white/90 hover:bg-white hover:text-[#0B4F82] hover:border-[#0B4F82]/30 rounded-md border border-slate-200/80 text-[11px] text-slate-600 transition-all shadow-2xs" href="#publikasi">DDA 2024</a>
-                <span class="text-slate-300 mx-1 hidden sm:inline">•</span>
-                <a class="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0B4F82] hover:underline" href="#indikator-terkini">
-                    <span>Indikator Makro</span>
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                </a>
-                <span class="text-slate-300 mx-1 hidden sm:inline">•</span>
-                <button type="button" onclick="bukaModalBukuTamu()" class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:underline cursor-pointer">
-                    <span>Buku Tamu</span>
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-                </button>
-            </div>
-        </div>
     </div>
 </section>
 <!-- END: HeroSection -->
 
 
 <!-- =========================================================================
-     MODULAR SECTIONS (FRONTEND PARTIALS)
+     MODULAR SECTIONS (FRONTEND PARTIALS) SESUAI URUTAN MENU BERANDA
 ========================================================================= -->
 
-{{-- 1. Akses Cepat PST, Romantik, Kalender & WebAPI Bar --}}
-@include('frontend.partials.quick-actions')
-
-{{-- 2. Indikator Terkini Kabupaten Manggarai --}}
+{{-- 1. Indikator Terkini Carousel (Tabel Dinamis BPS - Maksimal 4 & Geser >) --}}
 @include('frontend.partials.indikator-carousel')
 
-{{-- 3. Publikasi Resmi & Tabel Statistik --}}
-@include('frontend.partials.publikasi')
+{{-- 2. 4 Kotak Layanan BPS (Konsultasi 24/7, OPAC, ROMANTIK, SILASTIK) --}}
+@include('frontend.partials.quick-actions')
 
-{{-- 4. 8 Data Pokok & Indikator Strategis --}}
-@include('frontend.partials.data-pokok')
+{{-- 4. Buku Tamu BPS (Standar Perpustakaan Digital Digilib Guestbook) --}}
+@include('frontend.partials.buku-tamu')
 
-{{-- 5. Galeri Infografis BPS --}}
+{{-- 5. Infografis 6 Kotak Utama / Terbaru (Diinput Admin) --}}
 @include('frontend.partials.infografis')
 
-{{-- 6. Quotes of the Day --}}
+{{-- 6. Kutipan / Quote Inspiratif & Integritas Data --}}
 @include('frontend.partials.quotes')
 
-{{-- 7. Dokumentasi & Warta Kegiatan --}}
-@include('frontend.partials.kegiatan')
+{{-- 7. Publikasi Resmi & Tabel Statistik --}}
+@include('frontend.partials.publikasi')
 
-
-{{-- 9. Footer --}}
+{{-- 8. Footer --}}
 @include('frontend.partials.footer')
 
-{{-- 10. Modals (Buku Tamu, WebAPI Token, Toast) --}}
+{{-- 11. Modals (Booking Konsultasi 24/7, Buku Tamu Digilib, WebAPI Token, Toast) --}}
 @include('frontend.partials.modals')
 
-{{-- 11. Back to Top Floating & Interactive Scripts --}}
+{{-- 12. Back to Top Floating & Interactive Scripts --}}
 @include('frontend.partials.scripts')
 
 </body>

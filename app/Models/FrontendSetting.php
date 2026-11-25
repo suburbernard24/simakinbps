@@ -43,11 +43,11 @@ class FrontendSetting extends Model
     {
         return [
             ['label' => 'Beranda', 'url' => '#', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Indikator', 'url' => '#indikator', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Publikasi', 'url' => '#publikasi', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Data Pokok', 'url' => '#datapokok', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Indikator', 'url' => '#indikator-terkini', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Layanan BPS', 'url' => '#layanan-bps', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Buku Tamu', 'url' => '#buku-tamu', 'target' => '_self', 'is_active' => true],
             ['label' => 'Infografis', 'url' => '#infografis', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Kegiatan', 'url' => '#kegiatan', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Kutipan', 'url' => '#quotes', 'target' => '_self', 'is_active' => true],
         ];
     }
 
