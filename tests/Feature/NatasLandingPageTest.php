@@ -25,6 +25,9 @@ class NatasLandingPageTest extends TestCase
         // 3. Tombol search di hero dihilangkan
         $response->assertDontSee('Cari publikasi, data, atau indikator...');
         $response->assertDontSee('Cari Data');
+
+        // 4. Announcement bar dihilangkan
+        $response->assertDontSee('announcement-banner');
     }
 
     public function test_landing_page_does_not_render_ulasan_natas(): void

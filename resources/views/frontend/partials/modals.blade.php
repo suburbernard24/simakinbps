@@ -32,7 +32,7 @@
             <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2.5">
                 <div class="flex items-center justify-between">
                     <label class="block text-xs font-bold text-slate-800 uppercase tracking-wide">
-                        <i class="fa-solid fa-clock text-[#0B4F82] mr-1.5"></i>
+                        <i class="fa-solid fa-clock text-[#087E8B] mr-1.5"></i>
                         Status Waktu Pengajuan Konsultasi <span class="text-rose-500">*</span>
                     </label>
                     <span id="label-live-clock" class="text-[11px] font-mono text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">
@@ -178,11 +178,11 @@
 
         <!-- Header -->
         <div class="flex items-start gap-3.5 pb-4 border-b border-slate-100 mb-5">
-            <div class="w-12 h-12 rounded-2xl bg-[#0B4F82]/10 text-[#0B4F82] flex items-center justify-center text-xl shrink-0 shadow-xs">
+            <div class="w-12 h-12 rounded-2xl bg-[#087E8B]/10 text-[#087E8B] flex items-center justify-center text-xl shrink-0 shadow-xs">
                 <i class="fa-solid fa-book-bookmark"></i>
             </div>
             <div>
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0B4F82] text-[10px] font-bold uppercase tracking-wider border border-blue-100 mb-1">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#087E8B]/10 text-[#087E8B] text-[10px] font-bold uppercase tracking-wider border border-[#087E8B]/20 mb-1">
                     <span>Standar Digilib Guestbook BPS</span>
                 </div>
                 <h3 class="text-base sm:text-lg font-extrabold text-slate-900">
@@ -198,11 +198,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Lengkap <span class="text-rose-500">*</span></label>
-                    <input type="text" id="tamu-nama-lengkap" required placeholder="Contoh: Maria Yosefina" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none">
+                    <input type="text" id="tamu-nama-lengkap" required placeholder="Contoh: Maria Yosefina" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Jenis Kelamin <span class="text-rose-500">*</span></label>
-                    <select id="tamu-gender" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none bg-white">
+                    <select id="tamu-gender" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none bg-white">
                         <option value="">-- Pilih Jenis Kelamin --</option>
                         <option value="Laki-laki">Laki-laki</option>
                         <option value="Perempuan">Perempuan</option>
@@ -213,18 +213,18 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nomor WhatsApp / HP <span class="text-rose-500">*</span></label>
-                    <input type="tel" id="tamu-kontak-lengkap" required placeholder="Contoh: 081234567890" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none">
+                    <input type="tel" id="tamu-kontak-lengkap" required placeholder="Contoh: 081234567890" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Alamat Email <span class="text-rose-500">*</span></label>
-                    <input type="email" id="tamu-email-lengkap" required placeholder="Contoh: maria@domain.com" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none">
+                    <input type="email" id="tamu-email-lengkap" required placeholder="Contoh: maria@domain.com" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kategori Pengguna <span class="text-rose-500">*</span></label>
-                    <select id="tamu-kategori-lengkap" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none bg-white">
+                    <select id="tamu-kategori-lengkap" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none bg-white">
                         <option value="">-- Pilih Kategori Pengguna --</option>
                         <option value="ASN / Lembaga Pemerintah / OPD Pemda">ASN / Lembaga Pemerintah / OPD Pemda</option>
                         <option value="Mahasiswa / Pelajar">Mahasiswa / Pelajar</option>
@@ -236,7 +236,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pendidikan Terakhir <span class="text-rose-500">*</span></label>
-                    <select id="tamu-pendidikan-lengkap" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none bg-white">
+                    <select id="tamu-pendidikan-lengkap" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none bg-white">
                         <option value="">-- Pilih Pendidikan Terakhir --</option>
                         <option value="SMA / SMK / Sederajat">SMA / SMK / Sederajat</option>
                         <option value="Diploma (D1/D2/D3)">Diploma (D1 / D2 / D3)</option>
@@ -250,17 +250,17 @@
 
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Instansi / Perguruan Tinggi / Lembaga <span class="text-rose-500">*</span></label>
-                <input type="text" id="tamu-instansi-lengkap" required placeholder="Contoh: Universitas Flores / Bappeda Litbang Kab. Manggarai" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none">
+                <input type="text" id="tamu-instansi-lengkap" required placeholder="Contoh: Universitas Flores / Bappeda Litbang Kab. Manggarai" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kebutuhan Data / Layanan <span class="text-rose-500">*</span></label>
-                    <textarea id="tamu-kebutuhan-lengkap" rows="2" required placeholder="Contoh: Permintaan tabel data PDRB per kapita dan angka kemiskinan..." class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none resize-none"></textarea>
+                    <textarea id="tamu-kebutuhan-lengkap" rows="2" required placeholder="Contoh: Permintaan tabel data PDRB per kapita dan angka kemiskinan..." class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none resize-none"></textarea>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Rencana Pemanfaatan Data</label>
-                    <textarea id="tamu-pemanfaatan-lengkap" rows="2" placeholder="Contoh: Penyusunan skripsi, analisis kebijakan pembangunan daerah, referensi bisnis..." class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none resize-none"></textarea>
+                    <textarea id="tamu-pemanfaatan-lengkap" rows="2" placeholder="Contoh: Penyusunan skripsi, analisis kebijakan pembangunan daerah, referensi bisnis..." class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none resize-none"></textarea>
                 </div>
             </div>
 
@@ -281,7 +281,7 @@
                 </div>
                 <input type="hidden" id="tamu-rating-val" value="5">
                 <div class="mt-2.5">
-                    <input type="text" id="tamu-saran-lengkap" placeholder="Kritik, saran, atau masukan untuk peningkatan pelayanan PST BPS Manggarai (opsional)..." class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] outline-none bg-white">
+                    <input type="text" id="tamu-saran-lengkap" placeholder="Kritik, saran, atau masukan untuk peningkatan pelayanan PST BPS Manggarai (opsional)..." class="w-full text-xs px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] outline-none bg-white">
                 </div>
             </div>
 
@@ -310,7 +310,7 @@
             <i class="fa-solid fa-xmark"></i>
         </button>
         <div class="flex items-center gap-3 pb-4 border-b border-slate-100 mb-5">
-            <div class="w-10 h-10 rounded-2xl bg-sky-100 text-[#0B4F82] flex items-center justify-center text-lg">
+            <div class="w-10 h-10 rounded-2xl bg-[#087E8B]/10 text-[#087E8B] flex items-center justify-center text-lg">
                 <i class="fa-solid fa-key"></i>
             </div>
             <div>
@@ -321,14 +321,14 @@
         <div class="space-y-4 text-xs text-slate-600">
             <p>Endpoint publikasi, indikator makro, dan katalog tabel BPS Kabupaten Manggarai terhubung langsung melalui gateway resmi <strong>webapi.bps.go.id</strong>.</p>
             <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 font-mono text-[11px] text-slate-700 space-y-1">
-                <div class="text-[#0B4F82] font-bold">GET /api/bps/publikasi</div>
-                <div class="text-[#0B4F82] font-bold">GET /api/bps/indikator</div>
+                <div class="text-[#087E8B] font-bold">GET /api/bps/publikasi</div>
+                <div class="text-[#087E8B] font-bold">GET /api/bps/indikator</div>
                 <div class="text-slate-500">Domain Wilayah: 5310 (Kab. Manggarai)</div>
             </div>
             <p>Bagi pengembang sistem daerah (OPD/Pemkab/Akademisi), Anda dapat mendaftar dan memperoleh App Key langsung melalui portal pengembang BPS RI.</p>
             <div class="pt-2 flex items-center justify-end gap-2">
                 <button onclick="tutupModalApiToken()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer">Tutup</button>
-                <a href="https://webapi.bps.go.id/developer" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-[#0B4F82] hover:bg-[#083E67] text-white text-xs font-bold shadow transition flex items-center gap-1.5">
+                <a href="https://webapi.bps.go.id/developer" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-[#087E8B] hover:bg-[#153448] text-white text-xs font-bold shadow transition flex items-center gap-1.5">
                     <span>Buka WebAPI Developer</span>
                     <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                 </a>

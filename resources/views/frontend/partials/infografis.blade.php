@@ -4,11 +4,11 @@
         <!-- Section Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#0B4F82]/10 text-[#0B4F82] tracking-wide uppercase mb-3">
-                    <i class="fa-solid fa-chart-simple text-sky-600"></i>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#087E8B]/10 text-[#087E8B] tracking-wide uppercase mb-3">
+                    <i class="fa-solid fa-chart-simple text-[#36A6A0]"></i>
                     <span>Visualisasi Statistik Resmi</span>
                 </div>
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#172B4D] tracking-tight">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#153448] tracking-tight">
                     Infografis 6 Data Utama &amp; Terbaru
                 </h2>
                 <p class="text-slate-600 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="shrink-0">
-                <a href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-[#0B4F82] font-semibold text-xs border border-slate-200 transition-all">
+                <a href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-[#087E8B] font-semibold text-xs border border-slate-200 transition-all">
                     <span>Lihat Semua Infografis</span>
                     <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                 </a>
@@ -26,7 +26,7 @@
 
         <!-- Categories Filter Pills -->
         <div class="flex flex-wrap items-center gap-2 mb-8 pb-2 border-b border-slate-200/80">
-            <button type="button" onclick="filterInfografis('semua', this)" class="info-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0B4F82] text-white shadow-xs cursor-pointer transition-all">
+            <button type="button" onclick="filterInfografis('semua', this)" class="info-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#153448] text-white shadow-xs cursor-pointer transition-all">
                 Semua Infografis (6)
             </button>
             <button type="button" onclick="filterInfografis('ekonomi', this)" class="info-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all">
@@ -53,7 +53,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @if($countActive > 0)
                 @foreach($activeInfografis as $info)
-                    <div class="info-card-item info-cat-{{ strtolower($info->kategori ?? 'sosial') }} bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#0B4F82]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                    <div class="info-card-item info-cat-{{ strtolower($info->kategori ?? 'sosial') }} bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#087E8B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
                         @if($info->image_url)
                             <div class="h-60 relative overflow-hidden bg-slate-900 group">
                                 <img src="{{ $info->image_url }}" alt="{{ $info->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
@@ -62,14 +62,14 @@
                                 @endif
                             </div>
                         @else
-                            <div class="p-6 bg-gradient-to-br from-[#172B4D] to-[#0B4F82] text-white">
+                            <div class="p-6 bg-gradient-to-br from-[#153448] to-[#087E8B] text-white">
                                 <div class="flex justify-between items-center text-[10px] font-semibold uppercase tracking-wider mb-3">
-                                    <span class="text-sky-200">BPS MANGGARAI</span>
+                                    <span class="text-[#36A6A0]">BPS MANGGARAI</span>
                                     @if($info->badge_text)
                                         <span class="bg-white/15 px-2 py-0.5 rounded text-white font-mono">{{ $info->badge_text }}</span>
                                     @endif
                                 </div>
-                                <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-3 text-sky-300">
+                                <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center mb-3 text-[#36A6A0]">
                                     <i class="fa-solid fa-chart-pie text-lg"></i>
                                 </div>
                                 <h4 class="font-bold text-base uppercase leading-snug text-white">{{ $info->judul }}</h4>
@@ -91,7 +91,7 @@
                         @endif
                         <div class="p-4 bg-slate-50/70 flex items-center justify-between border-t border-slate-100">
                             <span class="text-xs font-bold text-slate-800 line-clamp-1">{{ $info->judul }}</span>
-                            <a class="text-xs text-[#0B4F82] hover:text-[#083E67] font-bold inline-flex items-center gap-1.5 shrink-0" href="{{ $info->link_url ?: 'https://manggaraikab.bps.go.id/id/infographic' }}" target="_blank" rel="noopener noreferrer">
+                            <a class="text-xs text-[#087E8B] hover:text-[#153448] font-bold inline-flex items-center gap-1.5 shrink-0" href="{{ $info->link_url ?: 'https://manggaraikab.bps.go.id/id/infographic' }}" target="_blank" rel="noopener noreferrer">
                                 <span>Lihat</span>
                                 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                             </a>
@@ -104,7 +104,7 @@
             @if($countActive < 6)
                 <!-- Box Fallback 1: Sensus Pertanian ST2023 -->
                 @if($countActive <= 0)
-                <div class="info-card-item info-cat-pertanian bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#0B4F82]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                <div class="info-card-item info-cat-pertanian bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#087E8B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
                     <div class="p-6 bg-gradient-to-br from-emerald-900 to-teal-800 text-white">
                         <div class="flex justify-between items-center text-[10px] font-semibold uppercase tracking-wider mb-3">
                             <span class="text-emerald-200">BPS MANGGARAI</span>
@@ -131,7 +131,7 @@
                     </div>
                     <div class="p-4 bg-slate-50/70 flex items-center justify-between border-t border-slate-100">
                         <span class="text-xs font-bold text-slate-800">Sensus Pertanian (ST2023)</span>
-                        <a class="text-xs text-[#0B4F82] hover:text-[#083E67] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
+                        <a class="text-xs text-[#087E8B] hover:text-[#153448] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
                             <span>Lihat</span>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                         </a>
@@ -141,8 +141,8 @@
 
                 <!-- Box Fallback 2: Pertumbuhan Ekonomi & PDRB -->
                 @if($countActive <= 1)
-                <div class="info-card-item info-cat-ekonomi bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#0B4F82]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
-                    <div class="p-6 bg-gradient-to-br from-[#0B4F82] to-sky-700 text-white">
+                <div class="info-card-item info-cat-ekonomi bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#087E8B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                    <div class="p-6 bg-gradient-to-br from-[#087E8B] to-[#36A6A0] text-white">
                         <div class="flex justify-between items-center text-[10px] font-semibold uppercase tracking-wider mb-3">
                             <span class="text-sky-200">BPS MANGGARAI</span>
                             <span class="bg-white/15 px-2 py-0.5 rounded text-white font-mono">INDIKATOR EKONOMI</span>
@@ -168,7 +168,7 @@
                     </div>
                     <div class="p-4 bg-slate-50/70 flex items-center justify-between border-t border-slate-100">
                         <span class="text-xs font-bold text-slate-800">Struktur PDRB Manggarai</span>
-                        <a class="text-xs text-[#0B4F82] hover:text-[#083E67] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
+                        <a class="text-xs text-[#087E8B] hover:text-[#153448] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
                             <span>Lihat</span>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                         </a>
@@ -178,7 +178,7 @@
 
                 <!-- Box Fallback 3: Kemiskinan & Garis Kemiskinan -->
                 @if($countActive <= 2)
-                <div class="info-card-item info-cat-sosial bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#0B4F82]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                <div class="info-card-item info-cat-sosial bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#087E8B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
                     <div class="p-6 bg-gradient-to-br from-rose-900 to-red-800 text-white">
                         <div class="flex justify-between items-center text-[10px] font-semibold uppercase tracking-wider mb-3">
                             <span class="text-rose-200">BPS MANGGARAI</span>
@@ -205,7 +205,7 @@
                     </div>
                     <div class="p-4 bg-slate-50/70 flex items-center justify-between border-t border-slate-100">
                         <span class="text-xs font-bold text-slate-800">Profil Kemiskinan Daerah</span>
-                        <a class="text-xs text-[#0B4F82] hover:text-[#083E67] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
+                        <a class="text-xs text-[#087E8B] hover:text-[#153448] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
                             <span>Lihat</span>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                         </a>
@@ -215,7 +215,7 @@
 
                 <!-- Box Fallback 4: IPM & Pendidikan -->
                 @if($countActive <= 3)
-                <div class="info-card-item info-cat-sosial bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#0B4F82]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                <div class="info-card-item info-cat-sosial bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#087E8B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
                     <div class="p-6 bg-gradient-to-br from-indigo-950 to-blue-900 text-white">
                         <div class="flex justify-between items-center text-[10px] font-semibold uppercase tracking-wider mb-3">
                             <span class="text-indigo-200">BPS MANGGARAI</span>
@@ -242,7 +242,7 @@
                     </div>
                     <div class="p-4 bg-slate-50/70 flex items-center justify-between border-t border-slate-100">
                         <span class="text-xs font-bold text-slate-800">Indeks Pembangunan Manusia</span>
-                        <a class="text-xs text-[#0B4F82] hover:text-[#083E67] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
+                        <a class="text-xs text-[#087E8B] hover:text-[#153448] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
                             <span>Lihat</span>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                         </a>
@@ -252,7 +252,7 @@
 
                 <!-- Box Fallback 5: Transportasi Darat -->
                 @if($countActive <= 4)
-                <div class="info-card-item info-cat-transportasi bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#0B4F82]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                <div class="info-card-item info-cat-transportasi bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#087E8B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
                     <div class="p-6 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
                         <div class="flex justify-between items-center text-[10px] font-semibold uppercase tracking-wider mb-3">
                             <span class="text-slate-300">BPS MANGGARAI</span>
@@ -279,7 +279,7 @@
                     </div>
                     <div class="p-4 bg-slate-50/70 flex items-center justify-between border-t border-slate-100">
                         <span class="text-xs font-bold text-slate-800">Transportasi Darat Manggarai</span>
-                        <a class="text-xs text-[#0B4F82] hover:text-[#083E67] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
+                        <a class="text-xs text-[#087E8B] hover:text-[#153448] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
                             <span>Lihat</span>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                         </a>
@@ -289,7 +289,7 @@
 
                 <!-- Box Fallback 6: Ketenagakerjaan & TPAK -->
                 @if($countActive <= 5)
-                <div class="info-card-item info-cat-sosial bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#0B4F82]/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+                <div class="info-card-item info-cat-sosial bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:border-[#087E8B]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
                     <div class="p-6 bg-gradient-to-br from-teal-900 to-cyan-900 text-white">
                         <div class="flex justify-between items-center text-[10px] font-semibold uppercase tracking-wider mb-3">
                             <span class="text-teal-200">BPS MANGGARAI</span>
@@ -316,7 +316,7 @@
                     </div>
                     <div class="p-4 bg-slate-50/70 flex items-center justify-between border-t border-slate-100">
                         <span class="text-xs font-bold text-slate-800">Ketenagakerjaan &amp; TPAK</span>
-                        <a class="text-xs text-[#0B4F82] hover:text-[#083E67] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
+                        <a class="text-xs text-[#087E8B] hover:text-[#153448] font-bold inline-flex items-center gap-1.5" href="https://manggaraikab.bps.go.id/id/infographic" target="_blank" rel="noopener noreferrer">
                             <span>Lihat</span>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                         </a>

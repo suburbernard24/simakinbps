@@ -1,9 +1,9 @@
 <!-- BEGIN: MaklumatAndContactSection -->
-<section class="py-16 sm:py-20 bg-[#F4F7FB] border-b border-slate-200/70 relative" data-purpose="maklumat-and-service" id="hubungi-pst">
+<section class="py-16 sm:py-20 bg-[#F7F9FA] border-b border-slate-200/70 relative" data-purpose="maklumat-and-service" id="hubungi-pst">
     <!-- Anchor aliases -->
     <div id="pst" class="absolute -top-20"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-[#172B4D] p-8 sm:p-12 rounded-3xl border border-slate-800 shadow-xl text-white">
+        <div class="bg-[#153448] p-8 sm:p-12 rounded-3xl border border-slate-800 shadow-xl text-white">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 <!-- Left Column: Layanan Khusus & Booking -->
                 <div class="lg:col-span-7">
@@ -34,7 +34,7 @@
 
                     <!-- Booking & WhatsApp Buttons -->
                     <div class="mt-8 flex flex-wrap gap-3" id="buku-tamu">
-                        <button type="button" onclick="bukaModalBukuTamu()" class="px-5 py-3 rounded-xl bg-[#0B4F82] hover:bg-[#0e63a3] text-white text-xs font-bold transition-all flex items-center gap-2 shadow-md cursor-pointer">
+                        <button type="button" onclick="bukaModalBukuTamu()" class="px-5 py-3 rounded-xl bg-[#087E8B] hover:bg-[#153448] text-white text-xs font-bold transition-all flex items-center gap-2 shadow-md cursor-pointer">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                             <span>ISI BUKU TAMU DIGITAL</span>
                         </button>
@@ -56,7 +56,7 @@
                             <p class="text-[11px] text-slate-300">Standar Pelayanan Zona Integritas</p>
                         </div>
                     </div>
-                    <blockquote class="text-xs italic text-slate-200 mt-3 pl-3 border-l-2 border-[#0B4F82] leading-relaxed">
+                    <blockquote class="text-xs italic text-slate-200 mt-3 pl-3 border-l-2 border-[#087E8B] leading-relaxed">
                         “Dengan ini, kami menyatakan sanggup menyelenggarakan pelayanan publik sesuai standar pelayanan yang telah ditetapkan dan apabila tidak menepati janji ini, kami siap menerima sanksi sesuai peraturan perundang-undangan yang berlaku.”
                     </blockquote>
                     <div class="mt-4 grid grid-cols-2 gap-3 text-[11px]">

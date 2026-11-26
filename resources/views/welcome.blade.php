@@ -27,39 +27,79 @@
               },
               colors: {
                 primary: {
-                  DEFAULT: '#0B4F82',
-                  50: '#F0F6FA',
-                  100: '#DCE8F2',
-                  200: '#B9D1E5',
-                  300: '#8FB5D4',
-                  400: '#5A94C0',
-                  500: '#2E75AC',
-                  600: '#0B4F82',
-                  700: '#083E67',
-                  800: '#062E4D',
-                  900: '#041F34',
+                  DEFAULT: '#153448',
+                  50: '#F2F5F8',
+                  100: '#E1E8EE',
+                  200: '#C3D1DC',
+                  300: '#9EB5C5',
+                  400: '#688B9F',
+                  500: '#3B637B',
+                  600: '#264D65',
+                  700: '#1C3D52',
+                  800: '#153448',
+                  900: '#0D2230',
+                  950: '#081620',
+                },
+                secondary: {
+                  DEFAULT: '#087E8B',
+                  50: '#EAF7F8',
+                  100: '#C7EEF0',
+                  200: '#95E0E4',
+                  300: '#5ACCD2',
+                  400: '#23B3BC',
+                  500: '#087E8B',
+                  600: '#066873',
+                  700: '#05525B',
+                  800: '#043E45',
+                  900: '#02292E',
+                },
+                accent: {
+                  DEFAULT: '#36A6A0',
+                  50: '#F0F9F8',
+                  100: '#D7F1EF',
+                  200: '#B0E4E1',
+                  300: '#7FD2CE',
+                  400: '#4EBDB8',
+                  500: '#36A6A0',
+                  600: '#2B8580',
+                  700: '#226864',
+                  800: '#1A4E4B',
+                  900: '#133634',
+                },
+                highlight: {
+                  DEFAULT: '#F0B44D',
+                  50: '#FEF9EE',
+                  100: '#FDF1D5',
+                  200: '#FBE2A9',
+                  300: '#F7CF76',
+                  400: '#F3BD53',
+                  500: '#F0B44D',
+                  600: '#D9972E',
+                  700: '#AC6F1F',
+                  800: '#82501B',
+                  900: '#5C3615',
                 },
                 bps: {
-                  50: '#F0F6FA',
-                  100: '#DCE8F2',
-                  200: '#B9D1E5',
-                  300: '#8FB5D4',
-                  400: '#5A94C0',
-                  500: '#2E75AC',
-                  600: '#0B4F82',
-                  700: '#083E67',
-                  800: '#062E4D',
-                  900: '#172B4D',
-                  950: '#0F1D34',
+                  50: '#F2F5F8',
+                  100: '#E1E8EE',
+                  200: '#C3D1DC',
+                  300: '#9EB5C5',
+                  400: '#688B9F',
+                  500: '#3B637B',
+                  600: '#153448',
+                  700: '#087E8B',
+                  800: '#36A6A0',
+                  900: '#153448',
+                  950: '#081620',
                 },
                 navy: {
-                  DEFAULT: '#172B4D',
-                  700: '#243C64',
-                  800: '#1C3257',
-                  900: '#172B4D',
-                  950: '#0F1D34'
+                  DEFAULT: '#153448',
+                  700: '#1C3D52',
+                  800: '#153448',
+                  900: '#0D2230',
+                  950: '#081620'
                 },
-                surface: '#F4F7FB'
+                surface: '#F7F9FA'
               }
             }
           }
@@ -133,25 +173,7 @@
         }
     </style>
 </head>
-<body class="bg-[#F4F7FB] text-slate-800 antialiased selection:bg-[#0B4F82] selection:text-white">
-
-<!-- BEGIN: AnnouncementBar -->
-<div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 relative z-50 border-b border-slate-800" data-purpose="announcement-banner">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-        <div class="flex items-center gap-2.5 truncate text-[11px] sm:text-xs">
-            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold text-[10px] uppercase tracking-wider border border-emerald-500/20">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Front Office
-            </span>
-            <span class="truncate text-slate-300">Selamat datang di <strong class="text-white font-medium">{{ $brandName }}</strong> — {{ $brandTagline }}</span>
-        </div>
-        <a class="inline-flex items-center gap-1 text-slate-300 hover:text-white font-medium text-[11px] sm:text-xs transition-colors shrink-0 group" href="https://wa.me/{{ $pstWaClean }}" target="_blank" rel="noopener noreferrer">
-            <span>Konsultasi Online</span>
-            <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
-        </a>
-    </div>
-</div>
-<!-- END: AnnouncementBar -->
+<body class="bg-[#F7F9FA] text-slate-800 antialiased selection:bg-[#087E8B] selection:text-white">
 
 <!-- BEGIN: MainNavbar -->
 <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/60 transition-all">
@@ -165,7 +187,7 @@
         <nav class="hidden lg:flex items-center gap-1 text-[13px] font-medium text-slate-600">
             @foreach($navMenus as $nav)
                 @if(!empty($nav['is_active']))
-                    <a class="px-3 py-1.5 rounded-lg transition-colors {{ $loop->first ? 'text-[#0B4F82] font-semibold bg-slate-100/80' : 'hover:text-[#0B4F82] hover:bg-slate-50' }}"
+                    <a class="px-3 py-1.5 rounded-lg transition-colors {{ $loop->first ? 'text-[#087E8B] font-semibold bg-[#087E8B]/10' : 'hover:text-[#087E8B] hover:bg-slate-50' }}"
                        href="{{ $nav['url'] }}"
                        target="{{ $nav['target'] ?? '_self' }}">
                         {{ $nav['label'] }}
@@ -177,12 +199,12 @@
         <!-- User Action / Portal Access -->
         <div class="flex items-center gap-3">
             @if(auth()->check())
-                <a class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition-all shadow-xs active:scale-[0.98]" href="{{ route('dashboard') }}">
+                <a class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-[#087E8B] text-white hover:bg-[#153448] transition-all shadow-xs active:scale-[0.98]" href="{{ route('dashboard') }}">
                     <span>Dashboard</span>
                     <svg class="w-3.5 h-3.5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                 </a>
             @else
-                <a class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-[#0B4F82] text-white hover:bg-[#083E67] transition-all shadow-xs active:scale-[0.98]" href="{{ route('login') }}">
+                <a class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-[#087E8B] text-white hover:bg-[#153448] transition-all shadow-xs active:scale-[0.98]" href="{{ route('login') }}">
                     <span>{{ $btnLabel }}</span>
                     <svg class="w-3.5 h-3.5 text-sky-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                 </a>
@@ -199,7 +221,7 @@
     <div id="mobile-nav-menu" class="hidden lg:hidden border-t border-slate-100 bg-white/95 backdrop-blur-md px-4 pt-2 pb-4 space-y-1 shadow-lg">
         @foreach($navMenus as $nav)
             @if(!empty($nav['is_active']))
-                <a class="block px-3 py-2 text-xs font-medium text-slate-700 hover:text-[#0B4F82] hover:bg-slate-50 rounded-lg transition-colors"
+                <a class="block px-3 py-2 text-xs font-medium text-slate-700 hover:text-[#087E8B] hover:bg-slate-50 rounded-lg transition-colors"
                    href="{{ $nav['url'] }}"
                    target="{{ $nav['target'] ?? '_self' }}"
                    onclick="document.getElementById('mobile-nav-menu').classList.add('hidden')">
@@ -212,28 +234,28 @@
 <!-- END: MainNavbar -->
 
 <!-- BEGIN: HeroSection -->
-<section class="relative pt-16 pb-20 overflow-hidden bg-gradient-to-b from-white via-slate-50/70 to-[#F4F7FB] border-b border-slate-200/60" data-purpose="hero-section" id="beranda">
+<section class="relative pt-16 pb-20 overflow-hidden bg-gradient-to-b from-white via-slate-50/70 to-[#F7F9FA] border-b border-slate-200/60" data-purpose="hero-section" id="beranda">
     <!-- Subtle Dot Grid Blueprint Background -->
     <div class="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px] opacity-40 pointer-events-none -z-10 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_15%,#000_70%,transparent_100%)]"></div>
     
     <!-- Soft Ambient Light Glows -->
-    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[320px] bg-gradient-to-b from-sky-200/30 via-indigo-100/20 to-transparent blur-3xl pointer-events-none -z-10"></div>
+    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[320px] bg-gradient-to-b from-[#36A6A0]/15 via-[#087E8B]/10 to-transparent blur-3xl pointer-events-none -z-10"></div>
     
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <!-- Floating Micro Breadcrumb Badge with Pulsing Beacon -->
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-2xs mb-6 text-xs text-slate-700 font-medium transition-all hover:border-[#0B4F82]/30">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-2xs mb-6 text-xs text-slate-700 font-medium transition-all hover:border-[#087E8B]/30">
             <span class="relative flex h-2 w-2">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#36A6A0]"></span>
             </span>
             <span class="text-slate-800 font-bold tracking-tight">{{ $brandName }}</span>
             <span class="text-slate-300">•</span>
-            <span class="text-[#0B4F82] font-semibold tracking-tight">{{ $brandSub }}</span>
+            <span class="text-[#087E8B] font-semibold tracking-tight">{{ $brandSub }}</span>
         </div>
 
         <!-- Main Headline with Gradient Text -->
         <h1 class="text-3xl sm:text-5xl lg:text-[50px] font-extrabold text-slate-900 tracking-tight leading-[1.15]">
-            Satu Ruang, <span class="bg-gradient-to-r from-[#0B4F82] via-sky-600 to-[#062E4D] bg-clip-text text-transparent">Beragam Layanan Statistik.</span>
+            Satu Ruang, <span class="bg-gradient-to-r from-[#153448] via-[#087E8B] to-[#36A6A0] bg-clip-text text-transparent">Beragam Layanan Statistik.</span>
         </h1>
         <p class="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
             {{ $brandDesc }}

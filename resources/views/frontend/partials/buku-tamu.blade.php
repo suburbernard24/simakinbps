@@ -1,7 +1,7 @@
 <!-- BEGIN: BukuTamuSection -->
 <section class="py-16 sm:py-20 bg-white border-b border-slate-200/70 relative" data-purpose="buku-tamu" id="buku-tamu">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-br from-slate-50 via-white to-blue-50/40 rounded-3xl border-2 border-slate-200/80 p-6 sm:p-10 lg:p-12 shadow-sm relative overflow-hidden">
+        <div class="bg-gradient-to-br from-[#F7F9FA] via-white to-[#087E8B]/5 rounded-3xl border-2 border-slate-200/80 p-6 sm:p-10 lg:p-12 shadow-sm relative overflow-hidden">
             <!-- Background Watermark -->
             <div class="absolute -right-12 -bottom-12 opacity-5 pointer-events-none text-slate-800">
                 <i class="fa-solid fa-address-book text-[260px]"></i>
@@ -10,12 +10,12 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
                 <!-- Left Information Column -->
                 <div class="lg:col-span-5 space-y-4">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 tracking-wide uppercase">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-[#087E8B]/10 text-[#087E8B] border border-[#087E8B]/20 tracking-wide uppercase">
                         <i class="fa-solid fa-clipboard-check"></i>
                         <span>Buku Tamu PST BPS</span>
                     </div>
 
-                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#172B4D] tracking-tight leading-tight">
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#153448] tracking-tight leading-tight">
                         Buku Tamu Digital Pelayanan Statistik Terpadu
                     </h2>
 
@@ -25,7 +25,7 @@
 
                     <div class="p-4 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-2 text-xs">
                         <div class="flex items-center gap-2 text-slate-700 font-semibold">
-                            <i class="fa-solid fa-circle-info text-sky-600"></i>
+                            <i class="fa-solid fa-circle-info text-[#36A6A0]"></i>
                             <span>Tujuan Pencatatan Pengunjung:</span>
                         </div>
                         <ul class="space-y-1.5 text-slate-500 pl-6 list-disc text-[11px] leading-relaxed">
@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="pt-2 flex flex-wrap items-center gap-3">
-                        <button type="button" onclick="bukaModalBukuTamu()" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all active:scale-[0.98] cursor-pointer">
+                        <button type="button" onclick="bukaModalBukuTamu()" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#087E8B] hover:bg-[#153448] text-white font-bold text-xs shadow-md transition-all active:scale-[0.98] cursor-pointer">
                             <i class="fa-solid fa-pen-nib"></i>
                             <span>Buka Form Buku Tamu Lengkap</span>
                         </button>
@@ -51,7 +51,7 @@
                 <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-md">
                     <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-bold">
+                            <div class="w-8 h-8 rounded-lg bg-[#087E8B]/10 text-[#087E8B] flex items-center justify-center text-sm font-bold">
                                 <i class="fa-solid fa-user-pen"></i>
                             </div>
                             <h3 class="text-sm font-bold text-slate-900">Form Cepat Buku Tamu PST</h3>
@@ -63,11 +63,11 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Nama Lengkap <span class="text-rose-500">*</span></label>
-                                <input type="text" id="inline-tamu-nama" required placeholder="Contoh: Maria Yosefina" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] focus:border-transparent outline-none transition">
+                                <input type="text" id="inline-tamu-nama" required placeholder="Contoh: Maria Yosefina" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] focus:border-transparent outline-none transition">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Jenis Kelamin <span class="text-rose-500">*</span></label>
-                                <select id="inline-tamu-gender" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] focus:border-transparent outline-none transition bg-white">
+                                <select id="inline-tamu-gender" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] focus:border-transparent outline-none transition bg-white">
                                     <option value="">-- Pilih Jenis Kelamin --</option>
                                     <option value="L">Laki-laki</option>
                                     <option value="P">Perempuan</option>
@@ -78,11 +78,11 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Nomor WhatsApp / HP <span class="text-rose-500">*</span></label>
-                                <input type="tel" id="inline-tamu-kontak" required placeholder="Contoh: 081234567890" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] focus:border-transparent outline-none transition">
+                                <input type="tel" id="inline-tamu-kontak" required placeholder="Contoh: 081234567890" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] focus:border-transparent outline-none transition">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Kategori Pengguna <span class="text-rose-500">*</span></label>
-                                <select id="inline-tamu-kategori" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] focus:border-transparent outline-none transition bg-white">
+                                <select id="inline-tamu-kategori" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] focus:border-transparent outline-none transition bg-white">
                                     <option value="">-- Pilih Kategori Pengguna --</option>
                                     <option value="ASN/OPD Pemda">ASN / OPD Pemerintah Daerah</option>
                                     <option value="Mahasiswa/Pelajar">Mahasiswa / Pelajar</option>
@@ -97,11 +97,11 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Instansi / Universitas <span class="text-rose-500">*</span></label>
-                                <input type="text" id="inline-tamu-instansi" required placeholder="Contoh: Universitas Flores / Bappeda" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] focus:border-transparent outline-none transition">
+                                <input type="text" id="inline-tamu-instansi" required placeholder="Contoh: Universitas Flores / Bappeda" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] focus:border-transparent outline-none transition">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Pendidikan Terakhir <span class="text-rose-500">*</span></label>
-                                <select id="inline-tamu-pendidikan" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] focus:border-transparent outline-none transition bg-white">
+                                <select id="inline-tamu-pendidikan" required class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] focus:border-transparent outline-none transition bg-white">
                                     <option value="">-- Pilih Pendidikan --</option>
                                     <option value="SMA/SMK/Sederajat">SMA / SMK / Sederajat</option>
                                     <option value="Diploma (D1/D2/D3)">Diploma (D1 / D2 / D3)</option>
@@ -115,14 +115,14 @@
 
                         <div>
                             <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Kebutuhan Data / Keperluan Layanan <span class="text-rose-500">*</span></label>
-                            <textarea id="inline-tamu-keperluan" rows="2" required placeholder="Contoh: Permintaan data PDRB per kapita dan angka kemiskinan tahun 2021-2024 untuk penyusunan kajian skripsi..." class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#0B4F82] focus:border-transparent outline-none resize-none transition"></textarea>
+                            <textarea id="inline-tamu-keperluan" rows="2" required placeholder="Contoh: Permintaan data PDRB per kapita dan angka kemiskinan tahun 2021-2024 untuk penyusunan kajian skripsi..." class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-[#087E8B] focus:border-transparent outline-none resize-none transition"></textarea>
                         </div>
 
                         <div class="pt-2 flex items-center justify-between gap-4">
-                            <button type="button" onclick="bukaModalBukuTamu()" class="text-xs text-[#0B4F82] hover:text-[#083E67] font-semibold underline underline-offset-2">
+                            <button type="button" onclick="bukaModalBukuTamu()" class="text-xs text-[#087E8B] hover:text-[#153448] font-semibold underline underline-offset-2">
                                 Butuh opsi penilaian kepuasan &amp; saran lengkap?
                             </button>
-                            <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition flex items-center gap-2 cursor-pointer">
+                            <button type="submit" class="px-5 py-2.5 rounded-xl bg-[#087E8B] hover:bg-[#153448] text-white text-xs font-bold shadow-sm transition flex items-center gap-2 cursor-pointer">
                                 <i class="fa-solid fa-paper-plane text-xs"></i>
                                 <span>Kirim Buku Tamu</span>
                             </button>
