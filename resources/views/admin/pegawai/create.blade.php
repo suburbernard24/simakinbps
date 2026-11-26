@@ -97,11 +97,13 @@
                     </select>
                 </div>
 
-                <div class="flex flex-col justify-center space-y-3 pt-4">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }} class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
-                        <span class="text-xs font-bold text-slate-800">Status Akun Aktif</span>
-                    </label>
+                <div class="flex flex-col justify-center space-y-2 pt-4">
+                    <p class="text-xs font-bold text-slate-700 uppercase tracking-wider">Status Akun</p>
+                    <div class="flex items-center gap-2 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span class="text-xs font-bold text-emerald-700">Aktif</span>
+                        <span class="text-[11px] text-slate-400 ml-1">— Pegawai baru otomatis aktif. Ubah via tombol aksi di halaman Kelola Pegawai</span>
+                    </div>
                 </div>
             </div>
 

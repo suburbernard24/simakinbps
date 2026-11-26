@@ -109,7 +109,6 @@ class AdminController extends Controller
             'password'     => 'required|string|min:6',
             'role'         => 'required|in:admin,kepala_bps,ketua_tim,pegawai',
             'tim_id'       => 'nullable|exists:teams,id',
-            'is_active'    => 'nullable|boolean',
         ]);
 
         $isKetuaTim = $request->role === 'ketua_tim';
@@ -127,7 +126,7 @@ class AdminController extends Controller
             'role'         => $request->role,
             'tim_id'       => $request->tim_id,
             'is_ketua_tim' => $isKetuaTim,
-            'is_active'    => $request->boolean('is_active', true),
+            'is_active'    => true, // Pegawai baru selalu aktif; ubah via tombol toggle di Kelola Pegawai
         ]);
 
         // Jika user adalah Ketua Tim untuk suatu tim, update tim tersebut
@@ -643,7 +642,6 @@ class AdminController extends Controller
             'password'     => 'nullable|string|min:6',
             'role'         => 'required|in:admin,kepala_bps,ketua_tim,pegawai',
             'tim_id'       => 'nullable|exists:teams,id',
-            'is_active'    => 'nullable|boolean',
         ]);
 
         $isKetuaTim = $request->role === 'ketua_tim';
@@ -660,7 +658,7 @@ class AdminController extends Controller
             'role'         => $request->role,
             'tim_id'       => $request->tim_id,
             'is_ketua_tim' => $isKetuaTim,
-            'is_active'    => $request->boolean('is_active', true),
+            // is_active tidak diubah via form edit; hanya lewat tombol toggle di Kelola Pegawai
         ];
 
         if ($request->filled('password')) {
