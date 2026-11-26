@@ -19,21 +19,21 @@ class HonorMitraController extends Controller
 
         // ── Pendataan Lapangan ──────────────────────────────────────────────
         $honorPendataan = PengaturanHonorMitra::getMaksimalHonor(
-            PengaturanHonorMitra::JENIS_PENDATAAN, $currentYear, $currentMonth
+            PengaturanHonorMitra::JENIS_PENDATAAN, $currentYear
         );
         $settingPendataanKhusus = PengaturanHonorMitra::where('jenis_mitra', PengaturanHonorMitra::JENIS_PENDATAAN)
-            ->where('tahun', $currentYear)->where('bulan', $currentMonth)->first();
+            ->where('tahun', $currentYear)->first();
         $settingPendataanGlobal = PengaturanHonorMitra::where('jenis_mitra', PengaturanHonorMitra::JENIS_PENDATAAN)
-            ->whereNull('tahun')->whereNull('bulan')->latest('id')->first();
+            ->whereNull('tahun')->latest('id')->first();
 
         // ── Pengolahan ──────────────────────────────────────────────────────
         $honorPengolahan = PengaturanHonorMitra::getMaksimalHonor(
-            PengaturanHonorMitra::JENIS_PENGOLAHAN, $currentYear, $currentMonth
+            PengaturanHonorMitra::JENIS_PENGOLAHAN, $currentYear
         );
         $settingPengolahanKhusus = PengaturanHonorMitra::where('jenis_mitra', PengaturanHonorMitra::JENIS_PENGOLAHAN)
-            ->where('tahun', $currentYear)->where('bulan', $currentMonth)->first();
+            ->where('tahun', $currentYear)->first();
         $settingPengolahanGlobal = PengaturanHonorMitra::where('jenis_mitra', PengaturanHonorMitra::JENIS_PENGOLAHAN)
-            ->whereNull('tahun')->whereNull('bulan')->latest('id')->first();
+            ->whereNull('tahun')->latest('id')->first();
 
         // ── Riwayat (semua jenis, terbaru) ────────────────────────────────
         $riwayatPengaturan = PengaturanHonorMitra::with('updater')->latest()->paginate(15);
@@ -126,13 +126,17 @@ class HonorMitraController extends Controller
 
         $fmtPendataan  = 'Rp ' . number_format((int) $validated['maksimal_honor_pendataan'], 0, ',', '.');
         $fmtPengolahan = 'Rp ' . number_format((int) $validated['maksimal_honor_pengolahan'], 0, ',', '.');
-        $periodeKet    = ($tahun && $bulan)
-            ? "untuk periode {$bulan}/{$tahun}"
-            : 'secara global';
+        $periodeKet    = $tahun ? ($bulan ? "untuk periode {$bulan}/{$tahun}" : "untuk Tahun {$tahun}") : 'secara global';
 
-        return redirect()->route('admin.honor_mitra.index', [
-            'tahun' => $tahun ?: Carbon::now()->year,
-            'bulan' => $bulan ?: Carbon::now()->month,
-        ])->with('success', "Batas honor mitra berhasil disimpan {$periodeKet}. Pendataan Lapangan: {$fmtPendataan} | Pengolahan: {$fmtPengolahan}.");
+        $redirectParams = [];
+        if ($tahun) {
+            $redirectParams['tahun'] = $tahun;
+        }
+        if ($bulan) {
+            $redirectParams['bulan'] = $bulan;
+        }
+
+        return redirect()->route('admin.honor_mitra.index', $redirectParams)
+            ->with('success', "Batas honor mitra berhasil disimpan {$periodeKet}. Pendataan Lapangan: {$fmtPendataan} | Pengolahan: {$fmtPengolahan}.");
     }
 }
