@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') - SIMAKINBPS Manggarai</title>
+    <title>@yield('title', 'Dashboard') - {{ $appSettings['app_name'] ?? 'SIMAKINBPS Manggarai' }}</title>
 
     <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,6 +61,34 @@
     </script>
 
     <!-- Theme & Customization Init -->
+    @php
+        $dbPrimary = $appSettings['primary_color'] ?? null;
+        $dbDark    = $appSettings['primary_dark']  ?? null;
+        $dbLight   = $appSettings['primary_light'] ?? null;
+        $dbFaint   = $appSettings['primary_faint'] ?? null;
+    @endphp
+    @if($dbPrimary)
+    <style>
+        :root {
+            --bps-primary: {{ $dbPrimary }};
+            --bps-dark:    {{ $dbDark ?? '#0D47A1' }};
+            --bps-light:   {{ $dbLight ?? '#1E88E5' }};
+            --bps-faint:   {{ $dbFaint ?? '#E8F1FD' }};
+        }
+        .bg-bps-blue,  .hover\:bg-bps-blue:hover  { background-color: var(--bps-primary) !important; }
+        .bg-bps-dark,  .hover\:bg-bps-dark:hover   { background-color: var(--bps-dark)    !important; }
+        .bg-bps-light, .hover\:bg-bps-light:hover  { background-color: var(--bps-light)   !important; }
+        .bg-bps-faint, .hover\:bg-bps-faint:hover  { background-color: var(--bps-faint)   !important; }
+        .text-bps-blue,  .hover\:text-bps-blue:hover,
+        .group-hover\:text-bps-blue                 { color: var(--bps-primary) !important; }
+        .border-bps-blue, .focus\:border-bps-blue:focus { border-color: var(--bps-primary) !important; }
+        .ring-bps-blue,   .focus\:ring-bps-blue:focus   { --tw-ring-color: var(--bps-primary) !important; }
+        .shadow-bps-blue\/30 { box-shadow: 0 4px 14px color-mix(in srgb, var(--bps-primary) 30%, transparent) !important; }
+        .nav-item-active { background-color: var(--bps-primary) !important; color: white !important; }
+        .nav-item-active .text-white { color: white !important; }
+        .accent-bps-blue { accent-color: var(--bps-primary); }
+    </style>
+    @endif
     <script>
         (function() {
             try {
@@ -370,7 +398,7 @@
         <!-- Sidebar Brand Header -->
         <div class="py-5 px-6 flex items-center justify-center border-b border-slate-100 dark:border-slate-800 relative bg-white dark:bg-slate-900">
             <a href="{{ route('dashboard') }}" class="flex items-center justify-center group w-full">
-                <img src="{{ asset('images/simakin.png') }}" alt="Logo SIMAKINBPS" class="h-14 w-auto max-w-[210px] object-contain transition-transform duration-300 group-hover:scale-105" />
+                <img src="{{ !empty($appSettings['logo_path']) ? Storage::url($appSettings['logo_path']) : asset('images/simakin.png') }}" alt="Logo SIMAKINBPS" class="h-14 w-auto max-w-[210px] object-contain transition-transform duration-300 group-hover:scale-105" />
             </a>
 
             <!-- Close button for mobile -->
@@ -463,6 +491,28 @@
                                 <i class="fa-solid fa-coins text-xs"></i>
                             </div>
                             <span>Pengaturan Honor Mitra</span>
+                        </a>
+
+                        {{-- Pengaturan Tampilan Backend --}}
+                        <a href="{{ route('admin.tampilan.index') }}"
+                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.tampilan.*') ? 'nav-item-active' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                            <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.tampilan.*') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                <i class="fa-solid fa-palette text-xs"></i>
+                            </div>
+                            <span>Pengaturan Tampilan</span>
+                        </a>
+
+                        {{-- Pengumuman Backend --}}
+                        <a href="{{ route('admin.pengumuman.index') }}"
+                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.pengumuman.*') ? 'nav-item-active' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                            <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.pengumuman.*') ? 'text-white' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                <i class="fa-solid fa-megaphone text-xs"></i>
+                            </div>
+                            <span>Pengumuman</span>
+                            @php $jumlahAktif = isset($pengumumanAktif) ? $pengumumanAktif->count() : 0; @endphp
+                            @if($jumlahAktif > 0)
+                            <span class="ml-auto text-[9px] font-bold bg-rose-500 text-white px-1.5 py-0.5 rounded-full">{{ $jumlahAktif }}</span>
+                            @endif
                         </a>
 
                         <div x-data="{ frontendAdminOpen: {{ request()->routeIs('admin.frontend.*') ? 'true' : 'false' }} }" class="space-y-1">
@@ -939,6 +989,43 @@
 
         <!-- MAIN BODY CONTENT -->
         <main class="flex-1 p-4 sm:p-6 lg:p-8 bg-[#F4F7FC] dark:bg-[#0B1120]">
+
+            {{-- ===== BANNER PENGUMUMAN BACKEND ===== --}}
+            @if(isset($pengumumanAktif) && $pengumumanAktif->isNotEmpty())
+            <div x-data="{ dismissed: JSON.parse(localStorage.getItem('simakin-dismissed-pengumuman') || '[]') }"
+                 class="space-y-2 mb-5">
+                @foreach($pengumumanAktif as $peng)
+                @php
+                    $bannerColor = match($peng->tipe) {
+                        'sukses'    => 'bg-emerald-50 border-emerald-300 text-emerald-800',
+                        'peringatan'=> 'bg-amber-50 border-amber-300 text-amber-800',
+                        'bahaya'    => 'bg-rose-50 border-rose-300 text-rose-800',
+                        default     => 'bg-blue-50 border-blue-300 text-blue-800',
+                    };
+                    $iconColor = match($peng->tipe) {
+                        'sukses'    => 'text-emerald-500 fa-circle-check',
+                        'peringatan'=> 'text-amber-500 fa-triangle-exclamation',
+                        'bahaya'    => 'text-rose-500 fa-circle-xmark',
+                        default     => 'text-blue-500 fa-circle-info',
+                    };
+                @endphp
+                <div x-show="!dismissed.includes({{ $peng->id }})"
+                     class="flex items-start gap-3 p-3.5 rounded-xl border {{ $bannerColor }} text-xs">
+                    <i class="fa-solid {{ $iconColor }} text-sm mt-0.5 shrink-0"></i>
+                    <div class="flex-1 min-w-0">
+                        <span class="font-bold">{{ $peng->judul }}</span>
+                        <span class="mx-1.5 text-current/50">—</span>
+                        <span class="font-medium">{{ $peng->isi }}</span>
+                    </div>
+                    <button @click="dismissed.push({{ $peng->id }}); localStorage.setItem('simakin-dismissed-pengumuman', JSON.stringify(dismissed))"
+                            class="shrink-0 opacity-50 hover:opacity-100 transition-opacity ml-2 mt-0.5">
+                        <i class="fa-solid fa-xmark text-xs"></i>
+                    </button>
+                </div>
+                @endforeach
+            </div>
+            @endif
+
             @yield('content')
         </main>
 

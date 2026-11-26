@@ -1521,4 +1521,142 @@ class AdminController extends Controller
         return redirect()->route('admin.frontend.index', ['tab' => 'indikator'])
                          ->with('success', "Indikator '{$judul}' berhasil dihapus.");
     }
+
+    // =========================================================================
+    // PENGATURAN TAMPILAN BACKEND
+    // =========================================================================
+
+    public function tampilanIndex()
+    {
+        $settings = \App\Models\AppSetting::pluck('value', 'key')->toArray();
+        return view('admin.tampilan.index', compact('settings'));
+    }
+
+    public function tampilanUpdate(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'app_name'       => 'nullable|string|max:100',
+            'primary_color'  => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'primary_dark'   => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'primary_light'  => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'primary_faint'  => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'sidebar_style'  => 'nullable|in:light,dark',
+            'logo'           => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
+        ]);
+
+        $keys = ['app_name', 'primary_color', 'primary_dark', 'primary_light', 'primary_faint', 'sidebar_style'];
+        foreach ($keys as $key) {
+            if ($request->filled($key)) {
+                \App\Models\AppSetting::set($key, $request->input($key));
+            }
+        }
+
+        if ($request->hasFile('logo')) {
+            // Remove old logo
+            $oldLogo = \App\Models\AppSetting::get('logo_path');
+            if ($oldLogo && \Illuminate\Support\Facades\Storage::disk('public')->exists($oldLogo)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldLogo);
+            }
+            $path = $request->file('logo')->store('branding', 'public');
+            \App\Models\AppSetting::set('logo_path', $path);
+        }
+
+        // Clear cached settings
+        cache()->forget('app_settings');
+
+        return redirect()->route('admin.tampilan.index')->with('success', 'Pengaturan tampilan berhasil disimpan.');
+    }
+
+    public function tampilanReset()
+    {
+        // Delete logo file
+        $oldLogo = \App\Models\AppSetting::get('logo_path');
+        if ($oldLogo && \Illuminate\Support\Facades\Storage::disk('public')->exists($oldLogo)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($oldLogo);
+        }
+
+        \App\Models\AppSetting::truncate();
+        cache()->forget('app_settings');
+
+        return redirect()->route('admin.tampilan.index')->with('success', 'Pengaturan tampilan berhasil direset ke default.');
+    }
+
+    // =========================================================================
+    // PENGUMUMAN BACKEND
+    // =========================================================================
+
+    public function pengumumanIndex()
+    {
+        $pengumumans = \App\Models\Pengumuman::with('creator')
+            ->orderByDesc('created_at')
+            ->paginate(15);
+        return view('admin.pengumuman.index', compact('pengumumans'));
+    }
+
+    public function pengumumanStore(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'judul'           => 'required|string|max:255',
+            'isi'             => 'required|string',
+            'tipe'            => 'required|in:info,sukses,peringatan,bahaya',
+            'tanggal_mulai'   => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+        ]);
+
+        \App\Models\Pengumuman::create([
+            'judul'           => $request->judul,
+            'isi'             => $request->isi,
+            'tipe'            => $request->tipe,
+            'is_active'       => $request->boolean('is_active', true),
+            'tanggal_mulai'   => $request->tanggal_mulai ?: null,
+            'tanggal_selesai' => $request->tanggal_selesai ?: null,
+            'created_by'      => auth()->id(),
+        ]);
+
+        cache()->forget('pengumuman_aktif');
+        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil ditambahkan.');
+    }
+
+    public function pengumumanUpdate(\Illuminate\Http\Request $request, $id)
+    {
+        $p = \App\Models\Pengumuman::findOrFail($id);
+
+        $request->validate([
+            'judul'           => 'required|string|max:255',
+            'isi'             => 'required|string',
+            'tipe'            => 'required|in:info,sukses,peringatan,bahaya',
+            'tanggal_mulai'   => 'nullable|date',
+            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+        ]);
+
+        $p->update([
+            'judul'           => $request->judul,
+            'isi'             => $request->isi,
+            'tipe'            => $request->tipe,
+            'is_active'       => $request->boolean('is_active', $p->is_active),
+            'tanggal_mulai'   => $request->tanggal_mulai ?: null,
+            'tanggal_selesai' => $request->tanggal_selesai ?: null,
+        ]);
+
+        cache()->forget('pengumuman_aktif');
+        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil diperbarui.');
+    }
+
+    public function pengumumanDestroy($id)
+    {
+        $p = \App\Models\Pengumuman::findOrFail($id);
+        $judul = $p->judul;
+        $p->delete();
+        cache()->forget('pengumuman_aktif');
+        return redirect()->route('admin.pengumuman.index')->with('success', "Pengumuman '{$judul}' berhasil dihapus.");
+    }
+
+    public function pengumumanToggle($id)
+    {
+        $p = \App\Models\Pengumuman::findOrFail($id);
+        $p->update(['is_active' => !$p->is_active]);
+        cache()->forget('pengumuman_aktif');
+        return redirect()->route('admin.pengumuman.index')
+            ->with('success', 'Status pengumuman berhasil diubah.');
+    }
 }
