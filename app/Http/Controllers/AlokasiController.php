@@ -39,15 +39,9 @@ class AlokasiController extends Controller
             ->get();
 
         // Pegawai yang boleh ditugaskan:
-        // Ketua Tim hanya boleh mengalokasikan kepada pegawai dalam timnya ATAU dirinya sendiri
+        // Ketua Tim dapat mengalokasikan ke SEMUA pegawai aktif (lintas tim)
         $pegawais = User::where('is_active', true)
             ->where('role', '!=', 'admin')
-            ->where(function ($q) use ($user) {
-                $q->where('id', $user->id);
-                if ($user->tim_id) {
-                    $q->orWhere('tim_id', $user->tim_id);
-                }
-            })
             ->orderBy('name')
             ->get();
 
@@ -78,7 +72,7 @@ class AlokasiController extends Controller
 
         // Validasi Relasi Bisnis: Hanya boleh alokasikan ke diri sendiri atau anggota timnya
         if (!$user->canAllocateTo($targetUser)) {
-            return back()->withInput()->with('error', 'Validasi Gagal: Ketua Tim hanya dapat mengalokasikan pekerjaan kepada pegawai yang berada dalam cakupan timnya atau dirinya sendiri.');
+            return back()->withInput()->with('error', 'Validasi Gagal: Hanya dapat mengalokasikan pekerjaan kepada pegawai aktif yang bukan Administrator.');
         }
 
         $mulai = Carbon::parse($validated['tanggal_mulai']);
@@ -106,12 +100,6 @@ class AlokasiController extends Controller
 
         $pegawais = User::where('is_active', true)
             ->where('role', '!=', 'admin')
-            ->where(function ($q) use ($user) {
-                $q->where('id', $user->id);
-                if ($user->tim_id) {
-                    $q->orWhere('tim_id', $user->tim_id);
-                }
-            })
             ->orderBy('name')
             ->get();
 
@@ -138,7 +126,7 @@ class AlokasiController extends Controller
 
         $targetUser = User::findOrFail($validated['pegawai_id']);
         if (!$user->canAllocateTo($targetUser)) {
-            return back()->withInput()->with('error', 'Validasi Gagal: Ketua Tim hanya dapat mengalokasikan pekerjaan kepada pegawai dalam timnya atau dirinya sendiri.');
+            return back()->withInput()->with('error', 'Validasi Gagal: Hanya dapat mengalokasikan pekerjaan kepada pegawai aktif yang bukan Administrator.');
         }
 
         $mulai = Carbon::parse($validated['tanggal_mulai']);
