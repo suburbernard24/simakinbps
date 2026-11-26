@@ -60,9 +60,9 @@ function filterDataStrategis(cat, btn) {
 // =========================================================================
 function filterInfografis(cat, btn) {
   document.querySelectorAll('.info-filter-btn').forEach(b => {
-    b.className = 'info-filter-btn px-4 py-2 min-h-[40px] rounded-md text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-[#F4F7FA] transition-colors';
+    b.className = 'info-filter-btn px-4 py-2 min-h-[38px] rounded-lg text-xs font-medium bg-[#F4F7FA] text-slate-700 hover:bg-slate-200/70 transition-colors';
   });
-  btn.className = 'info-filter-btn px-4 py-2 min-h-[40px] rounded-md text-xs font-semibold bg-[#123B63] text-white transition-colors';
+  btn.className = 'info-filter-btn px-4 py-2 min-h-[38px] rounded-lg text-xs font-semibold bg-[#123B63] text-white transition-colors';
 
   const cards = document.querySelectorAll('.info-card-item');
   cards.forEach(card => {
@@ -288,5 +288,42 @@ document.addEventListener('DOMContentLoaded', function() {
       tutupModalApiToken();
     }
   });
+
+  // Smooth scroll dengan easing untuk anchor links
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion) {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const targetEl = document.querySelector(targetId);
+        if (!targetEl) return;
+
+        e.preventDefault();
+        const headerOffset = 72;
+        const startY = window.pageYOffset;
+        const targetY = targetEl.getBoundingClientRect().top + startY - headerOffset;
+        const distance = targetY - startY;
+        const duration = 550;
+        let startTime = null;
+
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
+        }
+
+        function step(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          window.scrollTo(0, startY + distance * easeOutCubic(progress));
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          }
+        }
+
+        window.requestAnimationFrame(step);
+      });
+    });
+  }
 });
 </script>

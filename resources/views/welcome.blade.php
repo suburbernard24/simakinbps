@@ -140,6 +140,10 @@
 
     <!-- Micro-Styles -->
     <style data-purpose="base-enhancements">
+        html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 72px;
+        }
         body {
           font-feature-settings: "cv02", "cv03", "cv04", "cv11";
         }
@@ -237,58 +241,37 @@
 
 <main>
 <!-- BEGIN: HeroSection -->
-<section class="py-12 sm:py-16 bg-white border-b border-slate-200" data-purpose="hero-section" id="beranda">
+<section class="py-14 sm:py-20 bg-[#123B63] text-white border-b border-[#1E5B91]" data-purpose="hero-section" id="beranda">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            <div class="lg:col-span-8">
-                <p class="text-xs font-semibold text-[#1E5B91] mb-3">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div class="lg:col-span-7">
+                <p class="text-xs font-semibold text-[#9BBBD9] mb-3">
                     {{ $brandName }} · {{ $brandSub }}
                 </p>
 
-                <h1 class="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#123B63] tracking-tight leading-[1.15]">
-                    Satu Ruang, <span class="text-[#1E5B91]">Beragam Layanan Statistik.</span>
+                <h1 class="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-white tracking-tight leading-[1.15]">
+                    Satu Ruang,<br class="hidden sm:inline"> <span class="text-[#7CB0DE]">Beragam Layanan Statistik.</span>
                 </h1>
 
-                <p class="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed">
-                    {{ $brandDesc }}
+                <p class="mt-4 text-sm sm:text-base text-slate-200 max-w-xl leading-relaxed">
+                    Portal resmi Pelayanan Statistik Terpadu (PST), indikator strategis, dan konsultasi data BPS Kabupaten Manggarai.
                 </p>
 
-                <div class="mt-6 flex flex-wrap items-center gap-3">
-                    <button type="button" onclick="bukaModalKonsultasi()" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] rounded-md bg-[#1E5B91] hover:bg-[#123B63] text-white text-xs sm:text-sm font-semibold transition-colors">
-                        <i class="fa-solid fa-calendar-plus text-xs" aria-hidden="true"></i>
+                <div class="mt-7 flex flex-wrap items-center gap-3">
+                    <button type="button" onclick="bukaModalKonsultasi()" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[44px] rounded-lg bg-[#3686C8] hover:bg-[#1E5B91] text-white text-xs sm:text-sm font-semibold transition-colors">
                         <span>Booking Konsultasi Data</span>
                     </button>
-                    <a href="#indikator-terkini" class="inline-flex items-center justify-center px-5 py-2.5 min-h-[44px] rounded-md bg-[#F4F7FA] hover:bg-slate-200/70 text-[#123B63] border border-slate-200 text-xs sm:text-sm font-semibold transition-colors">
+                    <a href="#indikator-terkini" class="inline-flex items-center justify-center px-5 py-2.5 min-h-[44px] rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs sm:text-sm font-semibold transition-colors">
                         Lihat Indikator Terkini
                     </a>
                 </div>
             </div>
 
-            <aside class="lg:col-span-4 bg-[#F4F7FA] border border-slate-200 rounded-lg p-5">
-                <h2 class="text-xs font-bold text-[#123B63] uppercase tracking-wide pb-3 border-b border-slate-200">
-                    Informasi Layanan PST
-                </h2>
-                <dl class="mt-3 space-y-2.5 text-xs">
-                    <div class="flex justify-between gap-4">
-                        <dt class="text-slate-500">Jam Kantor</dt>
-                        <dd class="font-semibold text-slate-800 text-right">{{ $fs['pst_jam_layanan'] ?? 'Senin - Jumat, 08.00 - 15.30 WITA' }}</dd>
-                    </div>
-                    <div class="flex justify-between gap-4">
-                        <dt class="text-slate-500">Booking Online</dt>
-                        <dd class="font-semibold text-[#1E5B91] text-right">Aktif 24 Jam / 7 Hari</dd>
-                    </div>
-                    <div class="flex justify-between gap-4">
-                        <dt class="text-slate-500">WhatsApp PST</dt>
-                        <dd class="font-semibold text-slate-800 text-right">
-                            <a href="https://wa.me/{{ $pstWaClean }}" target="_blank" rel="noopener noreferrer" class="hover:text-[#1E5B91] underline underline-offset-2">{{ $pstWa }}</a>
-                        </dd>
-                    </div>
-                    <div class="flex justify-between gap-4">
-                        <dt class="text-slate-500">Wilayah Kerja</dt>
-                        <dd class="font-semibold text-slate-800 text-right">{{ $headerLokasi }}</dd>
-                    </div>
-                </dl>
-            </aside>
+            <div class="lg:col-span-5 flex items-center justify-center">
+                <div class="w-64 h-64 sm:w-72 sm:h-72 rounded-full bg-white p-8 flex items-center justify-center shadow-sm">
+                    <img src="{{ $logoNatas }}" alt="{{ $brandName }}" width="240" height="240" fetchpriority="high" class="w-full h-auto object-contain">
+                </div>
+            </div>
         </div>
     </div>
 </section>

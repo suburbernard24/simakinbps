@@ -7,7 +7,7 @@
             <div class="lg:col-span-4 space-y-3.5">
                 <div>
                     <a href="{{ url('/') }}" class="inline-block bg-white px-3 py-2 rounded-md hover:opacity-95 transition-opacity">
-                        <img src="{{ $logoNatas ?? asset('images/LogoFE_natas.webp') }}" alt="{{ $brandName ?? 'NATAS BPS MANGGARAI' }}" width="160" height="36" class="h-8 sm:h-9 w-auto max-w-[200px] object-contain">
+                        <img src="{{ $logoNatas ?? asset('images/LogoFE_natas.webp') }}" alt="{{ $brandName ?? 'NATAS BPS MANGGARAI' }}" width="160" height="36" loading="lazy" decoding="async" class="h-8 sm:h-9 w-auto max-w-[200px] object-contain">
                     </a>
                     <p class="text-xs text-slate-300 mt-2.5 leading-relaxed max-w-sm">
                         <strong>{{ $brandName ?? 'NATAS BPS MANGGARAI' }}</strong> ({{ $brandSub ?? 'Navigasi Akses Terpadu Layanan Statistik BPS Manggarai' }}): Portal resmi penyebarluasan data statistik, publikasi, dan keterbukaan informasi publik BPS Kabupaten Manggarai.
@@ -16,7 +16,7 @@
 
                 <div class="flex items-center gap-2.5 pt-1">
                     <div class="w-8 h-8 rounded-lg bg-white/10 p-1 flex items-center justify-center shrink-0 border border-white/10">
-                        <img src="{{ $logoBps ?? asset('images/logo_bps.png') }}" alt="Logo BPS Kabupaten Manggarai" class="w-full h-full object-contain">
+                        <img src="{{ $logoBps ?? asset('images/logo_bps.png') }}" alt="Logo BPS Kabupaten Manggarai" width="32" height="32" loading="lazy" decoding="async" class="w-full h-full object-contain">
                     </div>
                     <div>
                         <h4 class="font-bold text-white text-xs tracking-tight">BADAN PUSAT STATISTIK</h4>
