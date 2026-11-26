@@ -431,18 +431,18 @@ class AdminController extends Controller
                 continue;
             }
 
-            $nama      = trim($row[$colMap['nama']] ?? '');
-            $username  = trim($row[$colMap['username']] ?? '');
-            $password  = trim($row[$colMap['password']] ?? '');
-            $timRaw    = trim($row[$colMap['tim']] ?? '');
-            $nip       = trim($row[$colMap['nip']] ?? '');
-            $email     = trim($row[$colMap['email']] ?? '');
-            $noHp      = !empty($colMap['no_hp']) ? trim($row[$colMap['no_hp']] ?? '') : null;
-            $jabatan   = trim($row[$colMap['jabatan']] ?? '');
-            $golongan  = trim($row[$colMap['golongan']] ?? '');
-            $roleRaw   = trim($row[$colMap['role']] ?? '');
-            $activeRaw = trim($row[$colMap['active']] ?? '');
-            $ketuaRaw  = trim($row[$colMap['ketua']] ?? '');
+            $nama      = trim((string)($row[$colMap['nama']] ?? ''));
+            $username  = trim((string)($row[$colMap['username']] ?? ''));
+            $password  = trim((string)($row[$colMap['password']] ?? ''));
+            $timRaw    = trim((string)($row[$colMap['tim']] ?? ''));
+            $nip       = trim((string)($row[$colMap['nip']] ?? ''));
+            $email     = trim((string)($row[$colMap['email']] ?? ''));
+            $noHp      = !empty($colMap['no_hp']) ? trim((string)($row[$colMap['no_hp']] ?? '')) : null;
+            $jabatan   = trim((string)($row[$colMap['jabatan']] ?? ''));
+            $golongan  = trim((string)($row[$colMap['golongan']] ?? ''));
+            $roleRaw   = trim((string)($row[$colMap['role']] ?? ''));
+            $activeRaw = trim((string)($row[$colMap['active']] ?? ''));
+            $ketuaRaw  = trim((string)($row[$colMap['ketua']] ?? ''));
 
             // Lewati baris kosong
             if (empty($nama) && empty($username) && empty($password) && empty($nip) && empty($email) && empty($noHp)) {
@@ -463,12 +463,16 @@ class AdminController extends Controller
             }
 
             // 2. Validasi Username
-            $cleanUsername = strtolower($username);
+            // Auto-sanitize: ubah spasi → titik, hapus karakter tidak valid, lowercase
+            if (!empty($username)) {
+                $username = preg_replace('/\s+/', '.', $username);          // spasi → titik
+                $username = preg_replace('/[^a-zA-Z0-9._-]/', '', $username); // buang karakter selain huruf/angka/titik/strip/underscore
+                $username = trim($username, '.-_');                          // buang titik/strip/underscore di awal & akhir
+                $username = strtolower($username);                           // lowercase
+            }
+            $cleanUsername = $username;
             if (empty($username)) {
-                $errors[] = "Baris {$rowNum}: Kolom Username Login wajib diisi.";
-                $hasRowError = true;
-            } elseif (!preg_match('/^[a-zA-Z0-9._-]+$/', $username)) {
-                $errors[] = "Baris {$rowNum}: Username '{$username}' hanya boleh berupa huruf, angka, titik, strip (-), atau underscore (_).";
+                $errors[] = "Baris {$rowNum}: Kolom Username Login wajib diisi atau nama tidak dapat dikonversi menjadi username valid.";
                 $hasRowError = true;
             } elseif (isset($existingUsernames[$cleanUsername])) {
                 $errors[] = "Baris {$rowNum}: Username '{$username}' sudah terdaftar di sistem.";
