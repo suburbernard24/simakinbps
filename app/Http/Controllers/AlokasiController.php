@@ -39,9 +39,13 @@ class AlokasiController extends Controller
             ->get();
 
         // Pegawai yang boleh ditugaskan:
-        // Ketua Tim dapat mengalokasikan ke SEMUA pegawai aktif (lintas tim)
-        $pegawais = User::where('is_active', true)
-            ->where('role', '!=', 'admin')
+        // Ketua Tim dapat mengalokasikan ke dirinya sendiri DAN semua Anggota Tim aktif
+        // (role = 'pegawai') dari tim manapun. Ketua Tim lain & Kepala BPS tidak termasuk.
+        $pegawais = User::with('tim')->where('is_active', true)
+            ->where(function ($q) use ($user) {
+                $q->where('id', $user->id)                // diri sendiri
+                  ->orWhere('role', 'pegawai');            // semua anggota tim
+            })
             ->orderBy('name')
             ->get();
 
@@ -98,8 +102,11 @@ class AlokasiController extends Controller
 
         $item = AlokasiPekerjaan::where('created_by', $user->id)->findOrFail($id);
 
-        $pegawais = User::where('is_active', true)
-            ->where('role', '!=', 'admin')
+        $pegawais = User::with('tim')->where('is_active', true)
+            ->where(function ($q) use ($user) {
+                $q->where('id', $user->id)
+                  ->orWhere('role', 'pegawai');
+            })
             ->orderBy('name')
             ->get();
 

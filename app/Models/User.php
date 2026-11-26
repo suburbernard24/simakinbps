@@ -150,8 +150,9 @@ class User extends Authenticatable
 
     /**
      * Cek apakah user (Ketua Tim) boleh mengalokasikan pekerjaan utama kepada target user.
-     * Aturan: Ketua Tim boleh mengalokasikan ke SEMUA pegawai aktif (bukan admin),
-     * sehingga kolaborasi lintas tim dapat dilakukan.
+     * Aturan: Ketua Tim boleh mengalokasikan ke dirinya sendiri ATAU ke pegawai
+     * dengan role 'pegawai' (Anggota Tim) dari tim manapun.
+     * Ketua Tim lain dan Kepala BPS tidak termasuk.
      */
     public function canAllocateTo(User $target): bool
     {
@@ -159,13 +160,13 @@ class User extends Authenticatable
             return false;
         }
 
-        // Tidak boleh mengalokasikan ke akun admin
-        if ($target->isAdmin()) {
-            return false;
+        // Boleh mengalokasikan ke diri sendiri
+        if ($this->id === $target->id) {
+            return true;
         }
 
-        // Boleh mengalokasikan ke semua pegawai aktif
-        if ($target->is_active) {
+        // Boleh mengalokasikan ke anggota tim aktif (role = pegawai) dari tim manapun
+        if ($target->is_active && $target->role === 'pegawai') {
             return true;
         }
 
