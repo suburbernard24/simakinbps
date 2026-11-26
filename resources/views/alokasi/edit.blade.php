@@ -71,33 +71,9 @@
                 <!-- Pegawai -->
                 <div>
                     <label class="block text-xs font-bold mb-1.5">Pegawai yang Ditugaskan <span class="text-rose-500">*</span></label>
-                    {{-- Searchable Dropdown dengan Alpine.js --}}
-                    <div x-data="{
-                        open: false,
-                        search: '',
-                        selectedId: '{{ old('pegawai_id', $item->pegawai_id) }}',
-                        selectedName: '',
-                        pegawais: @json($pegawais->map(fn($p) => ['id' => $p->id, 'name' => $p->name, 'label' => $p->id === auth()->id() ? '(Diri Sendiri)' : '('.$p->role_display.($p->tim ? ' — '.$p->tim->nama_tim : '').')'])),
-                        get filtered() {
-                            if (!this.search) return this.pegawais;
-                            const q = this.search.toLowerCase();
-                            return this.pegawais.filter(p => p.name.toLowerCase().includes(q) || p.label.toLowerCase().includes(q));
-                        },
-                        select(p) {
-                            this.selectedId = p.id;
-                            this.selectedName = p.name + ' ' + p.label;
-                            this.search = '';
-                            this.open = false;
-                        },
-                        init() {
-                            if (this.selectedId) {
-                                const found = this.pegawais.find(p => p.id == this.selectedId);
-                                if (found) this.selectedName = found.name + ' ' + found.label;
-                            }
-                        }
-                    }" @click.outside="open = false" class="relative">
-                        <input type="hidden" name="pegawai_id" :value="selectedId" required>
-                        {{-- Trigger button --}}
+                    {{-- Searchable Dropdown --}}
+                    <div x-data="pegawaiDropdownEdit()" @click.outside="open = false" class="relative">
+                        <input type="hidden" name="pegawai_id" :value="selectedId">
                         <button type="button" @click="open = !open"
                                 class="w-full px-3 py-2.5 border rounded-xl text-left text-xs flex items-center justify-between gap-2 bg-white transition-all"
                                 :class="open ? 'border-bps-blue ring-2 ring-bps-blue/10' : 'border-slate-200 hover:border-slate-300'">
@@ -105,12 +81,11 @@
                                   x-text="selectedName || '-- Ketik atau pilih pegawai --'"></span>
                             <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
                         </button>
-                        {{-- Dropdown panel --}}
-                        <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-150"
+                        <div x-show="open" x-cloak
+                             x-transition:enter="transition ease-out duration-150"
                              x-transition:enter-start="opacity-0 -translate-y-1 scale-95"
                              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                              class="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
-                            {{-- Search input --}}
                             <div class="p-2 border-b border-slate-100">
                                 <div class="relative">
                                     <i class="fa-solid fa-search absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]"></i>
@@ -120,7 +95,6 @@
                                            @click.stop>
                                 </div>
                             </div>
-                            {{-- Options list --}}
                             <div class="max-h-48 overflow-y-auto">
                                 <template x-if="filtered.length === 0">
                                     <p class="px-3 py-3 text-xs text-slate-400 text-center">Tidak ada pegawai ditemukan.</p>
@@ -186,4 +160,48 @@
     </div>
 
 </div>
+
+@push('scripts')
+<script>
+// Data pegawai dari server — diisolasi di script tag agar tidak konflik kutip di x-data
+const _pegawaisEditData = {!! json_encode($pegawais->map(function($p) {
+    $authId = auth()->id();
+    $label = $p->id === $authId
+        ? '(Diri Sendiri)'
+        : '(' . $p->role_display . ($p->tim ? ' — ' . $p->tim->nama_tim : '') . ')';
+    return ['id' => $p->id, 'name' => $p->name, 'label' => $label];
+})->values()) !!};
+
+const _selectedEditId = {{ old('pegawai_id', $item->pegawai_id) ? (int) old('pegawai_id', $item->pegawai_id) : 'null' }};
+
+function pegawaiDropdownEdit() {
+    return {
+        open: false,
+        search: '',
+        selectedId: _selectedEditId,
+        selectedName: '',
+        pegawais: _pegawaisEditData,
+        get filtered() {
+            if (!this.search) return this.pegawais;
+            const q = this.search.toLowerCase();
+            return this.pegawais.filter(p =>
+                p.name.toLowerCase().includes(q) || p.label.toLowerCase().includes(q)
+            );
+        },
+        select(p) {
+            this.selectedId = p.id;
+            this.selectedName = p.name + ' ' + p.label;
+            this.search = '';
+            this.open = false;
+        },
+        init() {
+            if (this.selectedId) {
+                const found = this.pegawais.find(p => p.id == this.selectedId);
+                if (found) this.selectedName = found.name + ' ' + found.label;
+            }
+        }
+    };
+}
+</script>
+@endpush
 @endsection
