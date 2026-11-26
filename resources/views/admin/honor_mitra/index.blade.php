@@ -294,6 +294,18 @@
                         <div class="text-right text-[11px] text-slate-400 shrink-0">
                             <span class="font-medium text-slate-600 dark:text-slate-400">{{ $r->updater->name ?? 'Admin' }}</span>
                             <span class="block mt-0.5">{{ $r->updated_at?->translatedFormat('d M Y, H:i') }}</span>
+                            <form method="POST" action="{{ route('admin.honor_mitra.destroy', $r->id) }}"
+                                  class="mt-1.5"
+                                  onsubmit="return confirm('Hapus riwayat ini? Tindakan ini tidak dapat dibatalkan.')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition cursor-pointer"
+                                        title="Hapus riwayat ini">
+                                    <i class="fa-solid fa-trash-can text-[9px]"></i>
+                                    Hapus
+                                </button>
+                            </form>
                         </div>
                     </div>
                     @endforeach

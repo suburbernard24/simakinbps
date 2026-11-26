@@ -139,4 +139,16 @@ class HonorMitraController extends Controller
         return redirect()->route('admin.honor_mitra.index', $redirectParams)
             ->with('success', "Batas honor mitra berhasil disimpan {$periodeKet}. Pendataan Lapangan: {$fmtPendataan} | Pengolahan: {$fmtPengolahan}.");
     }
+
+    /**
+     * Hapus satu entri riwayat pengaturan honor mitra.
+     */
+    public function destroy($id)
+    {
+        $setting = PengaturanHonorMitra::findOrFail($id);
+        $setting->delete();
+
+        return redirect()->route('admin.honor_mitra.index')
+            ->with('success', 'Riwayat pengaturan honor mitra berhasil dihapus.');
+    }
 }
