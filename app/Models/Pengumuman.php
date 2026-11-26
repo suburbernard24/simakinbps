@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Pengumuman extends Model
 {
+    protected $table = 'pengumuman';
+
     protected $fillable = [
         'judul', 'isi', 'tipe', 'is_active',
         'tanggal_mulai', 'tanggal_selesai', 'created_by',
