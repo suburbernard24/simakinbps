@@ -7,7 +7,7 @@
 <div class="max-w-5xl mx-auto space-y-6" x-data="{
     fmtPendataanRaw: '{{ old('maksimal_honor_pendataan', $honorPendataan) }}',
     fmtPengolahanRaw: '{{ old('maksimal_honor_pengolahan', $honorPengolahan) }}',
-    showRiwayat: false,
+    showRiwayat: {{ request()->has('page') ? 'true' : 'false' }},
     formatRupiah(val) {
         let clean = (val + '').replace(/\D/g, '');
         if (!clean) return '';
@@ -105,25 +105,11 @@
                 <h4 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
                     <i class="fa-solid fa-calendar-days text-slate-400"></i> Lingkup Periode
                 </h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-bold mb-1">Berlaku untuk Tahun <span class="text-slate-400 font-normal">(Opsional)</span></label>
-                        <input type="number" name="tahun" value="{{ old('tahun', $currentYear) }}" min="2020" max="2050"
-                               class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue font-bold">
-                        <p class="text-[10px] text-slate-400 mt-1">Biarkan default tahun ini atau kosongkan untuk berlaku umum.</p>
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1">Berlaku untuk Bulan <span class="text-slate-400 font-normal">(Opsional)</span></label>
-                        <select name="bulan" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue font-bold">
-                            <option value="">-- Berlaku Sepanjang Tahun --</option>
-                            @for($b = 1; $b <= 12; $b++)
-                                <option value="{{ $b }}" {{ old('bulan', $settingPendataanKhusus ? $currentMonth : '') == $b ? 'selected' : '' }}>
-                                    {{ \Carbon\Carbon::createFromDate(2026, $b, 1)->translatedFormat('F') }}
-                                </option>
-                            @endfor
-                        </select>
-                        <p class="text-[10px] text-slate-400 mt-1">Pilih bulan spesifik atau biarkan berlaku sepanjang tahun.</p>
-                    </div>
+                <div class="max-w-md">
+                    <label class="block font-bold mb-1">Berlaku untuk Tahun <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                    <input type="number" name="tahun" value="{{ old('tahun', $currentYear) }}" min="2020" max="2050"
+                           class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-bps-blue font-bold">
+                    <p class="text-[10px] text-slate-400 mt-1">Biarkan default tahun ini atau kosongkan untuk berlaku umum sepanjang tahun.</p>
                 </div>
             </div>
 
@@ -228,12 +214,10 @@
         </form>
     </div>
 
-</div>
-
-{{-- ==========================================================================
-     MODAL RIWAYAT PEMBARUAN BATAS HONOR
-========================================================================== --}}
-<div x-show="showRiwayat"
+    {{-- ==========================================================================
+         MODAL RIWAYAT PEMBARUAN BATAS HONOR
+    ========================================================================== --}}
+    <div x-show="showRiwayat"
      x-cloak
      class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
      @keydown.escape.window="showRiwayat = false">
@@ -310,6 +294,18 @@
                         <div class="text-right text-[11px] text-slate-400 shrink-0">
                             <span class="font-medium text-slate-600 dark:text-slate-400">{{ $r->updater->name ?? 'Admin' }}</span>
                             <span class="block mt-0.5">{{ $r->updated_at?->translatedFormat('d M Y, H:i') }}</span>
+                            <form method="POST" action="{{ route('admin.honor_mitra.destroy', $r->id) }}"
+                                  class="mt-1.5"
+                                  onsubmit="return confirm('Hapus riwayat ini? Tindakan ini tidak dapat dibatalkan.')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition cursor-pointer"
+                                        title="Hapus riwayat ini">
+                                    <i class="fa-solid fa-trash-can text-[9px]"></i>
+                                    Hapus
+                                </button>
+                            </form>
                         </div>
                     </div>
                     @endforeach
@@ -333,4 +329,5 @@
     </div>
 </div>
 
+</div>
 @endsection

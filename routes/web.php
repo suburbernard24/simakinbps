@@ -126,6 +126,7 @@ Route::middleware('auth')->group(function () {
         // Pengaturan Honor Mitra
         Route::get('/honor-mitra', [HonorMitraController::class, 'index'])->name('honor_mitra.index');
         Route::post('/honor-mitra', [HonorMitraController::class, 'store'])->name('honor_mitra.store');
+        Route::delete('/honor-mitra/{id}', [HonorMitraController::class, 'destroy'])->name('honor_mitra.destroy');
     });
 
     // =========================================================================

@@ -77,6 +77,9 @@ class AdminController extends Controller
                 $q->where('name', 'like', "%{$s}%")
                   ->orWhere('nip', 'like', "%{$s}%")
                   ->orWhere('username', 'like', "%{$s}%")
+                  ->orWhere('email', 'like', "%{$s}%")
+                  ->orWhere('no_hp', 'like', "%{$s}%")
+                  ->orWhere('no_whatsapp', 'like', "%{$s}%")
                   ->orWhere('jabatan', 'like', "%{$s}%");
             });
         }
@@ -99,22 +102,24 @@ class AdminController extends Controller
             'name'         => 'required|string|max:255',
             'username'     => 'required|string|max:100|unique:users,username',
             'email'        => 'nullable|email|max:255|unique:users,email',
+            'no_hp'        => 'nullable|string|max:30',
             'nip'          => 'nullable|string|max:30',
             'jabatan'      => 'nullable|string|max:255',
             'golongan'     => 'nullable|string|max:50',
             'password'     => 'required|string|min:6',
             'role'         => 'required|in:admin,kepala_bps,ketua_tim,pegawai',
             'tim_id'       => 'nullable|exists:teams,id',
-            'is_ketua_tim' => 'nullable|boolean',
             'is_active'    => 'nullable|boolean',
         ]);
 
-        $isKetuaTim = $request->role === 'ketua_tim' || $request->boolean('is_ketua_tim');
+        $isKetuaTim = $request->role === 'ketua_tim';
 
         $user = User::create([
             'name'         => $request->name,
             'username'     => $request->username,
             'email'        => $request->email,
+            'no_hp'        => $request->no_hp,
+            'no_whatsapp'  => $request->no_hp,
             'nip'          => $request->nip,
             'jabatan'      => $request->jabatan,
             'golongan'     => $request->golongan,
@@ -183,7 +188,7 @@ class AdminController extends Controller
         $sheet->getRowDimension(1)->setRowHeight(36);
 
         // Baris 2: Petunjuk
-        $sheet->setCellValue('A2', 'Petunjuk: Isi data pegawai mulai baris ke-4. Kolom (*) wajib diisi. Kolom bertanda dropdown (Tim, Role, Status, Ketua Tim) silakan pilih dari opsi dropdown. Baris 4 adalah baris contoh dan dapat diganti.');
+        $sheet->setCellValue('A2', 'Petunjuk: Isi data pegawai mulai baris ke-4. Kolom (*) wajib diisi. Kolom bertanda dropdown (Tim, Role, Status) silakan pilih dari opsi dropdown. Baris 4 adalah baris contoh dan dapat diganti.');
         $sheet->mergeCells('A2:L2');
         $sheet->getStyle('A2')->applyFromArray([
             'font' => ['italic' => true, 'size' => 9, 'color' => ['argb' => 'FF475569']],
@@ -201,11 +206,11 @@ class AdminController extends Controller
             'E3' => 'Tim Kerja BPS',
             'F3' => 'NIP',
             'G3' => 'Email Resmi',
-            'H3' => 'Jabatan',
-            'I3' => 'Golongan/Pangkat',
-            'J3' => 'Role Akses (*)',
-            'K3' => 'Status Akun Aktif (*)',
-            'L3' => 'Tugaskan sebagai Ketua Tim (*)',
+            'H3' => 'No. Handphone / WhatsApp',
+            'I3' => 'Jabatan',
+            'J3' => 'Golongan/Pangkat',
+            'K3' => 'Role Akses (*)',
+            'L3' => 'Status Akun Aktif (*)',
         ];
 
         foreach ($headers as $cell => $value) {
@@ -230,11 +235,11 @@ class AdminController extends Controller
             'E4' => $contohTim,
             'F4' => '199505102018011004',
             'G4' => 'budi.santoso@bps.go.id',
-            'H4' => 'Statistisi Ahli Pertama',
-            'I4' => 'III/a',
-            'J4' => 'Anggota Tim',
-            'K4' => 'Ya',
-            'L4' => 'Tidak',
+            'H4' => '081234567890',
+            'I4' => 'Statistisi Ahli Pertama',
+            'J4' => 'III/a',
+            'K4' => 'Anggota Tim',
+            'L4' => 'Ya',
         ];
 
         foreach ($contohData as $cell => $value) {
@@ -247,7 +252,7 @@ class AdminController extends Controller
             'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['argb' => 'FFE2E8F0']]],
         ]);
         $sheet->getStyle('A4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('K4:L4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('L4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         // Set Lebar Kolom
         $colWidths = [
@@ -259,10 +264,10 @@ class AdminController extends Controller
             'F' => 24,
             'G' => 28,
             'H' => 26,
-            'I' => 18,
-            'J' => 24,
-            'K' => 20,
-            'L' => 28,
+            'I' => 26,
+            'J' => 18,
+            'K' => 24,
+            'L' => 20,
         ];
         foreach ($colWidths as $col => $width) {
             $sheet->getColumnDimension($col)->setWidth($width);
@@ -270,7 +275,6 @@ class AdminController extends Controller
 
         // Terapkan Data Validation (Dropdown) Baris 4 s.d. 150
         for ($r = 4; $r <= 150; $r++) {
-            // Dropdown Tim Kerja (Kolom E)
             // Dropdown Tim Kerja (Kolom E)
             $valTim = $sheet->getCell('E' . $r)->getDataValidation();
             $valTim->setType(DataValidation::TYPE_LIST);
@@ -282,8 +286,8 @@ class AdminController extends Controller
             $valTim->setError('Silakan pilih tim dari daftar dropdown yang tersedia.');
             $valTim->setFormula1("Data_Referensi!\$A\$1:\$A\${$totalTimRows}");
 
-            // Dropdown Role Akses (Kolom J)
-            $valRole = $sheet->getCell('J' . $r)->getDataValidation();
+            // Dropdown Role Akses (Kolom K)
+            $valRole = $sheet->getCell('K' . $r)->getDataValidation();
             $valRole->setType(DataValidation::TYPE_LIST);
             $valRole->setErrorStyle(DataValidation::STYLE_STOP);
             $valRole->setAllowBlank(false);
@@ -293,8 +297,8 @@ class AdminController extends Controller
             $valRole->setError('Silakan pilih role dari daftar dropdown.');
             $valRole->setFormula1('"Anggota Tim, Ketua Tim, Kepala BPS, Administrator Sistem"');
 
-            // Dropdown Status Akun Aktif (Kolom K)
-            $valActive = $sheet->getCell('K' . $r)->getDataValidation();
+            // Dropdown Status Akun Aktif (Kolom L)
+            $valActive = $sheet->getCell('L' . $r)->getDataValidation();
             $valActive->setType(DataValidation::TYPE_LIST);
             $valActive->setErrorStyle(DataValidation::STYLE_STOP);
             $valActive->setAllowBlank(true);
@@ -303,17 +307,6 @@ class AdminController extends Controller
             $valActive->setErrorTitle('Pilihan Tidak Valid');
             $valActive->setError('Pilih Ya atau Tidak.');
             $valActive->setFormula1('"Ya, Tidak"');
-
-            // Dropdown Tugaskan sebagai Ketua Tim (Kolom L)
-            $valKetua = $sheet->getCell('L' . $r)->getDataValidation();
-            $valKetua->setType(DataValidation::TYPE_LIST);
-            $valKetua->setErrorStyle(DataValidation::STYLE_STOP);
-            $valKetua->setAllowBlank(true);
-            $valKetua->setShowDropDown(true);
-            $valKetua->setShowErrorMessage(true);
-            $valKetua->setErrorTitle('Pilihan Tidak Valid');
-            $valKetua->setError('Pilih Ya atau Tidak.');
-            $valKetua->setFormula1('"Ya, Tidak"');
         }
 
         $writer = new Xlsx($spreadsheet);
@@ -391,11 +384,12 @@ class AdminController extends Controller
             'tim'      => 'E',
             'nip'      => 'F',
             'email'    => 'G',
-            'jabatan'  => 'H',
-            'golongan' => 'I',
-            'role'     => 'J',
-            'active'   => 'K',
-            'ketua'    => 'L',
+            'no_hp'    => 'H',
+            'jabatan'  => 'I',
+            'golongan' => 'J',
+            'role'     => 'K',
+            'active'   => 'L',
+            'ketua'    => null,
         ];
 
         if (isset($rows[3])) {
@@ -417,6 +411,8 @@ class AdminController extends Controller
                     $colMap['nip'] = $colKey;
                 } elseif (str_contains($headerLower, 'email')) {
                     $colMap['email'] = $colKey;
+                } elseif (str_contains($headerLower, 'hp') || str_contains($headerLower, 'wa') || str_contains($headerLower, 'telepon') || str_contains($headerLower, 'handphone')) {
+                    $colMap['no_hp'] = $colKey;
                 } elseif (str_contains($headerLower, 'jabat')) {
                     $colMap['jabatan'] = $colKey;
                 } elseif (str_contains($headerLower, 'golong') || str_contains($headerLower, 'pangkat')) {
@@ -442,6 +438,7 @@ class AdminController extends Controller
             $timRaw    = trim($row[$colMap['tim']] ?? '');
             $nip       = trim($row[$colMap['nip']] ?? '');
             $email     = trim($row[$colMap['email']] ?? '');
+            $noHp      = !empty($colMap['no_hp']) ? trim($row[$colMap['no_hp']] ?? '') : null;
             $jabatan   = trim($row[$colMap['jabatan']] ?? '');
             $golongan  = trim($row[$colMap['golongan']] ?? '');
             $roleRaw   = trim($row[$colMap['role']] ?? '');
@@ -449,7 +446,7 @@ class AdminController extends Controller
             $ketuaRaw  = trim($row[$colMap['ketua']] ?? '');
 
             // Lewati baris kosong
-            if (empty($nama) && empty($username) && empty($password) && empty($nip) && empty($email)) {
+            if (empty($nama) && empty($username) && empty($password) && empty($nip) && empty($email) && empty($noHp)) {
                 continue;
             }
 
@@ -580,6 +577,8 @@ class AdminController extends Controller
                     'name'         => $nama,
                     'username'     => $username,
                     'email'        => $cleanEmail,
+                    'no_hp'        => !empty($noHp) ? $noHp : null,
+                    'no_whatsapp'  => !empty($noHp) ? $noHp : null,
                     'nip'          => !empty($nip) ? $nip : null,
                     'jabatan'      => !empty($jabatan) ? $jabatan : null,
                     'golongan'     => !empty($golongan) ? $golongan : null,
@@ -637,22 +636,24 @@ class AdminController extends Controller
             'name'         => 'required|string|max:255',
             'username'     => 'required|string|max:100|unique:users,username,' . $pegawai->id,
             'email'        => 'nullable|email|max:255|unique:users,email,' . $pegawai->id,
+            'no_hp'        => 'nullable|string|max:30',
             'nip'          => 'nullable|string|max:30',
             'jabatan'      => 'nullable|string|max:255',
             'golongan'     => 'nullable|string|max:50',
             'password'     => 'nullable|string|min:6',
             'role'         => 'required|in:admin,kepala_bps,ketua_tim,pegawai',
             'tim_id'       => 'nullable|exists:teams,id',
-            'is_ketua_tim' => 'nullable|boolean',
             'is_active'    => 'nullable|boolean',
         ]);
 
-        $isKetuaTim = $request->role === 'ketua_tim' || $request->boolean('is_ketua_tim');
+        $isKetuaTim = $request->role === 'ketua_tim';
 
         $data = [
             'name'         => $request->name,
             'username'     => $request->username,
             'email'        => $request->email,
+            'no_hp'        => $request->no_hp,
+            'no_whatsapp'  => $request->no_hp,
             'nip'          => $request->nip,
             'jabatan'      => $request->jabatan,
             'golongan'     => $request->golongan,
@@ -670,6 +671,8 @@ class AdminController extends Controller
 
         if ($isKetuaTim && $request->tim_id) {
             Team::where('id', $request->tim_id)->update(['ketua_id' => $pegawai->id]);
+        } elseif (!$isKetuaTim) {
+            Team::where('ketua_id', $pegawai->id)->update(['ketua_id' => null]);
         }
 
         return redirect()->route('admin.pegawai.index')->with('success', "Data pegawai '{$pegawai->name}' berhasil diperbarui.");

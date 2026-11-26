@@ -13,12 +13,24 @@
     pilihMetodeModal: false,
     importModal: false,
     openDropdown: false,
+    toggleModal: false,
+    toggleId: null,
+    toggleName: '',
+    toggleIsActive: false,
+    toggleFormAction: '',
     confirmDelete(id, name, username, role) {
         this.deleteId = id;
         this.deleteName = name;
         this.deleteUsername = username;
         this.deleteRole = role;
         this.deleteModal = true;
+    },
+    confirmToggle(id, name, isActive, formAction) {
+        this.toggleId = id;
+        this.toggleName = name;
+        this.toggleIsActive = isActive;
+        this.toggleFormAction = formAction;
+        this.toggleModal = true;
     }
 }">
 
@@ -112,7 +124,7 @@
     <div class="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
         <form method="GET" action="{{ route('admin.pegawai.index') }}" class="flex flex-wrap items-center gap-3">
             <div class="flex-1 min-w-[200px]">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIP, username, jabatan..." class="w-full text-xs font-semibold px-3.5 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIP, username, No HP, jabatan..." class="w-full text-xs font-semibold px-3.5 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
             </div>
 
             <div class="w-40">
@@ -167,7 +179,15 @@
                                     <img src="{{ $p->avatar_url }}" alt="{{ $p->name }}" class="w-9 h-9 rounded-xl object-cover ring-1 ring-slate-200">
                                     <div>
                                         <p class="font-bold text-slate-900">{{ $p->name }}</p>
-                                        <p class="text-[11px] text-slate-400">@ {{ $p->username }}</p>
+                                        <div class="flex items-center gap-2 text-[11px] text-slate-400 mt-0.5">
+                                            <span>@ {{ $p->username }}</span>
+                                            @if($p->no_hp || $p->no_whatsapp)
+                                                <span>•</span>
+                                                <span class="text-emerald-600 font-medium flex items-center gap-1" title="Nomor HP / WhatsApp">
+                                                    <i class="fa-solid fa-phone text-[9px]"></i> {{ $p->no_hp ?? $p->no_whatsapp }}
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </td>
@@ -206,9 +226,14 @@
                                     </a>
                                     
                                     @if($p->id !== auth()->id())
-                                        <form method="POST" action="{{ route('admin.pegawai.toggle', $p->id) }}" onsubmit="return confirm('Apakah Anda yakin ingin mengubah status aktif pegawai ini?')">
+                                        <form method="POST" action="{{ route('admin.pegawai.toggle', $p->id) }}"
+                                              x-ref="toggleForm{{ $p->id }}"
+                                              id="toggle-form-{{ $p->id }}">
                                             @csrf
-                                            <button type="submit" class="p-2 rounded-lg {{ $p->is_active ? 'text-amber-500 hover:bg-amber-50' : 'text-emerald-600 hover:bg-emerald-50' }} transition" title="{{ $p->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
+                                            <button type="button"
+                                                @click="confirmToggle({{ $p->id }}, '{{ addslashes($p->name) }}', {{ $p->is_active ? 'true' : 'false' }}, '{{ route('admin.pegawai.toggle', $p->id) }}')"
+                                                class="p-2 rounded-lg {{ $p->is_active ? 'text-amber-500 hover:bg-amber-50' : 'text-emerald-600 hover:bg-emerald-50' }} transition cursor-pointer"
+                                                title="{{ $p->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
                                                 <i class="fa-solid {{ $p->is_active ? 'fa-ban' : 'fa-check' }}"></i>
                                             </button>
                                         </form>
@@ -239,6 +264,57 @@
                 {{ $pegawais->withQueryString()->links() }}
             </div>
         @endif
+    </div>
+
+    <!-- Modal Konfirmasi Toggle Status Pegawai -->
+    <div x-show="toggleModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95">
+        <div @click.outside="toggleModal = false" class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-5">
+
+            {{-- Icon --}}
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-inner"
+                 :class="toggleIsActive ? 'bg-amber-50 text-amber-500' : 'bg-emerald-50 text-emerald-600'">
+                <i class="fa-solid" :class="toggleIsActive ? 'fa-ban' : 'fa-circle-check'"></i>
+            </div>
+
+            {{-- Judul & Deskripsi --}}
+            <div class="text-center space-y-2">
+                <h3 class="text-lg font-black text-slate-900"
+                    x-text="toggleIsActive ? 'Nonaktifkan Pegawai?' : 'Aktifkan Pegawai?'"></h3>
+                <p class="text-xs text-slate-500">
+                    <span x-text="toggleIsActive ? 'Anda akan menonaktifkan akun pegawai berikut:' : 'Anda akan mengaktifkan kembali akun pegawai berikut:'"></span>
+                </p>
+
+                {{-- Info Pegawai --}}
+                <div class="p-3 rounded-2xl border text-left mt-2"
+                     :class="toggleIsActive ? 'bg-amber-50/60 border-amber-200/80' : 'bg-emerald-50/60 border-emerald-200/80'">
+                    <p class="text-xs font-bold text-slate-900" x-text="toggleName"></p>
+                    <p class="text-[11px] mt-1"
+                       :class="toggleIsActive ? 'text-amber-700' : 'text-emerald-700'"
+                       x-text="toggleIsActive ? 'Pegawai tidak akan bisa login setelah dinonaktifkan.' : 'Pegawai dapat login kembali setelah diaktifkan.'"></p>
+                </div>
+            </div>
+
+            {{-- Tombol Aksi --}}
+            <div class="pt-1 flex items-center justify-end gap-2.5">
+                <button type="button" @click="toggleModal = false"
+                        class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer">
+                    <i class="fa-solid fa-xmark mr-1"></i> Tidak, Batal
+                </button>
+                <button type="button"
+                        @click="toggleModal = false; $nextTick(() => { document.getElementById('toggle-form-' + toggleId).submit(); })"
+                        class="px-5 py-2.5 rounded-xl text-white text-xs font-bold transition shadow-md flex items-center gap-1.5 cursor-pointer"
+                        :class="toggleIsActive ? 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/20' : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20'">
+                    <i class="fa-solid" :class="toggleIsActive ? 'fa-ban' : 'fa-circle-check'"></i>
+                    <span x-text="toggleIsActive ? 'Ya, Nonaktifkan' : 'Ya, Aktifkan'"></span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal Konfirmasi Hapus User -->
@@ -367,7 +443,7 @@
                     <div class="w-8 h-8 rounded-full bg-bps-blue text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">1</div>
                     <div class="flex-1">
                         <p class="font-bold text-slate-800 text-sm mb-1">Unduh Template Excel</p>
-                        <p class="text-[11px] text-slate-500 mb-3">Unduh template terlebih dahulu. Template berisi kolom: <strong>Nama &amp; Gelar, Username, Password, Tim Kerja, NIP, Email, Jabatan, Golongan, Role, Status Akun, Ketua Tim</strong>. Isi mulai baris ke-4.</p>
+                        <p class="text-[11px] text-slate-500 mb-3">Unduh template terlebih dahulu. Template berisi kolom: <strong>Nama &amp; Gelar, Username, Password, Tim Kerja, NIP, Email, No. Handphone / WhatsApp, Jabatan, Golongan, Role, Status Akun</strong>. Isi mulai baris ke-4.</p>
                         <a href="{{ route('admin.pegawai.template') }}" target="_blank"
                            class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-sm transition-all">
                             <i class="fa-solid fa-download"></i> Unduh Template (.xlsx)
@@ -391,7 +467,7 @@
                                 <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i> Perhatian:</p>
                                 <ul class="list-disc pl-4 space-y-0.5">
                                     <li>Gunakan hanya template resmi yang diunduh dari sistem ini.</li>
-                                    <li>Kolom Tim, Role, Status &amp; Ketua Tim wajib diisi dari opsi dropdown di template.</li>
+                                    <li>Kolom Tim, Role, dan Status Akun wajib diisi dari opsi dropdown di template.</li>
                                     <li>Username dan Email harus unik (belum terdaftar di sistem).</li>
                                     <li>Baris contoh (baris 4) akan dilewati otomatis jika tidak diubah.</li>
                                 </ul>

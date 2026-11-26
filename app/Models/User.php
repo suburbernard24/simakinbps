@@ -27,10 +27,11 @@ class User extends Authenticatable
         'tim_id',
         'is_ketua_tim',
         'is_public_user',
-        // e-Surat
+        // Kontak & e-Surat
+        'no_hp',
+        'no_whatsapp',
         'gelar',
         'pangkat',
-        'no_whatsapp',
         'unit_kerja_id',
     ];
 
@@ -257,6 +258,16 @@ class User extends Authenticatable
             'anggota_tim', 'pegawai' => 'Anggota Tim',
             default                  => ucfirst(str_replace('_', ' ', $this->role)),
         };
+    }
+
+    public function getNoHpAttribute($value): ?string
+    {
+        return $value ?: ($this->attributes['no_whatsapp'] ?? null);
+    }
+
+    public function getNoWhatsappAttribute($value): ?string
+    {
+        return $value ?: ($this->attributes['no_hp'] ?? null);
     }
 
     public function getAvatarUrlAttribute(): string
