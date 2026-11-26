@@ -1,5 +1,5 @@
 <!-- BEGIN: IndikatorTerkiniSection (Tabel Dinamis BPS Carousel - Maksimal 4 Kartu) -->
-<section class="py-14 sm:py-16 bg-[#F4F7FA] border-b border-slate-200/80 relative" data-purpose="macro-indicators" id="indikator-terkini">
+<section class="reveal-on-scroll py-14 sm:py-16 bg-[#F4F7FA] border-b border-slate-200/80 relative" data-purpose="macro-indicators" id="indikator-terkini">
     <!-- Anchor alias for older links & test suites -->
     <div id="indikator" class="absolute -top-20"></div>
     <div id="datapokok" class="absolute -top-20"></div>

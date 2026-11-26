@@ -992,6 +992,7 @@ class AdminController extends Controller
             ['key' => 'pst_jam_layanan',  'label' => 'Jam Operasional PST',            'type' => 'text',     'group' => 'kontak', 'default' => 'Senin s.d. Jumat, 08.00 - 15.30 WITA'],
             ['key' => 'pst_alamat',       'label' => 'Alamat Ruang PST',               'type' => 'text',     'group' => 'kontak', 'default' => 'Kantor BPS Kab. Manggarai, Jl. Ranaka, Ruteng, Flores, NTT'],
             ['key' => 'pengaduan_email',  'label' => 'Email Saluran Pengaduan Resmi',  'type' => 'text',     'group' => 'kontak', 'default' => 'bps5310@bps.go.id'],
+            ['key' => 'skm_link',         'label' => 'Link Survei Kepuasan Masyarakat (SKM)', 'type' => 'text', 'group' => 'kontak', 'default' => ''],
 
             // ── INTEGRASI API BPS (WEBAPI) ────────────────────────────────────────
             ['key' => 'bps_api_key',      'label' => 'BPS WebAPI Key (webapi.bps.go.id)', 'type' => 'text', 'group' => 'api_bps', 'default' => ''],

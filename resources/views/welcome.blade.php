@@ -163,6 +163,20 @@
             transition-duration: 0.01ms !important;
             scroll-behavior: auto !important;
           }
+          .reveal-on-scroll {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        }
+        .reveal-on-scroll {
+          opacity: 0;
+          transform: translateY(14px);
+          transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+          will-change: opacity, transform;
+        }
+        .reveal-on-scroll.is-visible {
+          opacity: 1;
+          transform: translateY(0);
         }
         .custom-scrollbar::-webkit-scrollbar {
           height: 6px;
@@ -195,9 +209,15 @@
         <nav aria-label="Navigasi utama" class="hidden lg:flex items-center gap-1 text-[13px] font-medium text-slate-600">
             @foreach($navMenus as $nav)
                 @if(!empty($nav['is_active']))
-                    <a class="px-3 py-2 rounded-md transition-colors {{ $loop->first ? 'text-[#123B63] font-semibold bg-[#F4F7FA]' : 'hover:text-[#1E5B91] hover:bg-[#F4F7FA]' }}"
-                       href="{{ $nav['url'] }}"
-                       target="{{ $nav['target'] ?? '_self' }}">
+                    @php
+                        $isSkmMenu = strtolower(trim($nav['label'] ?? '')) === 'skm';
+                        $navHref   = ($isSkmMenu && !empty($fs['skm_link'])) ? $fs['skm_link'] : ($nav['url'] ?? '#');
+                        $navTarget = ($isSkmMenu && !empty($fs['skm_link'])) ? '_blank' : ($nav['target'] ?? '_self');
+                    @endphp
+                    <a class="px-3 py-2 rounded-md transition-colors hover:text-[#1E5B91] hover:bg-[#F4F7FA]"
+                       href="{{ $navHref }}"
+                       target="{{ $navTarget }}"
+                       @if($navTarget === '_blank') rel="noopener noreferrer" @endif>
                         {{ $nav['label'] }}
                     </a>
                 @endif
@@ -227,9 +247,15 @@
     <div id="mobile-nav-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1">
         @foreach($navMenus as $nav)
             @if(!empty($nav['is_active']))
+                @php
+                    $isSkmMenu = strtolower(trim($nav['label'] ?? '')) === 'skm';
+                    $navHref   = ($isSkmMenu && !empty($fs['skm_link'])) ? $fs['skm_link'] : ($nav['url'] ?? '#');
+                    $navTarget = ($isSkmMenu && !empty($fs['skm_link'])) ? '_blank' : ($nav['target'] ?? '_self');
+                @endphp
                 <a class="block px-3 py-2.5 text-sm font-medium text-slate-700 hover:text-[#1E5B91] hover:bg-[#F4F7FA] rounded-md transition-colors"
-                   href="{{ $nav['url'] }}"
-                   target="{{ $nav['target'] ?? '_self' }}"
+                   href="{{ $navHref }}"
+                   target="{{ $navTarget }}"
+                   @if($navTarget === '_blank') rel="noopener noreferrer" @endif
                    onclick="document.getElementById('mobile-nav-menu').classList.add('hidden')">
                     {{ $nav['label'] }}
                 </a>

@@ -289,41 +289,68 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Smooth scroll dengan easing untuk anchor links
+  // Smooth scroll dengan easing untuk anchor links (# dan /# saat di halaman utama)
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReducedMotion) {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const targetId = this.getAttribute('href');
-        if (!targetId || targetId === '#') return;
-        const targetEl = document.querySelector(targetId);
-        if (!targetEl) return;
 
-        e.preventDefault();
-        const headerOffset = 72;
-        const startY = window.pageYOffset;
-        const targetY = targetEl.getBoundingClientRect().top + startY - headerOffset;
-        const distance = targetY - startY;
-        const duration = 550;
-        let startTime = null;
+  function smoothScrollToY(targetY, duration = 550) {
+    if (prefersReducedMotion) {
+      window.scrollTo(0, targetY);
+      return;
+    }
+    const startY = window.pageYOffset;
+    const distance = targetY - startY;
+    let startTime = null;
 
-        function easeOutCubic(t) {
-          return 1 - Math.pow(1 - t, 3);
-        }
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
 
-        function step(timestamp) {
-          if (!startTime) startTime = timestamp;
-          const elapsed = timestamp - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          window.scrollTo(0, startY + distance * easeOutCubic(progress));
-          if (progress < 1) {
-            window.requestAnimationFrame(step);
-          }
-        }
-
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + distance * easeOutCubic(progress));
+      if (progress < 1) {
         window.requestAnimationFrame(step);
-      });
+      }
+    }
+    window.requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll('a[href^="#"], a[href^="/#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const rawHref = this.getAttribute('href');
+      if (!rawHref || rawHref === '#') return;
+      const hash = rawHref.startsWith('/#') ? rawHref.slice(1) : rawHref;
+      if (rawHref.startsWith('/#') && window.location.pathname !== '/') return;
+
+      const targetEl = document.querySelector(hash);
+      if (!targetEl) return;
+
+      e.preventDefault();
+      const headerOffset = 72;
+      const targetY = targetEl.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      smoothScrollToY(targetY);
     });
+  });
+
+  // Scroll-reveal animasi halus untuk section saat masuk viewport
+  const revealEls = document.querySelectorAll('.reveal-on-scroll');
+  if (revealEls.length > 0) {
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      revealEls.forEach(el => el.classList.add('is-visible'));
+    } else {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+      revealEls.forEach(el => observer.observe(el));
+    }
   }
 });
 </script>

@@ -1,5 +1,5 @@
 <!-- BEGIN: BukuTamuSection -->
-<section class="py-14 sm:py-18 bg-[#F4F7FA] border-b border-slate-200/80" data-purpose="buku-tamu" id="buku-tamu">
+<section class="reveal-on-scroll py-14 sm:py-18 bg-[#F4F7FA] border-b border-slate-200/80" data-purpose="buku-tamu" id="buku-tamu">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             <!-- Left Information Column -->

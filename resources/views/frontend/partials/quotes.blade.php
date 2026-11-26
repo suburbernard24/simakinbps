@@ -1,5 +1,5 @@
 <!-- BEGIN: QuoteSection -->
-<section class="py-16 sm:py-20 bg-[#F4F7FA] border-b border-slate-200/80" data-purpose="quote-banner" id="quotes">
+<section class="reveal-on-scroll py-16 sm:py-20 bg-[#F4F7FA] border-b border-slate-200/80" data-purpose="quote-banner" id="quotes">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p class="text-xs font-semibold text-[#1E5B91] mb-6">
             Kutipan Inspiratif &amp; Integritas Data

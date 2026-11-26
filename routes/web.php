@@ -29,6 +29,18 @@ Route::get('/portal', function () {
     return view('welcome');
 })->name('portal');
 
+Route::get('/publikasi', function () {
+    return view('frontend.publikasi');
+})->name('publikasi');
+
+Route::get('/pengaduan', function () {
+    return view('frontend.pengaduan');
+})->name('pengaduan');
+
+Route::get('/antrian', function () {
+    return view('frontend.antrian');
+})->name('antrian');
+
 // Public API BPS Routes (WebAPI Integration)
 Route::prefix('api/bps')->name('api.bps.')->group(function () {
     Route::get('/publikasi', [BpsApiController::class, 'getPublikasi'])->name('publikasi');

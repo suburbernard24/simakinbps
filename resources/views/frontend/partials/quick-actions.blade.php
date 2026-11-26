@@ -1,5 +1,5 @@
 <!-- BEGIN: QuickServicesGrid (4 Layanan Utama BPS Manggarai dalam Lingkaran) -->
-<section class="bg-white border-b border-slate-200/80 py-14 sm:py-16" data-purpose="layanan-bps" id="layanan-bps">
+<section class="reveal-on-scroll bg-white border-b border-slate-200/80 py-14 sm:py-16" data-purpose="layanan-bps" id="layanan-bps">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-10 text-center max-w-xl mx-auto">
             <h2 class="text-2xl sm:text-3xl font-bold text-[#123B63] tracking-tight">Layanan Utama BPS Manggarai</h2>

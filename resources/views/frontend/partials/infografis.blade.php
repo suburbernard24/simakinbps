@@ -1,5 +1,5 @@
 <!-- BEGIN: InfografisSection (6 Kotak Utama / Terbaru) -->
-<section class="py-14 sm:py-18 bg-white border-b border-slate-200/80" data-purpose="infographics" id="infografis">
+<section class="reveal-on-scroll py-14 sm:py-18 bg-white border-b border-slate-200/80" data-purpose="infographics" id="infografis">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Section Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">

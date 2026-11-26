@@ -42,12 +42,10 @@ class FrontendSetting extends Model
     public static function defaultNavMenu(): array
     {
         return [
-            ['label' => 'Beranda', 'url' => '#', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Indikator', 'url' => '#indikator-terkini', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Layanan BPS', 'url' => '#layanan-bps', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Buku Tamu', 'url' => '#buku-tamu', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Infografis', 'url' => '#infografis', 'target' => '_self', 'is_active' => true],
-            ['label' => 'Kutipan', 'url' => '#quotes', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Publikasi', 'url' => '/publikasi', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Pengaduan', 'url' => '/pengaduan', 'target' => '_self', 'is_active' => true],
+            ['label' => 'Antrian', 'url' => '/antrian', 'target' => '_self', 'is_active' => true],
+            ['label' => 'SKM', 'url' => '/#buku-tamu', 'target' => '_self', 'is_active' => true],
         ];
     }
 

@@ -407,6 +407,13 @@
                         <input type="text" name="pst_alamat" value="{{ $settings['pst_alamat']['value'] ?? 'Kantor BPS Kab. Manggarai, Jl. Ranaka, Ruteng, Flores, NTT' }}"
                             class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
                     </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Link Survei Kepuasan Masyarakat (SKM)</label>
+                        <input type="url" name="skm_link" value="{{ $settings['skm_link']['value'] ?? '' }}"
+                            placeholder="https://s.bps.go.id/skm-manggarai-2026"
+                            class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
+                        <p class="text-[11px] text-slate-500 mt-1">Direct link tujuan saat pengunjung mengklik menu <strong>SKM</strong> di halaman depan (kosongkan jika ingin memakai URL bawaan menu).</p>
+                    </div>
                 </div>
             </div>
         </div>
