@@ -1,7 +1,7 @@
 <!-- BEGIN: UlasanNatasSection -->
 <section class="py-12 sm:py-16 bg-white border-b border-slate-200/70 relative" data-purpose="ulasan-natas" id="ulasan-natas">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-br from-[#153448] via-[#1C3D52] to-[#087E8B] rounded-3xl p-6 sm:p-10 lg:p-12 text-white shadow-xl relative overflow-hidden">
+        <div class="bg-[#153448] rounded-3xl p-6 sm:p-10 lg:p-12 text-white shadow-xl relative overflow-hidden">
             <!-- Decorative Elements -->
             <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-sky-500/10 blur-3xl pointer-events-none"></div>
             <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none hidden sm:block">

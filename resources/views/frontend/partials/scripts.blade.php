@@ -1,6 +1,6 @@
 <!-- BEGIN: BackToTopFloating -->
-<a aria-label="Kembali ke atas" class="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-[#087E8B] hover:bg-[#153448] text-white shadow-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-40 cursor-pointer" href="#" onclick="event.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'});">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<a aria-label="Kembali ke atas" class="fixed bottom-6 right-6 w-11 h-11 rounded-md bg-[#123B63] hover:bg-[#1E5B91] text-white border border-white/20 flex items-center justify-center transition-colors z-40" href="#" onclick="event.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'});">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10l7-7m0 0l7 7m-7-7v18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
 </a>
 <!-- END: BackToTopFloating -->
 
@@ -41,9 +41,9 @@ function salinLinkTabel(url, judul) {
 // =========================================================================
 function filterDataStrategis(cat, btn) {
   document.querySelectorAll('.data-filter-btn').forEach(b => {
-    b.className = 'data-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all';
+    b.className = 'data-filter-btn px-4 py-2 rounded-md text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-[#F4F7FA] transition-colors';
   });
-  btn.className = 'data-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#153448] text-white shadow-xs cursor-pointer transition-all';
+  btn.className = 'data-filter-btn px-4 py-2 rounded-md text-xs font-semibold bg-[#123B63] text-white transition-colors';
 
   const cards = document.querySelectorAll('.data-card-item');
   cards.forEach(card => {
@@ -56,17 +56,33 @@ function filterDataStrategis(cat, btn) {
 }
 
 // =========================================================================
-// INFOGRAFIS FILTER
+// INFOGRAFIS & PUBLIKASI FILTER
 // =========================================================================
 function filterInfografis(cat, btn) {
   document.querySelectorAll('.info-filter-btn').forEach(b => {
-    b.className = 'info-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer transition-all';
+    b.className = 'info-filter-btn px-4 py-2 min-h-[40px] rounded-md text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-[#F4F7FA] transition-colors';
   });
-  btn.className = 'info-filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#153448] text-white shadow-xs cursor-pointer transition-all';
+  btn.className = 'info-filter-btn px-4 py-2 min-h-[40px] rounded-md text-xs font-semibold bg-[#123B63] text-white transition-colors';
 
   const cards = document.querySelectorAll('.info-card-item');
   cards.forEach(card => {
     if (cat === 'semua' || card.classList.contains('info-cat-' + cat)) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function filterPubCategory(cat, btn) {
+  document.querySelectorAll('.pub-filter-btn').forEach(b => {
+    b.className = 'pub-filter-btn px-4 py-2 min-h-[40px] rounded-md text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:bg-[#F4F7FA] transition-colors';
+  });
+  btn.className = 'pub-filter-btn px-4 py-2 min-h-[40px] rounded-md text-xs font-semibold bg-[#123B63] text-white transition-colors';
+
+  const cards = document.querySelectorAll('.pub-card-item');
+  cards.forEach(card => {
+    if (cat === 'semua' || card.classList.contains('pub-cat-' + cat)) {
       card.style.display = 'flex';
     } else {
       card.style.display = 'none';
@@ -99,9 +115,9 @@ function switchQuoteSlide(index) {
   });
   document.querySelectorAll('.quote-dot').forEach((dot, idx) => {
     if (idx === index) {
-      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-[#087E8B] scale-125 transition-all';
+      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-[#1E5B91] scale-125 transition-colors';
     } else {
-      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-slate-300 transition-all';
+      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-slate-300 transition-colors';
     }
   });
 }
@@ -131,7 +147,7 @@ function cekJamLayananWITA() {
   if (clockEl) {
     const pad = n => n < 10 ? '0' + n : n;
     const timeStr = `${pad(hours)}:${pad(minutes)} WITA`;
-    clockEl.textContent = `${timeStr} — ${isOfficeHours ? 'Dalam Jam Kerja' : 'Luar Jam Kerja (Siaga 24/7)'}`;
+    clockEl.textContent = `${timeStr} (${isOfficeHours ? 'Dalam Jam Kerja' : 'Luar Jam Kerja - Siaga 24/7'})`;
   }
 
   const radioDalam = document.getElementById('radio-jam-dalam');
@@ -265,10 +281,12 @@ function tutupModalApiToken() {
 
 // Inisialisasi awal saat DOM siap
 document.addEventListener('DOMContentLoaded', function() {
-  // Setup filter awal
-  const firstDataFilter = document.querySelector('.data-filter-btn');
-  if (firstDataFilter) {
-    // Already has active styling
-  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      tutupModalKonsultasi();
+      tutupModalBukuTamu();
+      tutupModalApiToken();
+    }
+  });
 });
 </script>

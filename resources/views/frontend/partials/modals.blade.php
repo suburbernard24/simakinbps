@@ -1,38 +1,32 @@
 <!-- =========================================================================
      MODAL 1: FORM BOOKING KONSULTASI ONLINE 24/7
 ========================================================================= -->
-<div id="modal-booking-konsultasi" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative my-8">
+<div id="modal-booking-konsultasi" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 transition-opacity overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modal-konsultasi-title">
+    <div class="bg-white rounded-lg max-w-2xl w-full p-6 sm:p-8 border border-slate-200 relative my-8">
         <!-- Close Button -->
-        <button type="button" onclick="tutupModalKonsultasi()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-sm transition cursor-pointer">
-            <i class="fa-solid fa-xmark"></i>
+        <button type="button" onclick="tutupModalKonsultasi()" aria-label="Tutup modal booking konsultasi" class="absolute top-4 right-4 w-9 h-9 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center text-sm transition-colors">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
 
         <!-- Header -->
-        <div class="flex items-start gap-3.5 pb-4 border-b border-slate-100 mb-6">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl shrink-0 shadow-xs">
-                <i class="fa-solid fa-calendar-check"></i>
-            </div>
-            <div>
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider border border-emerald-100 mb-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    Siaga Layanan 24 Jam / 7 Hari
-                </div>
-                <h3 class="text-base sm:text-lg font-extrabold text-slate-900">
-                    Form Online Booking Konsultasi &amp; Permintaan Data
-                </h3>
-                <p class="text-xs text-slate-500">
-                    Pelayanan Statistik Terpadu (PST) — BPS Kabupaten Manggarai
-                </p>
-            </div>
+        <div class="pb-4 border-b border-slate-200 mb-6 pr-10">
+            <p class="text-[11px] font-semibold text-[#1E5B91] mb-1">
+                Siaga Layanan 24 Jam / 7 Hari
+            </p>
+            <h3 id="modal-konsultasi-title" class="text-base sm:text-lg font-extrabold text-[#123B63]">
+                Form Online Booking Konsultasi &amp; Permintaan Data
+            </h3>
+            <p class="text-xs text-slate-600">
+                Pelayanan Statistik Terpadu (PST) - BPS Kabupaten Manggarai
+            </p>
         </div>
 
         <form onsubmit="event.preventDefault(); simpanBookingKonsultasi();" class="space-y-4">
             <!-- Pertanyaan Utama: Status Jam Pengajuan (Dalam / Luar Jam Layanan) -->
-            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2.5">
+            <div class="p-4 rounded-lg bg-[#F4F7FA] border border-slate-200 space-y-2.5">
                 <div class="flex items-center justify-between">
-                    <label class="block text-xs font-bold text-slate-800 uppercase tracking-wide">
-                        <i class="fa-solid fa-clock text-[#087E8B] mr-1.5"></i>
+                    <label class="block text-xs font-bold text-[#123B63] uppercase tracking-wide">
+                        <i class="fa-solid fa-clock text-[#1E5B91] mr-1.5"></i>
                         Status Waktu Pengajuan Konsultasi <span class="text-rose-500">*</span>
                     </label>
                     <span id="label-live-clock" class="text-[11px] font-mono text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">

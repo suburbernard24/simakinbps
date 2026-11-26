@@ -50,7 +50,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             <!-- 1. Jumlah Penduduk (Sosial) -->
             <div class="data-card-item data-cat-sosial bg-white rounded-2xl border border-slate-200/90 hover:border-[#087E8B]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-500 to-blue-600"></div>
+                <div class="absolute top-0 left-0 right-0 h-1 bg-[#087E8B]
                 <div>
                     <div class="flex items-center justify-between text-xs mb-3">
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-100">
@@ -91,7 +91,7 @@
 
             <!-- 2. Laju Pertumbuhan Ekonomi (Ekonomi) -->
             <div class="data-card-item data-cat-ekonomi bg-white rounded-2xl border border-slate-200/90 hover:border-[#087E8B]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-600"></div>
+                <div class="absolute top-0 left-0 right-0 h-1 bg-[#087E8B]
                 <div>
                     <div class="flex items-center justify-between text-xs mb-3">
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
@@ -135,7 +135,7 @@
 
             <!-- 3. Tingkat Inflasi (Ekonomi) -->
             <div class="data-card-item data-cat-ekonomi bg-white rounded-2xl border border-slate-200/90 hover:border-[#087E8B]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-orange-600"></div>
+                <div class="absolute top-0 left-0 right-0 h-1 bg-[#087E8B]
                 <div>
                     <div class="flex items-center justify-between text-xs mb-3">
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-100">
@@ -176,7 +176,7 @@
 
             <!-- 4. Persentase Penduduk Miskin (Sosial) -->
             <div class="data-card-item data-cat-sosial bg-white rounded-2xl border border-slate-200/90 hover:border-[#087E8B]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-red-600"></div>
+                <div class="absolute top-0 left-0 right-0 h-1 bg-[#087E8B]
                 <div>
                     <div class="flex items-center justify-between text-xs mb-3">
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-100">
@@ -217,7 +217,7 @@
 
             <!-- 5. Tingkat Pengangguran Terbuka (Kesejahteraan) -->
             <div class="data-card-item data-cat-kesejahteraan bg-white rounded-2xl border border-slate-200/90 hover:border-[#087E8B]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
+                <div class="absolute top-0 left-0 right-0 h-1 bg-[#087E8B]
                 <div>
                     <div class="flex items-center justify-between text-xs mb-3">
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
@@ -258,7 +258,7 @@
 
             <!-- 6. Indeks Pembangunan Manusia (Sosial) -->
             <div class="data-card-item data-cat-sosial bg-white rounded-2xl border border-slate-200/90 hover:border-[#087E8B]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-cyan-500"></div>
+                <div class="absolute top-0 left-0 right-0 h-1 bg-[#087E8B]
                 <div>
                     <div class="flex items-center justify-between text-xs mb-3">
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100">
@@ -299,7 +299,7 @@
 
             <!-- 7. Gini Ratio (Kesejahteraan) -->
             <div class="data-card-item data-cat-kesejahteraan bg-white rounded-2xl border border-slate-200/90 hover:border-[#087E8B]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-emerald-600"></div>
+                <div class="absolute top-0 left-0 right-0 h-1 bg-[#087E8B]
                 <div>
                     <div class="flex items-center justify-between text-xs mb-3">
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-teal-700 border border-teal-100">
@@ -340,7 +340,7 @@
 
             <!-- 8. PDRB Per Kapita (Ekonomi) -->
             <div class="data-card-item data-cat-ekonomi bg-white rounded-2xl border border-slate-200/90 hover:border-[#087E8B]/50 shadow-xs hover:shadow-lg transition-all duration-300 p-5 flex flex-col justify-between group relative overflow-hidden">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-500 to-purple-600"></div>
+                <div class="absolute top-0 left-0 right-0 h-1 bg-[#087E8B]
                 <div>
                     <div class="flex items-center justify-between text-xs mb-3">
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-violet-50 text-violet-700 border border-violet-100">
