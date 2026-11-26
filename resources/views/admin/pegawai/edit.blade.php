@@ -65,6 +65,11 @@
                 </div>
 
                 <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">No. Handphone / WhatsApp</label>
+                    <input type="text" name="no_hp" value="{{ old('no_hp', $pegawai->no_hp ?? $pegawai->no_whatsapp) }}" placeholder="Contoh: 081234567890" class="w-full text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
+                </div>
+
+                <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Jabatan</label>
                     <input type="text" name="jabatan" value="{{ old('jabatan', $pegawai->jabatan) }}" class="w-full text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
                 </div>
@@ -105,11 +110,6 @@
                 </div>
 
                 <div class="flex flex-col justify-center space-y-3 pt-4">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="is_ketua_tim" value="1" {{ old('is_ketua_tim', $pegawai->is_ketua_tim) ? 'checked' : '' }} class="rounded border-slate-300 text-bps-blue focus:ring-bps-blue">
-                        <span class="text-xs font-bold text-slate-800">Tugaskan sebagai Ketua Tim</span>
-                    </label>
-
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" name="is_active" value="1" {{ old('is_active', $pegawai->is_active) ? 'checked' : '' }} class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
                         <span class="text-xs font-bold text-slate-800">Status Akun Aktif</span>

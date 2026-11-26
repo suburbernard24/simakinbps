@@ -112,7 +112,7 @@
     <div class="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
         <form method="GET" action="{{ route('admin.pegawai.index') }}" class="flex flex-wrap items-center gap-3">
             <div class="flex-1 min-w-[200px]">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIP, username, jabatan..." class="w-full text-xs font-semibold px-3.5 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIP, username, No HP, jabatan..." class="w-full text-xs font-semibold px-3.5 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-bps-blue outline-none">
             </div>
 
             <div class="w-40">
@@ -167,7 +167,15 @@
                                     <img src="{{ $p->avatar_url }}" alt="{{ $p->name }}" class="w-9 h-9 rounded-xl object-cover ring-1 ring-slate-200">
                                     <div>
                                         <p class="font-bold text-slate-900">{{ $p->name }}</p>
-                                        <p class="text-[11px] text-slate-400">@ {{ $p->username }}</p>
+                                        <div class="flex items-center gap-2 text-[11px] text-slate-400 mt-0.5">
+                                            <span>@ {{ $p->username }}</span>
+                                            @if($p->no_hp || $p->no_whatsapp)
+                                                <span>•</span>
+                                                <span class="text-emerald-600 font-medium flex items-center gap-1" title="Nomor HP / WhatsApp">
+                                                    <i class="fa-solid fa-phone text-[9px]"></i> {{ $p->no_hp ?? $p->no_whatsapp }}
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </td>

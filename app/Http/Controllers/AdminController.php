@@ -77,6 +77,9 @@ class AdminController extends Controller
                 $q->where('name', 'like', "%{$s}%")
                   ->orWhere('nip', 'like', "%{$s}%")
                   ->orWhere('username', 'like', "%{$s}%")
+                  ->orWhere('email', 'like', "%{$s}%")
+                  ->orWhere('no_hp', 'like', "%{$s}%")
+                  ->orWhere('no_whatsapp', 'like', "%{$s}%")
                   ->orWhere('jabatan', 'like', "%{$s}%");
             });
         }
@@ -99,22 +102,24 @@ class AdminController extends Controller
             'name'         => 'required|string|max:255',
             'username'     => 'required|string|max:100|unique:users,username',
             'email'        => 'nullable|email|max:255|unique:users,email',
+            'no_hp'        => 'nullable|string|max:30',
             'nip'          => 'nullable|string|max:30',
             'jabatan'      => 'nullable|string|max:255',
             'golongan'     => 'nullable|string|max:50',
             'password'     => 'required|string|min:6',
             'role'         => 'required|in:admin,kepala_bps,ketua_tim,pegawai',
             'tim_id'       => 'nullable|exists:teams,id',
-            'is_ketua_tim' => 'nullable|boolean',
             'is_active'    => 'nullable|boolean',
         ]);
 
-        $isKetuaTim = $request->role === 'ketua_tim' || $request->boolean('is_ketua_tim');
+        $isKetuaTim = $request->role === 'ketua_tim';
 
         $user = User::create([
             'name'         => $request->name,
             'username'     => $request->username,
             'email'        => $request->email,
+            'no_hp'        => $request->no_hp,
+            'no_whatsapp'  => $request->no_hp,
             'nip'          => $request->nip,
             'jabatan'      => $request->jabatan,
             'golongan'     => $request->golongan,
@@ -391,6 +396,7 @@ class AdminController extends Controller
             'tim'      => 'E',
             'nip'      => 'F',
             'email'    => 'G',
+            'no_hp'    => null,
             'jabatan'  => 'H',
             'golongan' => 'I',
             'role'     => 'J',
@@ -417,6 +423,8 @@ class AdminController extends Controller
                     $colMap['nip'] = $colKey;
                 } elseif (str_contains($headerLower, 'email')) {
                     $colMap['email'] = $colKey;
+                } elseif (str_contains($headerLower, 'hp') || str_contains($headerLower, 'wa') || str_contains($headerLower, 'telepon')) {
+                    $colMap['no_hp'] = $colKey;
                 } elseif (str_contains($headerLower, 'jabat')) {
                     $colMap['jabatan'] = $colKey;
                 } elseif (str_contains($headerLower, 'golong') || str_contains($headerLower, 'pangkat')) {
@@ -442,6 +450,7 @@ class AdminController extends Controller
             $timRaw    = trim($row[$colMap['tim']] ?? '');
             $nip       = trim($row[$colMap['nip']] ?? '');
             $email     = trim($row[$colMap['email']] ?? '');
+            $noHp      = !empty($colMap['no_hp']) ? trim($row[$colMap['no_hp']] ?? '') : null;
             $jabatan   = trim($row[$colMap['jabatan']] ?? '');
             $golongan  = trim($row[$colMap['golongan']] ?? '');
             $roleRaw   = trim($row[$colMap['role']] ?? '');
@@ -449,7 +458,7 @@ class AdminController extends Controller
             $ketuaRaw  = trim($row[$colMap['ketua']] ?? '');
 
             // Lewati baris kosong
-            if (empty($nama) && empty($username) && empty($password) && empty($nip) && empty($email)) {
+            if (empty($nama) && empty($username) && empty($password) && empty($nip) && empty($email) && empty($noHp)) {
                 continue;
             }
 
@@ -580,6 +589,8 @@ class AdminController extends Controller
                     'name'         => $nama,
                     'username'     => $username,
                     'email'        => $cleanEmail,
+                    'no_hp'        => !empty($noHp) ? $noHp : null,
+                    'no_whatsapp'  => !empty($noHp) ? $noHp : null,
                     'nip'          => !empty($nip) ? $nip : null,
                     'jabatan'      => !empty($jabatan) ? $jabatan : null,
                     'golongan'     => !empty($golongan) ? $golongan : null,
@@ -637,22 +648,24 @@ class AdminController extends Controller
             'name'         => 'required|string|max:255',
             'username'     => 'required|string|max:100|unique:users,username,' . $pegawai->id,
             'email'        => 'nullable|email|max:255|unique:users,email,' . $pegawai->id,
+            'no_hp'        => 'nullable|string|max:30',
             'nip'          => 'nullable|string|max:30',
             'jabatan'      => 'nullable|string|max:255',
             'golongan'     => 'nullable|string|max:50',
             'password'     => 'nullable|string|min:6',
             'role'         => 'required|in:admin,kepala_bps,ketua_tim,pegawai',
             'tim_id'       => 'nullable|exists:teams,id',
-            'is_ketua_tim' => 'nullable|boolean',
             'is_active'    => 'nullable|boolean',
         ]);
 
-        $isKetuaTim = $request->role === 'ketua_tim' || $request->boolean('is_ketua_tim');
+        $isKetuaTim = $request->role === 'ketua_tim';
 
         $data = [
             'name'         => $request->name,
             'username'     => $request->username,
             'email'        => $request->email,
+            'no_hp'        => $request->no_hp,
+            'no_whatsapp'  => $request->no_hp,
             'nip'          => $request->nip,
             'jabatan'      => $request->jabatan,
             'golongan'     => $request->golongan,
@@ -670,6 +683,8 @@ class AdminController extends Controller
 
         if ($isKetuaTim && $request->tim_id) {
             Team::where('id', $request->tim_id)->update(['ketua_id' => $pegawai->id]);
+        } elseif (!$isKetuaTim) {
+            Team::where('ketua_id', $pegawai->id)->update(['ketua_id' => null]);
         }
 
         return redirect()->route('admin.pegawai.index')->with('success', "Data pegawai '{$pegawai->name}' berhasil diperbarui.");
