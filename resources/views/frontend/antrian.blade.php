@@ -150,80 +150,20 @@
 <main>
     <section class="py-12 sm:py-16 bg-white border-b border-slate-200" data-purpose="antrian" id="antrian">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-                <div>
-                    <p class="text-xs font-semibold text-[#1E5B91] mb-1.5">
-                        Pelayanan Statistik Terpadu (PST)
-                    </p>
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#123B63] tracking-tight">
-                        Antrian &amp; Pemanggilan Layanan PST
-                    </h1>
-                    <p class="text-slate-600 text-xs sm:text-sm mt-1.5 max-w-2xl">
-                        Pantau panggilan nomor antrian secara langsung, ambil nomor antrian baru, atau kelola pemanggilan loket PST.
-                    </p>
-                </div>
-
-                <button type="button" id="btn-toggle-suara" onclick="toggleSuaraPanggilan()" class="inline-flex items-center gap-2 px-4 py-2.5 min-h-[40px] rounded-lg bg-[#F4F7FA] hover:bg-slate-200/70 text-[#123B63] border border-slate-200 text-xs font-semibold transition-colors shrink-0">
-                    <i id="icon-suara" class="fa-solid fa-volume-high text-[#1E5B91]" aria-hidden="true"></i>
-                    <span id="label-suara">Suara Panggilan: Aktif</span>
-                </button>
+            <div class="mb-8">
+                <p class="text-xs font-semibold text-[#1E5B91] mb-1.5">
+                    Pelayanan Statistik Terpadu (PST)
+                </p>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-[#123B63] tracking-tight">
+                    Antrian Layanan PST
+                </h1>
+                <p class="text-slate-600 text-xs sm:text-sm mt-1.5 max-w-2xl">
+                    Ambil nomor antrian layanan statistik BPS Kabupaten Manggarai dan pantau nomor yang sedang dipanggil.
+                </p>
             </div>
 
-            <!-- 1. LAYAR MONITOR ANTRIAN (GAYA RUMAH SAKIT) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10">
-                <!-- Sedang Dipanggil (7 cols) -->
-                <div class="lg:col-span-7 bg-[#123B63] text-white rounded-xl p-6 sm:p-8 flex flex-col justify-between">
-                    <div class="flex items-center justify-between border-b border-white/15 pb-4">
-                        <div>
-                            <p class="text-xs font-semibold text-[#9BBBD9]">Layar Panggilan PST</p>
-                            <h2 class="text-base font-bold text-white mt-0.5">Nomor Antrian Sedang Dipanggil</h2>
-                        </div>
-                        <span id="display-jumlah-menunggu" class="text-xs font-semibold bg-[#3686C8] text-white px-3 py-1 rounded-md">
-                            0 Menunggu
-                        </span>
-                    </div>
-
-                    <div class="py-8 text-center">
-                        <p id="display-nomor" class="text-6xl sm:text-7xl font-extrabold tracking-tight tabular-nums text-white leading-none">
-                            --
-                        </p>
-                        <p id="display-loket" class="text-lg sm:text-xl font-bold text-[#9BBBD9] mt-4">
-                            Belum ada panggilan
-                        </p>
-                        <p id="display-nama" class="text-sm text-slate-200 mt-1">
-                            Menunggu petugas memanggil antrian berikutnya
-                        </p>
-                    </div>
-
-                    <div class="pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
-                        <span id="display-layanan">-</span>
-                        <span id="display-waktu">-</span>
-                    </div>
-                </div>
-
-                <!-- Riwayat Panggilan Terakhir (5 cols) -->
-                <div class="lg:col-span-5 bg-[#F4F7FA] rounded-xl border border-slate-200 p-6 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
-                            <h3 class="text-sm font-bold text-[#123B63]">Riwayat Panggilan Hari Ini</h3>
-                            <span class="text-[11px] font-medium text-slate-500">{{ now()->translatedFormat('d M Y') }}</span>
-                        </div>
-
-                        <div id="riwayat-panggilan-list" class="space-y-2.5 text-xs">
-                            <p class="text-slate-500 py-6 text-center">Belum ada riwayat panggilan hari ini.</p>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] text-slate-500 flex items-center justify-between">
-                        <span>{{ $fs['pst_jam_layanan'] ?? 'Senin - Jumat: 08.00 - 15.30 WITA' }}</span>
-                        <a href="https://wa.me/{{ $pstWaClean }}" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#1E5B91] hover:underline">WhatsApp PST</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. AMBIL NOMOR ANTRIAN & TIKET ANDA -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
-                <!-- Form Ambil Antrian (7 cols) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Left: Form Ambil Antrian (7 cols) -->
                 <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
                     <h2 class="text-base font-bold text-[#123B63] pb-4 border-b border-slate-100 mb-5">
                         Ambil Nomor Antrian Baru
@@ -275,13 +215,41 @@
                     </form>
                 </div>
 
-                <!-- Tiket Saya (5 cols) -->
-                <div class="lg:col-span-5">
-                    <div id="tiket-antrian-empty" class="bg-[#F4F7FA] rounded-xl border border-slate-200 p-6 sm:p-8 text-center">
+                <!-- Right: Sedang Dipanggil + Tiket Anda (5 cols) -->
+                <div class="lg:col-span-5 space-y-6">
+                    <!-- Sedang Dipanggil -->
+                    <div class="bg-[#123B63] text-white rounded-xl p-6">
+                        <div class="flex items-center justify-between border-b border-white/15 pb-3">
+                            <span class="text-xs font-semibold text-[#9BBBD9]">Sedang Dipanggil</span>
+                            <span id="display-jumlah-menunggu" class="text-[11px] font-semibold bg-[#3686C8] text-white px-2.5 py-0.5 rounded-md">
+                                0 Menunggu
+                            </span>
+                        </div>
+
+                        <div class="py-5 text-center">
+                            <p id="display-nomor" class="text-5xl sm:text-6xl font-extrabold tracking-tight tabular-nums text-white leading-none">
+                                --
+                            </p>
+                            <p id="display-loket" class="text-sm sm:text-base font-bold text-[#9BBBD9] mt-3">
+                                Belum ada panggilan
+                            </p>
+                            <p id="display-layanan" class="text-xs text-slate-200 mt-1">
+                                Menunggu panggilan petugas PST
+                            </p>
+                        </div>
+
+                        <div class="pt-3 border-t border-white/15 flex items-center justify-between text-[11px] text-slate-300">
+                            <span>{{ $fs['pst_jam_layanan'] ?? 'Senin - Jumat: 08.00 - 15.30 WITA' }}</span>
+                            <span id="display-waktu">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Tiket Saya -->
+                    <div id="tiket-antrian-empty" class="bg-[#F4F7FA] rounded-xl border border-slate-200 p-6 text-center">
                         <p class="text-xs font-semibold text-[#1E5B91] mb-1">Tiket Antrian Anda</p>
-                        <h3 class="text-base font-bold text-[#123B63]">Belum Ada Nomor Antrian</h3>
-                        <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                            Isi formulir di samping untuk mendapatkan nomor antrian layanan PST BPS Kabupaten Manggarai.
+                        <h3 class="text-sm font-bold text-[#123B63]">Belum Ada Nomor Antrian</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            Isi formulir di samping untuk mendapatkan nomor antrian layanan PST.
                         </p>
                     </div>
 
@@ -395,51 +363,22 @@ function formatJam(iso) {
 }
 
 function renderStatusAntrian(data) {
-    const active = data.sedang_dipanggil;
+    const active   = data.sedang_dipanggil;
     const menunggu = data.menunggu || [];
-    const riwayat = data.riwayat_dipanggil || [];
+    const riwayat  = data.riwayat_dipanggil || [];
 
     document.getElementById('display-jumlah-menunggu').textContent = `${data.jumlah_menunggu || 0} Menunggu`;
 
     if (active) {
         document.getElementById('display-nomor').textContent   = active.nomor_antrian;
         document.getElementById('display-loket').textContent   = active.loket;
-        document.getElementById('display-nama').textContent    = active.nama_pemohon;
         document.getElementById('display-layanan').textContent = active.nama_layanan;
         document.getElementById('display-waktu').textContent   = 'Dipanggil pukul ' + formatJam(active.called_at);
-
-        const key = `${active.id}_${active.called_at}`;
-        if (lastAnnouncedKey && lastAnnouncedKey !== key) {
-            ucapkanPanggilan(active);
-        }
-        lastAnnouncedKey = key;
     } else {
         document.getElementById('display-nomor').textContent   = '--';
         document.getElementById('display-loket').textContent   = 'Belum ada panggilan';
-        document.getElementById('display-nama').textContent    = 'Menunggu petugas memanggil antrian berikutnya';
-        document.getElementById('display-layanan').textContent = '-';
+        document.getElementById('display-layanan').textContent = 'Menunggu panggilan petugas PST';
         document.getElementById('display-waktu').textContent   = '-';
-    }
-
-    // Riwayat Panggilan
-    const riwayatEl = document.getElementById('riwayat-panggilan-list');
-    if (riwayat.length === 0) {
-        riwayatEl.innerHTML = '<p class="text-slate-500 py-6 text-center">Belum ada riwayat panggilan hari ini.</p>';
-    } else {
-        riwayatEl.innerHTML = riwayat.map(item => `
-            <div class="bg-white rounded-lg border border-slate-200 px-3.5 py-2.5 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3 min-w-0">
-                    <span class="font-extrabold text-[#123B63] tabular-nums shrink-0">${item.nomor_antrian}</span>
-                    <div class="min-w-0">
-                        <p class="font-semibold text-slate-800 truncate">${item.nama_pemohon}</p>
-                        <p class="text-[11px] text-slate-500 truncate">${item.loket} · ${item.nama_layanan}</p>
-                    </div>
-                </div>
-                <span class="text-[11px] font-semibold px-2 py-0.5 rounded ${item.status === 'dipanggil' ? 'bg-[#3686C8] text-white' : 'bg-slate-100 text-slate-600'} shrink-0">
-                    ${item.status === 'dipanggil' ? 'Dipanggil' : 'Selesai'}
-                </span>
-            </div>
-        `).join('');
     }
 
     // Sinkronkan status tiket lokal jika ada
