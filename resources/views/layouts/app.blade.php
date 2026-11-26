@@ -523,6 +523,14 @@
                                 </a>
                             </div>
                         </div>
+
+                        <a href="{{ route('admin.antrian.index') }}"
+                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 group {{ request()->routeIs('admin.antrian.*') ? 'bg-blue-50 dark:bg-slate-800 text-bps-blue dark:text-blue-400' : 'text-slate-600 dark:text-slate-300 hover:text-bps-blue hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+                            <div class="w-7 h-7 rounded-lg flex items-center justify-center {{ request()->routeIs('admin.antrian.*') ? 'text-bps-blue dark:text-blue-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-bps-blue' }}">
+                                <i class="fa-solid fa-bullhorn text-xs"></i>
+                            </div>
+                            <span>Antrian PST</span>
+                        </a>
                     </nav>
                 </div>
 

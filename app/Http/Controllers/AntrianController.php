@@ -21,6 +21,11 @@ class AntrianController extends Controller
         return view('frontend.antrian');
     }
 
+    public function adminIndex()
+    {
+        return view('admin.antrian.index');
+    }
+
     public function status(): JsonResponse
     {
         $today = now()->toDateString();

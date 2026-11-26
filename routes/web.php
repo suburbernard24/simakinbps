@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlokasiController;
 use App\Http\Controllers\AlokasiMitraController;
+use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CkpController;
 use App\Http\Controllers\DashboardController;
@@ -37,9 +38,11 @@ Route::get('/pengaduan', function () {
     return view('frontend.pengaduan');
 })->name('pengaduan');
 
-Route::get('/antrian', function () {
-    return view('frontend.antrian');
-})->name('antrian');
+Route::get('/antrian', [AntrianController::class, 'index'])->name('antrian');
+Route::prefix('antrian')->name('antrian.')->group(function () {
+    Route::get('/status', [AntrianController::class, 'status'])->name('status');
+    Route::post('/ambil', [AntrianController::class, 'ambil'])->name('ambil');
+});
 
 // Public API BPS Routes (WebAPI Integration)
 Route::prefix('api/bps')->name('api.bps.')->group(function () {
@@ -99,6 +102,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/frontend', [AdminController::class, 'frontendIndex'])->name('frontend.index');
         Route::post('/frontend', [AdminController::class, 'frontendUpdate'])->name('frontend.update');
         Route::post('/frontend/reset-image', [AdminController::class, 'frontendResetImage'])->name('frontend.reset_image');
+
+        // Antrian & Pemanggilan PST
+        Route::get('/antrian', [AntrianController::class, 'adminIndex'])->name('antrian.index');
+        Route::post('/antrian/{id}/panggil', [AntrianController::class, 'panggil'])->name('antrian.panggil');
+        Route::post('/antrian/{id}/selesai', [AntrianController::class, 'selesai'])->name('antrian.selesai');
 
         // Galeri Foto Frontend
         Route::post('/frontend/galeri', [AdminController::class, 'galeriStore'])->name('frontend.galeri.store');
