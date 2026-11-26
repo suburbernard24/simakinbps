@@ -188,7 +188,7 @@ class AdminController extends Controller
         $sheet->getRowDimension(1)->setRowHeight(36);
 
         // Baris 2: Petunjuk
-        $sheet->setCellValue('A2', 'Petunjuk: Isi data pegawai mulai baris ke-4. Kolom (*) wajib diisi. Kolom bertanda dropdown (Tim, Role, Status, Ketua Tim) silakan pilih dari opsi dropdown. Baris 4 adalah baris contoh dan dapat diganti.');
+        $sheet->setCellValue('A2', 'Petunjuk: Isi data pegawai mulai baris ke-4. Kolom (*) wajib diisi. Kolom bertanda dropdown (Tim, Role, Status) silakan pilih dari opsi dropdown. Baris 4 adalah baris contoh dan dapat diganti.');
         $sheet->mergeCells('A2:L2');
         $sheet->getStyle('A2')->applyFromArray([
             'font' => ['italic' => true, 'size' => 9, 'color' => ['argb' => 'FF475569']],
@@ -206,11 +206,11 @@ class AdminController extends Controller
             'E3' => 'Tim Kerja BPS',
             'F3' => 'NIP',
             'G3' => 'Email Resmi',
-            'H3' => 'Jabatan',
-            'I3' => 'Golongan/Pangkat',
-            'J3' => 'Role Akses (*)',
-            'K3' => 'Status Akun Aktif (*)',
-            'L3' => 'Tugaskan sebagai Ketua Tim (*)',
+            'H3' => 'No. Handphone / WhatsApp',
+            'I3' => 'Jabatan',
+            'J3' => 'Golongan/Pangkat',
+            'K3' => 'Role Akses (*)',
+            'L3' => 'Status Akun Aktif (*)',
         ];
 
         foreach ($headers as $cell => $value) {
@@ -235,11 +235,11 @@ class AdminController extends Controller
             'E4' => $contohTim,
             'F4' => '199505102018011004',
             'G4' => 'budi.santoso@bps.go.id',
-            'H4' => 'Statistisi Ahli Pertama',
-            'I4' => 'III/a',
-            'J4' => 'Anggota Tim',
-            'K4' => 'Ya',
-            'L4' => 'Tidak',
+            'H4' => '081234567890',
+            'I4' => 'Statistisi Ahli Pertama',
+            'J4' => 'III/a',
+            'K4' => 'Anggota Tim',
+            'L4' => 'Ya',
         ];
 
         foreach ($contohData as $cell => $value) {
@@ -252,7 +252,7 @@ class AdminController extends Controller
             'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['argb' => 'FFE2E8F0']]],
         ]);
         $sheet->getStyle('A4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle('K4:L4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('L4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
         // Set Lebar Kolom
         $colWidths = [
@@ -264,10 +264,10 @@ class AdminController extends Controller
             'F' => 24,
             'G' => 28,
             'H' => 26,
-            'I' => 18,
-            'J' => 24,
-            'K' => 20,
-            'L' => 28,
+            'I' => 26,
+            'J' => 18,
+            'K' => 24,
+            'L' => 20,
         ];
         foreach ($colWidths as $col => $width) {
             $sheet->getColumnDimension($col)->setWidth($width);
@@ -275,7 +275,6 @@ class AdminController extends Controller
 
         // Terapkan Data Validation (Dropdown) Baris 4 s.d. 150
         for ($r = 4; $r <= 150; $r++) {
-            // Dropdown Tim Kerja (Kolom E)
             // Dropdown Tim Kerja (Kolom E)
             $valTim = $sheet->getCell('E' . $r)->getDataValidation();
             $valTim->setType(DataValidation::TYPE_LIST);
@@ -287,8 +286,8 @@ class AdminController extends Controller
             $valTim->setError('Silakan pilih tim dari daftar dropdown yang tersedia.');
             $valTim->setFormula1("Data_Referensi!\$A\$1:\$A\${$totalTimRows}");
 
-            // Dropdown Role Akses (Kolom J)
-            $valRole = $sheet->getCell('J' . $r)->getDataValidation();
+            // Dropdown Role Akses (Kolom K)
+            $valRole = $sheet->getCell('K' . $r)->getDataValidation();
             $valRole->setType(DataValidation::TYPE_LIST);
             $valRole->setErrorStyle(DataValidation::STYLE_STOP);
             $valRole->setAllowBlank(false);
@@ -298,8 +297,8 @@ class AdminController extends Controller
             $valRole->setError('Silakan pilih role dari daftar dropdown.');
             $valRole->setFormula1('"Anggota Tim, Ketua Tim, Kepala BPS, Administrator Sistem"');
 
-            // Dropdown Status Akun Aktif (Kolom K)
-            $valActive = $sheet->getCell('K' . $r)->getDataValidation();
+            // Dropdown Status Akun Aktif (Kolom L)
+            $valActive = $sheet->getCell('L' . $r)->getDataValidation();
             $valActive->setType(DataValidation::TYPE_LIST);
             $valActive->setErrorStyle(DataValidation::STYLE_STOP);
             $valActive->setAllowBlank(true);
@@ -308,17 +307,6 @@ class AdminController extends Controller
             $valActive->setErrorTitle('Pilihan Tidak Valid');
             $valActive->setError('Pilih Ya atau Tidak.');
             $valActive->setFormula1('"Ya, Tidak"');
-
-            // Dropdown Tugaskan sebagai Ketua Tim (Kolom L)
-            $valKetua = $sheet->getCell('L' . $r)->getDataValidation();
-            $valKetua->setType(DataValidation::TYPE_LIST);
-            $valKetua->setErrorStyle(DataValidation::STYLE_STOP);
-            $valKetua->setAllowBlank(true);
-            $valKetua->setShowDropDown(true);
-            $valKetua->setShowErrorMessage(true);
-            $valKetua->setErrorTitle('Pilihan Tidak Valid');
-            $valKetua->setError('Pilih Ya atau Tidak.');
-            $valKetua->setFormula1('"Ya, Tidak"');
         }
 
         $writer = new Xlsx($spreadsheet);
@@ -396,12 +384,12 @@ class AdminController extends Controller
             'tim'      => 'E',
             'nip'      => 'F',
             'email'    => 'G',
-            'no_hp'    => null,
-            'jabatan'  => 'H',
-            'golongan' => 'I',
-            'role'     => 'J',
-            'active'   => 'K',
-            'ketua'    => 'L',
+            'no_hp'    => 'H',
+            'jabatan'  => 'I',
+            'golongan' => 'J',
+            'role'     => 'K',
+            'active'   => 'L',
+            'ketua'    => null,
         ];
 
         if (isset($rows[3])) {
@@ -423,7 +411,7 @@ class AdminController extends Controller
                     $colMap['nip'] = $colKey;
                 } elseif (str_contains($headerLower, 'email')) {
                     $colMap['email'] = $colKey;
-                } elseif (str_contains($headerLower, 'hp') || str_contains($headerLower, 'wa') || str_contains($headerLower, 'telepon')) {
+                } elseif (str_contains($headerLower, 'hp') || str_contains($headerLower, 'wa') || str_contains($headerLower, 'telepon') || str_contains($headerLower, 'handphone')) {
                     $colMap['no_hp'] = $colKey;
                 } elseif (str_contains($headerLower, 'jabat')) {
                     $colMap['jabatan'] = $colKey;

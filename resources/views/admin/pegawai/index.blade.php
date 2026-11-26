@@ -375,7 +375,7 @@
                     <div class="w-8 h-8 rounded-full bg-bps-blue text-white flex items-center justify-center flex-shrink-0 text-xs font-bold">1</div>
                     <div class="flex-1">
                         <p class="font-bold text-slate-800 text-sm mb-1">Unduh Template Excel</p>
-                        <p class="text-[11px] text-slate-500 mb-3">Unduh template terlebih dahulu. Template berisi kolom: <strong>Nama &amp; Gelar, Username, Password, Tim Kerja, NIP, Email, Jabatan, Golongan, Role, Status Akun, Ketua Tim</strong>. Isi mulai baris ke-4.</p>
+                        <p class="text-[11px] text-slate-500 mb-3">Unduh template terlebih dahulu. Template berisi kolom: <strong>Nama &amp; Gelar, Username, Password, Tim Kerja, NIP, Email, No. Handphone / WhatsApp, Jabatan, Golongan, Role, Status Akun</strong>. Isi mulai baris ke-4.</p>
                         <a href="{{ route('admin.pegawai.template') }}" target="_blank"
                            class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-sm transition-all">
                             <i class="fa-solid fa-download"></i> Unduh Template (.xlsx)
@@ -399,7 +399,7 @@
                                 <p class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i> Perhatian:</p>
                                 <ul class="list-disc pl-4 space-y-0.5">
                                     <li>Gunakan hanya template resmi yang diunduh dari sistem ini.</li>
-                                    <li>Kolom Tim, Role, Status &amp; Ketua Tim wajib diisi dari opsi dropdown di template.</li>
+                                    <li>Kolom Tim, Role, dan Status Akun wajib diisi dari opsi dropdown di template.</li>
                                     <li>Username dan Email harus unik (belum terdaftar di sistem).</li>
                                     <li>Baris contoh (baris 4) akan dilewati otomatis jika tidak diubah.</li>
                                 </ul>
