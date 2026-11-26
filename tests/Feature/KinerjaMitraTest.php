@@ -66,6 +66,41 @@ class KinerjaMitraTest extends TestCase
         $this->assertEquals(5000000, PengaturanHonorMitra::getMaksimalHonor(2026, 10));
     }
 
+    public function test_admin_can_set_honor_mitra_per_tahun_without_bulan_and_view_history(): void
+    {
+        $response = $this->actingAs($this->admin)->get(route('admin.honor_mitra.index'));
+        $response->assertStatus(200);
+        $response->assertSee('Berlaku untuk Tahun');
+        $response->assertDontSee('Berlaku untuk Bulan');
+        $response->assertSee('Riwayat Pembaruan');
+
+        $responsePost = $this->actingAs($this->admin)->post(route('admin.honor_mitra.store'), [
+            'maksimal_honor_pendataan'  => '4.000.000',
+            'maksimal_honor_pengolahan' => '3.500.000',
+            'tahun'                     => 2026,
+            'keterangan_pendataan'      => 'SBM 2026 Pendataan',
+            'keterangan_pengolahan'     => 'SBM 2026 Pengolahan',
+        ]);
+
+        $responsePost->assertRedirect(route('admin.honor_mitra.index', ['tahun' => 2026]));
+        $this->assertDatabaseHas('pengaturan_honor_mitras', [
+            'jenis_mitra'    => PengaturanHonorMitra::JENIS_PENDATAAN,
+            'maksimal_honor' => 4000000,
+            'tahun'          => 2026,
+            'bulan'          => null,
+        ]);
+        $this->assertDatabaseHas('pengaturan_honor_mitras', [
+            'jenis_mitra'    => PengaturanHonorMitra::JENIS_PENGOLAHAN,
+            'maksimal_honor' => 3500000,
+            'tahun'          => 2026,
+            'bulan'          => null,
+        ]);
+
+        // Cek getMaksimalHonor untuk tahun 2026 di bulan apa pun
+        $this->assertEquals(4000000, PengaturanHonorMitra::getMaksimalHonor(PengaturanHonorMitra::JENIS_PENDATAAN, 2026, 5));
+        $this->assertEquals(3500000, PengaturanHonorMitra::getMaksimalHonor(PengaturanHonorMitra::JENIS_PENGOLAHAN, 2026, 12));
+    }
+
     public function test_ketua_tim_can_manage_master_mitra(): void
     {
         $response = $this->actingAs($this->ketua)->get(route('kinerja-mitra.master_mitra.index'));
