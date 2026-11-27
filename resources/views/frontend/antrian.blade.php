@@ -79,6 +79,33 @@
             scroll-behavior: auto !important;
           }
         }
+        @media print {
+          body { background: #fff !important; }
+          header, footer, #antrian-page-header, #antrian-form-card, #antrian-display-card, #tiket-antrian-empty, #tiket-actions, #toast-notif, a[aria-label="Kembali ke atas"] {
+            display: none !important;
+          }
+          section#antrian {
+            border: none !important;
+            padding: 0 !important;
+          }
+          #tiket-antrian-card {
+            display: block !important;
+            max-width: 320px !important;
+            margin: 24px auto !important;
+            border: 1px solid #94a3b8 !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+          }
+          #tiket-antrian-card .bg-\[\#123B63\],
+          #tiket-antrian-card .bg-\[\#3686C8\] {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border-bottom: 1px dashed #cbd5e1 !important;
+          }
+          #tiket-antrian-card .text-\[\#9BBBD9\] {
+            color: #475569 !important;
+          }
+        }
     </style>
 </head>
 <body class="bg-[#F4F7FA] text-slate-800 antialiased selection:bg-[#1E5B91] selection:text-white">
@@ -148,37 +175,85 @@
 <!-- END: MainNavbar -->
 
 <main>
-    <section class="py-12 sm:py-16 bg-white border-b border-slate-200" data-purpose="antrian" id="antrian">
+    <section class="py-12 sm:py-16 bg-[#F4F7FA] border-b border-slate-200" data-purpose="antrian" id="antrian">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-8">
-                <p class="text-xs font-semibold text-[#1E5B91] mb-1.5">
-                    Pelayanan Statistik Terpadu (PST)
-                </p>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-[#123B63] tracking-tight">
-                    Antrian Layanan PST
-                </h1>
-                <p class="text-slate-600 text-xs sm:text-sm mt-1.5 max-w-2xl">
-                    Ambil nomor antrian layanan statistik BPS Kabupaten Manggarai dan pantau nomor yang sedang dipanggil.
-                </p>
+            <div id="antrian-page-header" class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <p class="text-xs font-semibold text-[#1E5B91] mb-1.5">
+                        Pelayanan Statistik Terpadu (PST)
+                    </p>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#123B63] tracking-tight">
+                        Antrian Layanan PST
+                    </h1>
+                    <p class="text-slate-600 text-xs sm:text-sm mt-1.5 max-w-2xl">
+                        Pilih loket layanan, isi data singkat Anda, dan pantau nomor antrian yang sedang dipanggil secara langsung.
+                    </p>
+                </div>
+
+                <div class="text-xs text-slate-600 bg-white border border-slate-200 rounded-lg px-4 py-2.5 shrink-0">
+                    <span class="font-semibold text-[#123B63]">Jam Layanan:</span>
+                    <span>{{ $fs['pst_jam_layanan'] ?? 'Senin - Jumat, 08.00 - 15.30 WITA' }}</span>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <!-- Left: Form Ambil Antrian (7 cols) -->
-                <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
-                    <h2 class="text-base font-bold text-[#123B63] pb-4 border-b border-slate-100 mb-5">
-                        Ambil Nomor Antrian Baru
-                    </h2>
+                <div id="antrian-form-card" class="lg:col-span-7 bg-white rounded-xl border border-slate-200 p-6 sm:p-8">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+                        <h2 class="text-base font-bold text-[#123B63]">
+                            Ambil Nomor Antrian Baru
+                        </h2>
+                        <span class="text-[11px] font-medium text-slate-400">Langkah 1 dari 2</span>
+                    </div>
 
-                    <form id="form-antrian-pst" onsubmit="event.preventDefault(); ambilNomorAntrian();" class="space-y-4">
+                    <form id="form-antrian-pst" onsubmit="event.preventDefault(); ambilNomorAntrian();" class="space-y-5">
                         <div>
-                            <label for="antrian-layanan" class="block text-xs font-semibold text-slate-700 mb-1.5">Pilih Loket / Jenis Layanan <span class="text-rose-600">*</span></label>
-                            <select id="antrian-layanan" required class="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-lg border border-slate-200 focus:border-[#1E5B91] focus:ring-1 focus:ring-[#1E5B91] bg-white">
-                                <option value="">Pilih Jenis Layanan PST</option>
-                                <option value="K">Loket 1 - Konsultasi Statistik (Kode K)</option>
-                                <option value="D">Loket 2 - Permintaan Data &amp; Publikasi (Kode D)</option>
-                                <option value="R">Loket 3 - Rekomendasi Statistik / ROMANTIK (Kode R)</option>
-                                <option value="M">Loket 4 - Layanan Data Mikro &amp; Peta / SILASTIK (Kode M)</option>
-                            </select>
+                            <span class="block text-xs font-semibold text-slate-700 mb-2.5">Pilih Loket / Jenis Layanan <span class="text-rose-600">*</span></span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="kode_layanan" value="K" required checked class="peer sr-only">
+                                    <div class="p-3.5 rounded-lg border border-slate-200 bg-white peer-checked:border-[#1E5B91] peer-checked:bg-[#F4F7FA] transition-colors">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-bold text-[#123B63]">Loket 1 · Kode K</span>
+                                            <span class="text-[10px] font-semibold text-[#1E5B91] bg-[#1E5B91]/10 px-2 py-0.5 rounded">Konsultasi</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 mt-1">Konsultasi Statistik</p>
+                                    </div>
+                                </label>
+
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="kode_layanan" value="D" required class="peer sr-only">
+                                    <div class="p-3.5 rounded-lg border border-slate-200 bg-white peer-checked:border-[#1E5B91] peer-checked:bg-[#F4F7FA] transition-colors">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-bold text-[#123B63]">Loket 2 · Kode D</span>
+                                            <span class="text-[10px] font-semibold text-[#1E5B91] bg-[#1E5B91]/10 px-2 py-0.5 rounded">Data</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 mt-1">Permintaan Data &amp; Publikasi</p>
+                                    </div>
+                                </label>
+
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="kode_layanan" value="R" required class="peer sr-only">
+                                    <div class="p-3.5 rounded-lg border border-slate-200 bg-white peer-checked:border-[#1E5B91] peer-checked:bg-[#F4F7FA] transition-colors">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-bold text-[#123B63]">Loket 3 · Kode R</span>
+                                            <span class="text-[10px] font-semibold text-[#1E5B91] bg-[#1E5B91]/10 px-2 py-0.5 rounded">ROMANTIK</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 mt-1">Rekomendasi Statistik</p>
+                                    </div>
+                                </label>
+
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="kode_layanan" value="M" required class="peer sr-only">
+                                    <div class="p-3.5 rounded-lg border border-slate-200 bg-white peer-checked:border-[#1E5B91] peer-checked:bg-[#F4F7FA] transition-colors">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-bold text-[#123B63]">Loket 4 · Kode M</span>
+                                            <span class="text-[10px] font-semibold text-[#1E5B91] bg-[#1E5B91]/10 px-2 py-0.5 rounded">SILASTIK</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 mt-1">Data Mikro &amp; Peta</p>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -218,19 +293,22 @@
                 <!-- Right: Sedang Dipanggil + Tiket Anda (5 cols) -->
                 <div class="lg:col-span-5 space-y-6">
                     <!-- Sedang Dipanggil -->
-                    <div class="bg-[#123B63] text-white rounded-xl p-6">
-                        <div class="flex items-center justify-between border-b border-white/15 pb-3">
-                            <span class="text-xs font-semibold text-[#9BBBD9]">Sedang Dipanggil</span>
-                            <span id="display-jumlah-menunggu" class="text-[11px] font-semibold bg-[#3686C8] text-white px-2.5 py-0.5 rounded-md">
+                    <div id="antrian-display-card" class="bg-[#123B63] text-white rounded-xl p-6 sm:p-7">
+                        <div class="flex items-center justify-between border-b border-white/15 pb-3.5">
+                            <div>
+                                <p class="text-[11px] font-semibold text-[#9BBBD9]">Layar Monitor PST</p>
+                                <h2 class="text-sm font-bold text-white">Sedang Dipanggil</h2>
+                            </div>
+                            <span id="display-jumlah-menunggu" class="text-[11px] font-semibold bg-[#3686C8] text-white px-2.5 py-1 rounded-md">
                                 0 Menunggu
                             </span>
                         </div>
 
-                        <div class="py-5 text-center">
+                        <div class="py-6 text-center">
                             <p id="display-nomor" class="text-5xl sm:text-6xl font-extrabold tracking-tight tabular-nums text-white leading-none">
                                 --
                             </p>
-                            <p id="display-loket" class="text-sm sm:text-base font-bold text-[#9BBBD9] mt-3">
+                            <p id="display-loket" class="text-base font-bold text-[#9BBBD9] mt-3">
                                 Belum ada panggilan
                             </p>
                             <p id="display-layanan" class="text-xs text-slate-200 mt-1">
@@ -239,17 +317,17 @@
                         </div>
 
                         <div class="pt-3 border-t border-white/15 flex items-center justify-between text-[11px] text-slate-300">
-                            <span>{{ $fs['pst_jam_layanan'] ?? 'Senin - Jumat: 08.00 - 15.30 WITA' }}</span>
+                            <span>Pembaruan otomatis</span>
                             <span id="display-waktu">-</span>
                         </div>
                     </div>
 
                     <!-- Tiket Saya -->
-                    <div id="tiket-antrian-empty" class="bg-[#F4F7FA] rounded-xl border border-slate-200 p-6 text-center">
+                    <div id="tiket-antrian-empty" class="bg-white rounded-xl border border-slate-200 p-6 text-center">
                         <p class="text-xs font-semibold text-[#1E5B91] mb-1">Tiket Antrian Anda</p>
                         <h3 class="text-sm font-bold text-[#123B63]">Belum Ada Nomor Antrian</h3>
                         <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                            Isi formulir di samping untuk mendapatkan nomor antrian layanan PST.
+                            Pilih loket dan isi formulir di samping untuk mencetak nomor antrian Anda.
                         </p>
                     </div>
 
@@ -282,7 +360,7 @@
                             </div>
                         </dl>
 
-                        <div class="px-6 pb-6 flex items-center gap-2">
+                        <div id="tiket-actions" class="px-6 pb-6 flex items-center gap-2">
                             <button type="button" onclick="window.print()" class="flex-1 py-2.5 px-3 min-h-[40px] rounded-lg bg-[#1E5B91] hover:bg-[#123B63] text-white text-xs font-semibold transition-colors">
                                 Cetak Bukti
                             </button>
@@ -422,7 +500,7 @@ async function ambilNomorAntrian() {
     errEl.classList.add('hidden');
 
     const payload = {
-        kode_layanan: document.getElementById('antrian-layanan').value,
+        kode_layanan: document.querySelector('input[name="kode_layanan"]:checked')?.value || 'K',
         nama_pemohon: document.getElementById('antrian-nama').value.trim(),
         no_wa:        document.getElementById('antrian-wa').value.trim(),
         instansi:     document.getElementById('antrian-instansi').value.trim(),
