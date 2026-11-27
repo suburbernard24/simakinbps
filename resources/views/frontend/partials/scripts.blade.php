@@ -352,5 +352,43 @@ document.addEventListener('DOMContentLoaded', function() {
       revealEls.forEach(el => observer.observe(el));
     }
   }
+
+  // Animasi transisi halus saat berpindah halaman internal
+  if (!prefersReducedMotion) {
+    window.addEventListener('pageshow', () => {
+      document.body.classList.remove('page-leaving');
+    });
+
+    document.querySelectorAll('a[href]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href') || '';
+        const target = this.getAttribute('target') || '_self';
+        if (
+          !href ||
+          href.startsWith('#') ||
+          href.startsWith('/#') ||
+          href.startsWith('javascript:') ||
+          href.startsWith('mailto:') ||
+          href.startsWith('tel:') ||
+          href.startsWith('sms:') ||
+          target === '_blank' ||
+          e.ctrlKey || e.metaKey || e.shiftKey || e.altKey
+        ) {
+          return;
+        }
+        try {
+          const url = new URL(href, window.location.origin);
+          if (url.origin !== window.location.origin) return;
+          if (url.pathname === window.location.pathname && url.hash) return;
+
+          e.preventDefault();
+          document.body.classList.add('page-leaving');
+          setTimeout(() => {
+            window.location.href = url.href;
+          }, 170);
+        } catch (err) {}
+      });
+    });
+  }
 });
 </script>

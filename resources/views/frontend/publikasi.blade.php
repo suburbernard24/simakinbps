@@ -93,6 +93,21 @@
           opacity: 1;
           transform: translateY(0);
         }
+        @view-transition {
+          navigation: auto;
+        }
+        @keyframes pageEnter {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        main {
+          animation: pageEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+          transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+        body.page-leaving main {
+          opacity: 0;
+          transform: translateY(6px);
+        }
     </style>
 </head>
 <body class="bg-[#F4F7FA] text-slate-800 antialiased selection:bg-[#1E5B91] selection:text-white">
