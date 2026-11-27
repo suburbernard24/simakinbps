@@ -257,13 +257,5 @@
         </div>
     </div>
 
-    {{-- ===== PENGUMUMAN CARD ===== --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2"></div>
-        <div class="lg:col-span-1">
-            @include('dashboard.partials.pengumuman-card')
-        </div>
-    </div>
-
 </div>
 @endsection

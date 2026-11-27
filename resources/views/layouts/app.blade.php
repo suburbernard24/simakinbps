@@ -1005,8 +1005,11 @@
 
     </div>
 
-    <!-- ===== TOAST NOTIFICATION CONTAINER ===== -->
+    <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toast-container"></div>
+
+    {{-- ===== FLOATING PENGUMUMAN WIDGET ===== --}}
+    @include('dashboard.partials.pengumuman-card')
 
     <!-- Apply saved main background on page load -->
     <script>
