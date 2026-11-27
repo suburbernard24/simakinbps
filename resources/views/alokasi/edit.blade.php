@@ -71,14 +71,51 @@
                 <!-- Pegawai -->
                 <div>
                     <label class="block text-xs font-bold mb-1.5">Pegawai yang Ditugaskan <span class="text-rose-500">*</span></label>
-                    <select name="pegawai_id" required class="w-full px-3 py-2.5 border border-slate-200 rounded-xl outline-none focus:border-bps-blue focus:ring-2 focus:ring-bps-blue/10 transition-all bg-white">
-                        <option value="">-- Pilih Pegawai --</option>
-                        @foreach($pegawais as $p)
-                            <option value="{{ $p->id }}" {{ old('pegawai_id', $item->pegawai_id) == $p->id ? 'selected' : '' }}>
-                                {{ $p->name }} ({{ $p->role_display }})
-                            </option>
-                        @endforeach
-                    </select>
+                    {{-- Searchable Dropdown --}}
+                    <div x-data="pegawaiDropdownEdit()" @click.outside="open = false" class="relative">
+                        <input type="hidden" name="pegawai_id" :value="selectedId">
+                        <button type="button" @click="open = !open"
+                                class="w-full px-3 py-2.5 border rounded-xl text-left text-xs flex items-center justify-between gap-2 bg-white transition-all"
+                                :class="open ? 'border-bps-blue ring-2 ring-bps-blue/10' : 'border-slate-200 hover:border-slate-300'">
+                            <span :class="selectedName ? 'text-slate-800 font-semibold' : 'text-slate-400'"
+                                  x-text="selectedName || '-- Ketik atau pilih pegawai --'"></span>
+                            <i class="fa-solid fa-chevron-down text-slate-400 text-[10px] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
+                        </button>
+                        <div x-show="open" x-cloak
+                             x-transition:enter="transition ease-out duration-150"
+                             x-transition:enter-start="opacity-0 -translate-y-1 scale-95"
+                             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                             class="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
+                            <div class="p-2 border-b border-slate-100">
+                                <div class="relative">
+                                    <i class="fa-solid fa-search absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]"></i>
+                                    <input type="text" x-model="search" @keydown.escape="open = false"
+                                           placeholder="Cari nama pegawai..."
+                                           class="w-full pl-7 pr-3 py-1.5 text-xs border border-slate-200 rounded-lg outline-none focus:border-bps-blue focus:ring-1 focus:ring-bps-blue/30"
+                                           @click.stop>
+                                </div>
+                            </div>
+                            <div class="max-h-48 overflow-y-auto">
+                                <template x-if="filtered.length === 0">
+                                    <p class="px-3 py-3 text-xs text-slate-400 text-center">Tidak ada pegawai ditemukan.</p>
+                                </template>
+                                <template x-for="p in filtered" :key="p.id">
+                                    <button type="button" @click="select(p)"
+                                            class="w-full px-3 py-2.5 text-left text-xs flex items-center gap-2.5 hover:bg-bps-faint transition-colors"
+                                            :class="selectedId == p.id ? 'bg-bps-faint text-bps-blue font-bold' : 'text-slate-700'">
+                                        <span class="w-5 h-5 rounded-full bg-bps-blue/10 text-bps-blue flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-user text-[8px]"></i>
+                                        </span>
+                                        <span>
+                                            <span x-text="p.name" class="font-semibold"></span>
+                                            <span x-text="p.label" class="text-[10px] text-slate-400 ml-1"></span>
+                                        </span>
+                                        <i x-show="selectedId == p.id" class="fa-solid fa-check text-bps-blue ml-auto text-[10px]"></i>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -123,4 +160,48 @@
     </div>
 
 </div>
+
+@push('scripts')
+<script>
+// Data pegawai dari server — diisolasi di script tag agar tidak konflik kutip di x-data
+const _pegawaisEditData = {!! json_encode($pegawais->map(function($p) {
+    $authId = auth()->id();
+    $label = $p->id === $authId
+        ? '(Diri Sendiri)'
+        : '(' . $p->role_display . ($p->tim ? ' — ' . $p->tim->nama_tim : '') . ')';
+    return ['id' => $p->id, 'name' => $p->name, 'label' => $label];
+})->values()) !!};
+
+const _selectedEditId = {{ old('pegawai_id', $item->pegawai_id) ? (int) old('pegawai_id', $item->pegawai_id) : 'null' }};
+
+function pegawaiDropdownEdit() {
+    return {
+        open: false,
+        search: '',
+        selectedId: _selectedEditId,
+        selectedName: '',
+        pegawais: _pegawaisEditData,
+        get filtered() {
+            if (!this.search) return this.pegawais;
+            const q = this.search.toLowerCase();
+            return this.pegawais.filter(p =>
+                p.name.toLowerCase().includes(q) || p.label.toLowerCase().includes(q)
+            );
+        },
+        select(p) {
+            this.selectedId = p.id;
+            this.selectedName = p.name + ' ' + p.label;
+            this.search = '';
+            this.open = false;
+        },
+        init() {
+            if (this.selectedId) {
+                const found = this.pegawais.find(p => p.id == this.selectedId);
+                if (found) this.selectedName = found.name + ' ' + found.label;
+            }
+        }
+    };
+}
+</script>
+@endpush
 @endsection

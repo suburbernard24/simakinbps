@@ -147,6 +147,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/honor-mitra', [HonorMitraController::class, 'index'])->name('honor_mitra.index');
         Route::post('/honor-mitra', [HonorMitraController::class, 'store'])->name('honor_mitra.store');
         Route::delete('/honor-mitra/{id}', [HonorMitraController::class, 'destroy'])->name('honor_mitra.destroy');
+
+        // Pengaturan Tampilan Backend
+        Route::get('/tampilan', [AdminController::class, 'tampilanIndex'])->name('tampilan.index');
+        Route::post('/tampilan', [AdminController::class, 'tampilanUpdate'])->name('tampilan.update');
+        Route::post('/tampilan/reset', [AdminController::class, 'tampilanReset'])->name('tampilan.reset');
+
+        // Pengumuman Backend
+        Route::get('/pengumuman', [AdminController::class, 'pengumumanIndex'])->name('pengumuman.index');
+        Route::post('/pengumuman', [AdminController::class, 'pengumumanStore'])->name('pengumuman.store');
+        Route::post('/pengumuman/{id}/update', [AdminController::class, 'pengumumanUpdate'])->name('pengumuman.update');
+        Route::delete('/pengumuman/{id}', [AdminController::class, 'pengumumanDestroy'])->name('pengumuman.destroy');
+        Route::post('/pengumuman/{id}/toggle', [AdminController::class, 'pengumumanToggle'])->name('pengumuman.toggle');
     });
 
     // =========================================================================
