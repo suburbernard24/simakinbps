@@ -989,43 +989,6 @@
 
         <!-- MAIN BODY CONTENT -->
         <main class="flex-1 p-4 sm:p-6 lg:p-8 bg-[#F4F7FC] dark:bg-[#0B1120]">
-
-            {{-- ===== BANNER PENGUMUMAN BACKEND ===== --}}
-            @if(isset($pengumumanAktif) && $pengumumanAktif->isNotEmpty())
-            <div x-data="{ dismissed: JSON.parse(localStorage.getItem('simakin-dismissed-pengumuman') || '[]') }"
-                 class="space-y-2 mb-5">
-                @foreach($pengumumanAktif as $peng)
-                @php
-                    $bannerColor = match($peng->tipe) {
-                        'sukses'    => 'bg-emerald-50 border-emerald-300 text-emerald-800',
-                        'peringatan'=> 'bg-amber-50 border-amber-300 text-amber-800',
-                        'bahaya'    => 'bg-rose-50 border-rose-300 text-rose-800',
-                        default     => 'bg-blue-50 border-blue-300 text-blue-800',
-                    };
-                    $iconColor = match($peng->tipe) {
-                        'sukses'    => 'text-emerald-500 fa-circle-check',
-                        'peringatan'=> 'text-amber-500 fa-triangle-exclamation',
-                        'bahaya'    => 'text-rose-500 fa-circle-xmark',
-                        default     => 'text-blue-500 fa-circle-info',
-                    };
-                @endphp
-                <div x-show="!dismissed.includes({{ $peng->id }})"
-                     class="flex items-start gap-3 p-3.5 rounded-xl border {{ $bannerColor }} text-xs">
-                    <i class="fa-solid {{ $iconColor }} text-sm mt-0.5 shrink-0"></i>
-                    <div class="flex-1 min-w-0">
-                        <span class="font-bold">{{ $peng->judul }}</span>
-                        <span class="mx-1.5 text-current/50">—</span>
-                        <span class="font-medium">{{ $peng->isi }}</span>
-                    </div>
-                    <button @click="dismissed.push({{ $peng->id }}); localStorage.setItem('simakin-dismissed-pengumuman', JSON.stringify(dismissed))"
-                            class="shrink-0 opacity-50 hover:opacity-100 transition-opacity ml-2 mt-0.5">
-                        <i class="fa-solid fa-xmark text-xs"></i>
-                    </button>
-                </div>
-                @endforeach
-            </div>
-            @endif
-
             @yield('content')
         </main>
 
