@@ -37,8 +37,8 @@
         {{-- Header Card --}}
         <div class="px-4 py-3 border-b border-slate-100 bg-gradient-to-r from-bps-faint/60 to-transparent flex items-center justify-between shrink-0">
             <div class="flex items-center gap-2.5">
-                <div class="w-7 h-7 rounded-lg bg-bps-blue flex items-center justify-center shrink-0">
-                    <i class="fa-solid fa-megaphone text-white text-[11px]"></i>
+                <div class="w-7 h-7 rounded-lg bg-bps-faint text-bps-blue flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-bullhorn text-[11px]"></i>
                 </div>
                 <div>
                     <p class="text-xs font-extrabold text-slate-800 leading-tight">Pengumuman</p>
@@ -81,7 +81,7 @@
                         <p class="text-[11px] font-bold text-slate-800 leading-snug">{{ $p->judul }}</p>
                     </div>
                     {{-- Isi --}}
-                    <p class="text-[10px] text-slate-500 leading-relaxed pl-4">{{ $p->isi }}</p>
+                    <p class="text-xs text-slate-700 leading-relaxed pl-4">{{ $p->isi }}</p>
                 </div>
             </div>
             @empty
@@ -105,7 +105,7 @@
     {{-- Floating Toggle Button --}}
     <button @click="open = !open"
             class="relative w-11 h-11 rounded-2xl bg-bps-blue hover:bg-bps-dark text-white shadow-lg shadow-bps-blue/40 flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-bps-blue/40">
-        <i class="fa-solid fa-megaphone text-sm" x-show="!open"></i>
+        <i class="fa-solid fa-bullhorn text-sm" x-show="!open"></i>
         <i class="fa-solid fa-xmark text-sm" x-show="open" x-cloak></i>
         @if($listPeng->count() > 0)
         <span class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-rose-500 text-white text-[9px] font-extrabold flex items-center justify-center ring-2 ring-white">
