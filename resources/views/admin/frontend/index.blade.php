@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="space-y-6" x-data="{ 
-    activeTab: '{{ request('tab', 'menu') }}',
+    activeTab: '{{ request('tab', 'hero') }}',
     // Modals state
     modalIndikatorAdd: false,
     modalIndikatorEdit: false,
@@ -42,10 +42,6 @@
 
     {{-- Sub-Menu Tab Bar --}}
     <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200/80 custom-scrollbar">
-        <button type="button" @click="activeTab = 'menu'" :class="activeTab === 'menu' ? 'bg-bps-blue text-white shadow-sm' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'" class="px-4 py-2.5 rounded-2xl text-xs font-bold transition flex items-center gap-2 shrink-0">
-            <i class="fa-solid fa-compass text-sm"></i>
-            <span>1. Menu Navigasi</span>
-        </button>
         <button type="button" @click="activeTab = 'hero'" :class="activeTab === 'hero' ? 'bg-bps-blue text-white shadow-sm' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'" class="px-4 py-2.5 rounded-2xl text-xs font-bold transition flex items-center gap-2 shrink-0">
             <i class="fa-solid fa-font text-sm"></i>
             <span>2. Hero & Branding</span>
@@ -93,108 +89,6 @@
     ========================================================================= --}}
     <form method="POST" action="{{ route('admin.frontend.update') }}" enctype="multipart/form-data">
         @csrf
-
-        {{-- SUB MENU 1: MENU NAVIGASI (NAVBAR HOME) --}}
-        <div x-show="activeTab === 'menu'" class="space-y-6">
-            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 space-y-5">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-100 gap-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                            <i class="fa-solid fa-compass text-base"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-sm font-extrabold text-slate-900">Menu Navigasi Halaman Depan (Navbar Home)</h3>
-                            <p class="text-xs text-slate-500">Atur label, link tujuan anchor/URL, status tampil, dan urutan menu navbar beranda</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button type="button" onclick="addNavRow()" class="px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition flex items-center gap-1.5 border border-indigo-200">
-                            <i class="fa-solid fa-plus"></i>
-                            <span>Tambah Menu Baru</span>
-                        </button>
-                        <button type="submit" name="reset_nav_menu" value="1" onclick="return confirm('Kembalikan semua menu navigasi ke susunan standar awal?')" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-rotate-left"></i>
-                            <span>Reset Menu Bawaan</span>
-                        </button>
-                    </div>
-                </div>
-
-                {{-- Petunjuk Anchor --}}
-                <div class="bg-blue-50/70 border border-blue-200/80 rounded-2xl p-4 text-xs text-blue-900 flex items-start gap-3">
-                    <i class="fa-solid fa-circle-info text-blue-600 mt-0.5 text-base shrink-0"></i>
-                    <div class="leading-relaxed">
-                        <strong>Daftar Anchor Bawaan Bagian Halaman Depan:</strong><br>
-                        <span class="inline-block mt-1">
-                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#</code> (Beranda Atas),
-                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#indikator</code> (Indikator Makro Carousel),
-                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#publikasi</code> (Katalog Publikasi & Tabel),
-                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#datapokok</code> (8 Data Pokok Strategis),
-                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#infografis</code> (Galeri Infografis),
-                            <code class="px-1.5 py-0.5 bg-white rounded border border-blue-200 font-mono text-[11px] text-blue-700">#kegiatan</code> (Kegiatan Statistik).
-                        </span>
-                        <div class="text-[11px] text-blue-800 mt-1">Anda juga dapat mengarahkan menu ke tautan eksternal (contoh: <code>https://manggaraikab.bps.go.id</code>).</div>
-                    </div>
-                </div>
-
-                {{-- Table Repeater --}}
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs border border-slate-200 rounded-2xl overflow-hidden" id="table-nav-menu">
-                        <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[10px] border-b border-slate-200">
-                            <tr>
-                                <th class="p-3 text-center w-14">Tampil</th>
-                                <th class="p-3 min-w-[160px]">Label Menu</th>
-                                <th class="p-3 min-w-[180px]">URL / Anchor Target</th>
-                                <th class="p-3 w-36">Target Buka</th>
-                                <th class="p-3 text-center w-24">Urutan</th>
-                                <th class="p-3 text-center w-14">Hapus</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100" id="nav-menu-container">
-                            @foreach($navMenus as $index => $item)
-                            <tr class="hover:bg-slate-50/70 transition nav-row">
-                                <td class="p-3 text-center">
-                                    <input type="checkbox" name="nav_menu[{{ $index }}][is_active]" value="1" {{ !empty($item['is_active']) ? 'checked' : '' }}
-                                        class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 cursor-pointer">
-                                </td>
-                                <td class="p-3">
-                                    <input type="text" name="nav_menu[{{ $index }}][label]" value="{{ $item['label'] ?? '' }}" required
-                                        placeholder="Label Menu"
-                                        class="w-full text-xs font-semibold px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
-                                </td>
-                                <td class="p-3">
-                                    <input type="text" name="nav_menu[{{ $index }}][url]" value="{{ $item['url'] ?? '#' }}" required
-                                        placeholder="#indikator / https://..."
-                                        class="w-full text-xs font-mono px-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
-                                </td>
-                                <td class="p-3">
-                                    <select name="nav_menu[{{ $index }}][target]"
-                                        class="w-full text-xs px-2.5 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none bg-white">
-                                        <option value="_self" {{ ($item['target'] ?? '_self') === '_self' ? 'selected' : '' }}>Tab Sama</option>
-                                        <option value="_blank" {{ ($item['target'] ?? '') === '_blank' ? 'selected' : '' }}>Tab Baru ↗</option>
-                                    </select>
-                                </td>
-                                <td class="p-3 text-center">
-                                    <div class="flex items-center justify-center gap-1">
-                                        <button type="button" onclick="moveNavRow(this, -1)" title="Pindah ke atas" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
-                                            <i class="fa-solid fa-chevron-up text-[10px]"></i>
-                                        </button>
-                                        <button type="button" onclick="moveNavRow(this, 1)" title="Pindah ke bawah" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition">
-                                            <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td class="p-3 text-center">
-                                    <button type="button" onclick="deleteNavRow(this)" title="Hapus menu ini" class="w-7 h-7 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 flex items-center justify-center transition">
-                                        <i class="fa-solid fa-trash-can text-xs"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
         {{-- SUB MENU 2: HERO & BRANDING --}}
         <div x-show="activeTab === 'hero'" class="space-y-6">

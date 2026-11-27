@@ -32,7 +32,7 @@
             @if($quotesList->count() > 1)
                 <div class="flex items-center justify-center space-x-2 mt-6">
                     @foreach($quotesList as $idx => $qItem)
-                        <button type="button" onclick="switchQuoteSlide({{ $idx }})" class="quote-dot w-2.5 h-2.5 rounded-full {{ $idx === 0 ? 'bg-[#1E5B91] scale-125' : 'bg-slate-300' }} transition-colors" aria-label="Quote {{ $idx + 1 }}"></button>
+                        <button type="button" onclick="switchQuoteSlide({{ $idx }}, true)" class="quote-dot w-2.5 h-2.5 rounded-full {{ $idx === 0 ? 'bg-[#1E5B91] scale-125' : 'bg-slate-300' }} transition-all" aria-label="Quote {{ $idx + 1 }}"></button>
                     @endforeach
                 </div>
             @endif

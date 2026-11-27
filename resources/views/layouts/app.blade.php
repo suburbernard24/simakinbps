@@ -527,12 +527,8 @@
                                 <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 text-slate-400" :class="frontendAdminOpen ? 'rotate-180 text-bps-blue' : ''"></i>
                             </button>
                             <div x-show="frontendAdminOpen" x-collapse class="pl-10 pr-2 py-1 space-y-1">
-                                <a href="{{ route('admin.frontend.index', ['tab' => 'menu']) }}" 
-                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab', 'menu') === 'menu' && request()->routeIs('admin.frontend.*') ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
-                                    <i class="fa-solid fa-compass text-[10px] mr-1.5 text-indigo-500"></i> Menu Navigasi
-                                </a>
                                 <a href="{{ route('admin.frontend.index', ['tab' => 'hero']) }}" 
-                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab') === 'hero' ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
+                                   class="block px-3 py-1.5 rounded-lg text-xs font-semibold transition {{ request()->get('tab', 'hero') === 'hero' && request()->routeIs('admin.frontend.*') ? 'bg-blue-100/70 text-bps-blue dark:bg-blue-900/40 dark:text-blue-300' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200' }}">
                                     <i class="fa-solid fa-font text-[10px] mr-1.5 text-blue-500"></i> Hero & Branding
                                 </a>
                                 <a href="{{ route('admin.frontend.index', ['tab' => 'pengumuman']) }}" 

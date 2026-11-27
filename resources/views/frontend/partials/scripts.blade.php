@@ -103,23 +103,75 @@ function scrollIndicatorCarousel(direction) {
 }
 
 // =========================================================================
-// QUOTES SLIDER
+// QUOTES SLIDER (AUTO-PLAY HALUS + KONTROL JEDA)
 // =========================================================================
-function switchQuoteSlide(index) {
-  document.querySelectorAll('.quote-slide').forEach((slide, idx) => {
-    if (idx === index) {
+let currentQuoteIndex = 0;
+let quoteAutoplayTimer = null;
+let quoteAutoplayPaused = false;
+
+function switchQuoteSlide(index, fromUser = false) {
+  const slides = document.querySelectorAll('.quote-slide');
+  if (!slides.length) return;
+
+  currentQuoteIndex = ((index % slides.length) + slides.length) % slides.length;
+
+  slides.forEach((slide, idx) => {
+    if (idx === currentQuoteIndex) {
       slide.classList.remove('hidden');
+      slide.style.opacity = '0';
+      slide.style.transform = 'translateY(8px)';
+      slide.style.transition = 'opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
+      requestAnimationFrame(() => {
+        slide.style.opacity = '1';
+        slide.style.transform = 'translateY(0)';
+      });
     } else {
       slide.classList.add('hidden');
     }
   });
+
   document.querySelectorAll('.quote-dot').forEach((dot, idx) => {
-    if (idx === index) {
-      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-[#1E5B91] scale-125 transition-colors';
+    if (idx === currentQuoteIndex) {
+      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-[#1E5B91] scale-125 transition-all';
     } else {
-      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-slate-300 transition-colors';
+      dot.className = 'quote-dot w-2.5 h-2.5 rounded-full bg-slate-300 transition-all';
     }
   });
+
+  if (fromUser && !quoteAutoplayPaused) {
+    startQuoteAutoplay();
+  }
+}
+
+function startQuoteAutoplay() {
+  stopQuoteAutoplay();
+  const slides = document.querySelectorAll('.quote-slide');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (slides.length <= 1 || quoteAutoplayPaused || prefersReduced) return;
+
+  quoteAutoplayTimer = setInterval(() => {
+    switchQuoteSlide(currentQuoteIndex + 1);
+  }, 6000);
+}
+
+function stopQuoteAutoplay() {
+  if (quoteAutoplayTimer) {
+    clearInterval(quoteAutoplayTimer);
+    quoteAutoplayTimer = null;
+  }
+}
+
+function toggleQuoteAutoplay() {
+  quoteAutoplayPaused = !quoteAutoplayPaused;
+  const btn = document.getElementById('quote-autoplay-toggle');
+  if (btn) {
+    btn.textContent = quoteAutoplayPaused ? 'Putar' : 'Jeda';
+  }
+  if (quoteAutoplayPaused) {
+    stopQuoteAutoplay();
+  } else {
+    startQuoteAutoplay();
+  }
 }
 
 // =========================================================================
@@ -351,6 +403,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
       revealEls.forEach(el => observer.observe(el));
     }
+  }
+
+  // Mulai auto-play kutipan (berhenti saat hover/focus)
+  const quoteSection = document.getElementById('quotes');
+  if (quoteSection && document.querySelectorAll('.quote-slide').length > 1) {
+    startQuoteAutoplay();
+    quoteSection.addEventListener('mouseenter', stopQuoteAutoplay);
+    quoteSection.addEventListener('mouseleave', () => {
+      if (!quoteAutoplayPaused) startQuoteAutoplay();
+    });
   }
 
   // Animasi transisi halus saat berpindah halaman internal

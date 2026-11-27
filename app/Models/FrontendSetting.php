@@ -50,17 +50,10 @@ class FrontendSetting extends Model
     }
 
     /**
-     * Ambil menu navigasi landing page yang sudah dikonfigurasi
+     * Ambil menu navigasi landing page (dikelola langsung dari kode)
      */
     public static function getNavMenu(): array
     {
-        $raw = static::get('home_nav_menu');
-        if ($raw) {
-            $decoded = json_decode($raw, true);
-            if (is_array($decoded) && !empty($decoded)) {
-                return $decoded;
-            }
-        }
         return static::defaultNavMenu();
     }
 }
