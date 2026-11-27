@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\DB;
 class AntrianController extends Controller
 {
     private const LAYANAN_MAP = [
-        'K' => ['nama' => 'Konsultasi Statistik', 'loket' => 'Loket 1'],
-        'D' => ['nama' => 'Permintaan Data & Publikasi', 'loket' => 'Loket 2'],
-        'R' => ['nama' => 'Rekomendasi Statistik (ROMANTIK)', 'loket' => 'Loket 3'],
-        'M' => ['nama' => 'Layanan Data Mikro & Peta (SILASTIK)', 'loket' => 'Loket 4'],
+        'K' => ['nama' => 'Konsultasi Statistik', 'loket' => 'Loket'],
+        'D' => ['nama' => 'Permintaan Data & Publikasi', 'loket' => 'Loket'],
+        'R' => ['nama' => 'Rekomendasi Statistik (ROMANTIK)', 'loket' => 'Loket'],
+        'M' => ['nama' => 'Layanan Data Mikro & Peta (SILASTIK)', 'loket' => 'Loket'],
     ];
 
     public function index()
@@ -57,7 +57,7 @@ class AntrianController extends Controller
     public function ambil(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'kode_layanan' => 'required|in:K,D,R,M',
+            'kode_layanan' => 'nullable|in:A,K,D,R,M',
             'nama_pemohon' => 'required|string|max:120',
             'no_wa'        => 'required|string|max:30',
             'instansi'     => 'nullable|string|max:120',
@@ -65,8 +65,8 @@ class AntrianController extends Controller
         ]);
 
         $today = now()->toDateString();
-        $kode  = $validated['kode_layanan'];
-        $info  = self::LAYANAN_MAP[$kode];
+        $kode  = $validated['kode_layanan'] ?? 'A';
+        $info  = self::LAYANAN_MAP[$kode] ?? ['nama' => 'Pelayanan Statistik Terpadu (PST)', 'loket' => 'Loket'];
 
         $antrian = DB::transaction(function () use ($today, $kode, $info, $validated) {
             $lastUrutan = PstAntrian::whereDate('tanggal', $today)

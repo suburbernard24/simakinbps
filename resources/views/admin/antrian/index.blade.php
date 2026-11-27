@@ -122,7 +122,7 @@ function ucapkanPanggilan(antrian) {
             .split('')
             .map(ch => ch === '0' ? 'nol' : ch)
             .join(' ');
-        const teks = `Nomor antrian ${ejaanNomor}, atas nama ${antrian.nama_pemohon}, silakan menuju ${antrian.loket}, ${antrian.nama_layanan}.`;
+        const teks = `Nomor antrian ${ejaanNomor}, atas nama ${antrian.nama_pemohon}, silakan menuju ${antrian.loket}.`;
         const utter = new SpeechSynthesisUtterance(teks);
         utter.lang = 'id-ID';
         utter.rate = 0.92;
